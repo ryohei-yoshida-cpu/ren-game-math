@@ -194,8 +194,8 @@ window.VoiceBox = (() => {
     g.fillStyle = '#ff6b6b'; g.font = '900 44px sans-serif'; g.textAlign = 'center';
     g.fillText('🎙 こえパック', 300, 100);
     g.fillStyle = '#4a3426'; g.font = '700 28px sans-serif';
-    g.fillText('つって おぼえる', 300, 160);
-    g.fillText('「すうじつり」', 300, 200);
+    g.fillText('ねこと いっしょに', 300, 160);
+    g.fillText('「のんびりつりつり」', 300, 200);
     g.font = '900 34px sans-serif';
     g.fillText(`${by || 'ともだち'} の こえ ${lines.length}こ`, 300, 280);
     g.font = '700 22px sans-serif'; g.textAlign = 'left';

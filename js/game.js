@@ -1,9 +1,10 @@
-// 🎣 すうじつり
+// 🎣 のんびりつりつり
 //   1しゅうかん（にちようび〜どようび）さかなを つる。1にちは 6じ〜18じ（じかんざかなで 2じかんずつ のびる。さいだい 24じ）
 //   なみを えらぶ → かかったら れんだ（みずしぶきが おおきく なる）→「せーの」で すうじを いう
 //   →「どっちの すうじが おおきい？」で おおきい ほうを のこす（のこした さかなが つぎの えさ）
 //   1かい つるたびに じかんが すすむ（7じ・10じ・12じ・15じ・18じ、よるは 1じかんずつ。よるは 2ばい）
-//   1にちの おわりに もっている さかなが「きょうの きろく」。どようびの あとに 7にちぶんを ゆっくり たしざん
+//   のこした おおきい さかなの すうじが「いまの すうじ」（てんすう）。どようびの おわりの すうじで ランキングへ
+//   じかんざかなは「18じ たす 2じかん は 20じ」と じかんの たしざんを みせる
 (() => {
   'use strict';
 
@@ -24,7 +25,6 @@
   const CLOCK_ADD = 120;              // じかんざかなは 2じかん
   const CLOCK_MAX = 3;                // じかんざかなは 1しゅうかんに 3かい まで
   const CLOCK_RATE = 0.12;
-  const SUM_MAX = 1000;               // きろくの ごうけいは どんなに がんばっても 1000 まで
   const MAX_N = 100;
   // 3つの なみ: いまの さかなより 5〜8 おおきい / 1〜5 おおきい / 1〜5 ちいさい（どれが どれかは ないしょ）
   const WAVES = [[5, 8], [1, 5], [-5, -1]];
@@ -191,7 +191,7 @@
   }
 
   // ---------- あそびの じょうたい ----------
-  let week = null;     // { start, held, records, clockCaught, caught }
+  let week = null;     // { start, held, clockCaught, caught, said }
   let day = null;      // { idx, now, end, nightSaid }
   let phase = 'off';   // spot / cast / mash / busy / off
   let waves = null;    // なみごとの ふえかた
@@ -200,13 +200,14 @@
   let hint = { said: 0, timer: 0 };
 
   const dateOf = i => new Date(week.start.getFullYear(), week.start.getMonth(), week.start.getDate() + i);
-  const recordSum = () => week.records.reduce((s, r) => s + r.score, 0);
+  const scoreOf = f => f.n * (f.night ? 2 : 1);   // よるに つった さかなは 2ばい
   // おなじ セリフは しゅうの はじめの 3かいだけ ながく いう（なれたら みじかく して テンポよく）
   const longFirst = key => (week.said[key] = (week.said[key] || 0) + 1) <= 3;
 
   // ---------- がめんの ようす（そら・とけい） ----------
   const SKY = [
     [6 * 60, '#ffb48f', '#ffe2c4', '#5cc4e8', '#2f8fc8'],
+    [7 * 60, '#9fd6ff', '#ffeed6', '#4cc0f0', '#2384c4'],
     [8 * 60, '#7fcaff', '#d6f1ff', '#4cc0f0', '#1f7fc0'],
     [15 * 60, '#7fcaff', '#d6f1ff', '#4cc0f0', '#1f7fc0'],
     [17 * 60, '#ffb877', '#ffe6b8', '#4cb4e6', '#1c74b4'],
@@ -270,25 +271,20 @@
     if (!$('#hud-clock svg')) $('#hud-clock').innerHTML = clockSVG(day.now);
     renderTime();
     renderHeld();
-    renderRecords();
   }
 
   function renderHeld(pop) {
     const f = week.held;
-    $('#held').innerHTML = `<div class="hf-art">${fishArt(f)}</div><b class="${f.n < 0 ? 'minus' : ''}">${f.n}</b><small>${fishName(f)}${f.night ? ' 🌙' : ''}</small>`;
+    $('#held').innerHTML = `<div class="hf-art">${fishArt(f)}</div><small>${fishName(f)}</small>`;
+    $('#score').innerHTML = `<b class="${f.n < 0 ? 'minus' : ''}">${f.n}</b>` +
+      (f.night ? `<span class="sc-night">🌙×2 ＝ ${scoreOf(f)}</span>` : '');
     if (pop) {
-      $('#held').classList.remove('pop');
-      void $('#held').offsetWidth;
-      $('#held').classList.add('pop');
+      ['#held', '#score'].forEach(id => {
+        $(id).classList.remove('pop');
+        void $(id).offsetWidth;
+        $(id).classList.add('pop');
+      });
     }
-  }
-  function renderRecords() {
-    $('#records').innerHTML = WEEKDAY_SHORT.map((w, i) => {
-      const r = week.records[i];
-      const now = day && i === day.idx && !r;
-      return `<div class="rec${r ? ' got' : ''}${now ? ' now' : ''}" style="--c:${WEEKDAY_COLOR[i]}"><small>${w}</small>` +
-        `<b class="${r && r.score < 0 ? 'minus' : ''}">${r ? r.score : ''}</b>${r && r.night ? '<i>🌙</i>' : ''}</div>`;
-    }).join('');
   }
 
   // ---------- ねこ と いと ----------
@@ -689,12 +685,18 @@
     day.end = Math.min(MAX_END, from + CLOCK_ADD);
     week.clockCaught++;
     $('#time-title').innerHTML = '🏁 おわりの じかんが のびた！';
-    $('#time-clock').innerHTML = clockSVG(day.end, 'big-clock', { ticks: true });
-    $('#time-digital').innerHTML = `<span class="td-from">${timeText(from)}</span> → <b>${timeText(day.end)}</b>`;
-    $('#time-plus').textContent = '＋ 2じかん';
+    $('#time-clock').innerHTML = clockSVG(from, 'big-clock', { ticks: true });
+    $('#time-digital').innerHTML = '';
+    $('#time-plus').innerHTML = `<span class="tp-eq">${timeText(from)} <i>＋</i> 2じかん <i>＝</i> <b class="q">？</b></span>`;
+    renderTimeline($('#time-line'), day.now, from);
+    await talk(Keys.ji(from / 60), nar('たす'), Keys.jikan(2), nar('は'));
+    await sleep(600);
+    $('#time-plus').innerHTML = `<span class="tp-eq">${timeText(from)} <i>＋</i> 2じかん <i>＝</i> <b>${timeText(day.end)}</b></span>`;
     renderTimeline($('#time-line'), day.now, day.end, { added: day.end - from });
+    setClock($('#time-clock svg'), day.end);
     Sound.fanfare();
-    await talk(nar('おわりの じかんが'), Keys.ji(from / 60), nar('から'), Keys.ji(day.end / 60), nar('に のびた！'));
+    await talk(Keys.ji(day.end / 60));
+    await talk(nar('おわりの じかんが'), Keys.ji(day.end / 60), nar('に のびた！'));
     if (from <= NIGHT) await talk(nar('よるの つりは てんすうが 2ばい！'));
     await sleep(400);
     showOverlay('#overlay-time', false);
@@ -725,18 +727,8 @@
     Sound.sunset();
     catSay(`${timeText(day.end)}！`, 2500);
     await talk(Keys.ji(day.end / 60), nar('に なったよ。きょうの つりは おしまい！'));
-    // もっている さかなが きょうの きろく（よるに つった さかなは 2ばい）
-    const f = week.held;
-    let score = f.n * (f.night ? 2 : 1);
-    score = Math.min(score, SUM_MAX - recordSum());
-    week.records[day.idx] = { n: f.n, sp: f.sp, worm: !!f.worm, night: !!f.night, score };
-    renderRecords();
-    $('#records .rec:nth-child(' + (day.idx + 1) + ')').classList.add('pop');
     renderHeld(true);
-    await talk(nar('きょうの きろくは'), Keys.num(f.n));
-    if (f.night) await talk(nar('よるに つった さかなだから 2ばい！'), Keys.num(score));
-    f.night = false;   // あしたは もう よるの さかなでは ない
-    renderHeld();
+    await talk(nar('いまの すうじは'), Keys.num(week.held.n));
     await sleep(600);
     if (day.idx >= 6) await weekEnd();
     else {
@@ -788,55 +780,28 @@
     showOverlay('#overlay-day', false);
   }
 
-  // ---------- 1しゅうかんの おわり: たしざん ----------
+  // ---------- 1しゅうかんの おわり ----------
   async function weekEnd() {
     phase = 'busy';
     await showDay(6, 7);
-    const recs = week.records;
-    $('#sum-fish').innerHTML = recs.map((r, i) =>
-      `<div class="sf" style="--c:${WEEKDAY_COLOR[i]}"><small>${WEEKDAY_SHORT[i]}</small>${r.worm ? `<span class="femoji">${WORM.emoji}</span>` : artOf(r.sp)}` +
-      `<b class="${r.score < 0 ? 'minus' : ''}">${r.score}</b>${r.night ? '<i>🌙×2</i>' : ''}</div>`).join('');
-    $('#sum-eq').innerHTML = '';
+    const f = week.held;
+    const score = scoreOf(f);
+    $('#sum-fish').innerHTML = `<div class="final-art">${fishArt(f)}</div><div class="final-name">${fishName(f)}</div>`;
+    $('#sum-eq').innerHTML = `<b class="${f.n < 0 ? 'minus' : ''}">${f.n}</b>`;
     $('#sum-total').innerHTML = '';
     $('#sum-rank').innerHTML = '';
     $('#sum-ask').classList.remove('show');
     showOverlay('#overlay-sum', true);
-    await talk(nar('いっしゅうかん おつかれさま！ まいにちの きろくを たしざん しよう！'));
-    const cards = $('#sum-fish').querySelectorAll('.sf');
-    const eq = $('#sum-eq');
-    const sign = n => (n < 0 ? `<span class="minus">${n}</span>` : n);
-    let total = 0;
-    for (let i = 0; i < recs.length; i++) {
-      const n = recs[i].score;
-      cards.forEach(c => c.classList.remove('now'));
-      cards[i].classList.add('now');
-      if (i === 0) {
-        total = n;
-        eq.innerHTML = `<b>${sign(n)}</b>`;
-        await talk(nar('まずは'), Keys.num(n));
-      } else {
-        const prev = total;
-        total += n;
-        eq.innerHTML = `${sign(prev)} <i>${n < 0 ? '−' : '＋'}</i> ${Math.abs(n)} <i>＝</i> <b class="q">？</b>`;
-        await talk(Keys.num(prev), nar(n < 0 ? 'ひく' : 'たす'), Keys.num(Math.abs(n)));
-        await sleep(700);
-        eq.innerHTML = `${sign(prev)} <i>${n < 0 ? '−' : '＋'}</i> ${Math.abs(n)} <i>＝</i> <b>${sign(total)}</b>`;
-        Sound.ding(i);
-        await talk(nar('は'), Keys.num(total));
-      }
-      cards[i].classList.remove('now');
-      cards[i].classList.add('added');
-      $('#sum-total').innerHTML = `ごうけい <b>${sign(total)}</b>`;
-      await sleep(300);
-    }
-    eq.innerHTML = `ぜんぶで <b>${sign(total)}</b>`;
     Sound.fanfare();
+    await talk(nar('いっしゅうかん おつかれさま！ さいごの すうじは'), Keys.num(f.n));
+    if (f.night) {
+      $('#sum-total').innerHTML = `🌙 よるの さかなだから 2ばい！ <b>${score}</b>`;
+      await talk(nar('よるに つった さかなだから 2ばい！'), Keys.num(score));
+    }
     confetti($('#overlay-sum'));
-    await talk(nar('ぜんぶで'), Keys.num(total), nar('に なったよ！'));
 
     // ランキング
-    const best = recs.reduce((b, r) => Math.max(b, r.n), -99);
-    const entry = { score: total, at: Date.now(), fish: week.caught, best };
+    const entry = { score, at: Date.now(), fish: week.caught, best: f.n };
     const ranking = [...save.ranking, entry].sort((a, b) => b.score - a.score || a.at - b.at);
     const rank = ranking.indexOf(entry);
     save.ranking = ranking.slice(0, 10);
@@ -890,7 +855,7 @@
     cancelAll();
     const today = new Date();
     const start = calendarNext || new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
-    week = { start, held: { ...WORM, sp: speciesOf(1), worm: true, night: false }, records: [], clockCaught: 0, caught: 0, said: {} };
+    week = { start, held: { ...WORM, sp: speciesOf(1), worm: true, night: false }, clockCaught: 0, caught: 0, said: {} };
     hint = { said: 0, timer: 0 };
     day = { idx: 0, now: DAY_START, end: BASE_END, nightSaid: false };
     phase = 'busy';

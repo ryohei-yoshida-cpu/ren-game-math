@@ -183,7 +183,7 @@
     const ids = lines.filter(l => picked.has(l.key)).map(l => l.id);
     const name = myName() || 'ともだち';
     const url = `${location.origin}${location.pathname}#koe=${ids.join('.')}&from=${encodeURIComponent(name)}`;
-    const text = `${name}より：「すうじつり」の こえを とって ほしいな！（セリフ ${ids.length}こ）\n` +
+    const text = `${name}より：「のんびりつりつり」の こえを とって ほしいな！（セリフ ${ids.length}こ）\n` +
       'リンクを ひらいて、🔴ボタンで ろくおんしてね。LINEの なかで マイクが つかえない ときは、みぎうえの メニューから「ブラウザで ひらく」を えらんでね。';
     if (navigator.share) {
       try { await navigator.share({ title: 'こえの おねがい', text, url }); } catch (e) { /* やめた */ }

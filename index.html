@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="すうじつり">
+  <meta name="apple-mobile-web-app-title" content="のんびりつりつり">
   <meta name="theme-color" content="#bfe9ff">
-  <title>つって おぼえる すうじつり</title>
+  <title>のんびりつりつり</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -22,8 +22,8 @@
     <!-- タイトル -->
     <section id="screen-title" class="screen active">
       <h1 class="logo">
-        <span class="logo-sub">つって おぼえる</span>
-        <span class="logo-main">🎣 すうじつり</span>
+        <span class="logo-sub">ねこと いっしょに</span>
+        <span class="logo-main">のんびり<br>つりつり</span>
       </h1>
       <div id="title-sea" class="title-sea" aria-hidden="true"></div>
       <p id="title-stats" class="title-stats"></p>
@@ -84,9 +84,9 @@
           <div class="dock-label">いまの さかな（えさ）</div>
           <div id="held" class="held-fish"></div>
         </div>
-        <div class="records">
-          <div class="dock-label">きょうの きろく</div>
-          <div id="records" class="record-row"></div>
+        <div class="score-box">
+          <div class="dock-label">いまの すうじ</div>
+          <div id="score" class="score"></div>
         </div>
       </div>
     </section>
@@ -139,7 +139,7 @@
     <!-- たしざん -->
     <div id="overlay-sum" class="overlay sum-overlay">
       <div class="panel panel-wide sum-panel">
-        <div class="zukan-title">🪣 たしざん しよう！</div>
+        <div class="zukan-title final-title">🎉 1しゅうかん おつかれさま！</div>
         <div id="sum-fish" class="sum-fish"></div>
         <div id="sum-eq" class="sum-eq"></div>
         <div id="sum-total" class="sum-total"></div>
