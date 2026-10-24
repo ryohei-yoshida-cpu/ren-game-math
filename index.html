@@ -62,28 +62,32 @@
         <div class="sky">
           <div id="sun" class="sun">☀️</div>
           <div class="stars">✨ ⭐ ✨ ⭐ ✨</div>
+          <div class="hills"></div>
         </div>
-        <div class="bank">
-          <div class="pier"></div>
-          <div id="fisher" class="fisher"><span class="kid">🧒</span><span class="cat">🐱</span><div id="cat-say" class="cat-say"></div></div>
-        </div>
+        <div class="pier"></div>
+        <div id="fisher" class="fisher"><div id="cat-say" class="cat-say"></div></div>
         <div id="water" class="water">
-          <div id="spots" class="spots"></div>
-          <div id="pool" class="pool"></div>
+          <div id="ripples" class="ripples"></div>
         </div>
         <svg id="line" class="line" aria-hidden="true"></svg>
-        <div id="bobber" class="bobber" hidden>🔴</div>
+        <div id="bobber" class="bobber" hidden></div>
+        <div id="splash" class="splash" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         <div id="mash" class="mash" hidden>
           <div class="mash-label">れんだ！ <span class="mash-hand">👆</span></div>
-          <div class="mash-bar"><div id="mash-fill" class="mash-fill"></div></div>
         </div>
         <div id="guide" class="guide"></div>
+        <div id="night-badge" class="night-badge" hidden>🌙 よるは 2ばい！</div>
       </div>
 
       <div class="dock">
-        <div class="bait-head">えさ <small id="bucket-count"></small></div>
-        <div id="baits" class="baits"></div>
-        <button id="btn-fish" class="btn btn-go btn-fish" disabled>🎣 つる！</button>
+        <div class="held">
+          <div class="dock-label">いまの さかな（えさ）</div>
+          <div id="held" class="held-fish"></div>
+        </div>
+        <div class="records">
+          <div class="dock-label">きょうの きろく</div>
+          <div id="records" class="record-row"></div>
+        </div>
       </div>
     </section>
 
@@ -98,13 +102,26 @@
       </div>
     </div>
 
-    <!-- じかんが のびる -->
+    <!-- どっちが おおきい？ -->
+    <div id="overlay-compare" class="overlay compare-overlay">
+      <div class="panel panel-wide compare-panel">
+        <div class="compare-q">どっちの すうじが おおきい？</div>
+        <div class="compare-cards">
+          <button class="ccard" data-side="old"><small>いまの さかな</small><div class="cc-art"></div><b></b></button>
+          <button class="ccard" data-side="new"><small>つれた さかな</small><div class="cc-art"></div><b></b></button>
+        </div>
+        <div id="compare-msg" class="compare-msg"></div>
+      </div>
+    </div>
+
+    <!-- とけい（じかんが すすむ・のびる） -->
     <div id="overlay-time" class="overlay time-overlay">
       <div class="panel time-panel">
         <div id="time-title" class="time-title"></div>
         <div id="time-clock" class="time-clock"></div>
         <div id="time-digital" class="time-digital"></div>
         <div id="time-plus" class="time-plus"></div>
+        <div id="time-event" class="time-event"></div>
         <div id="time-line" class="timeline big"></div>
       </div>
     </div>
@@ -267,6 +284,7 @@
   </div>
 
   <script src="js/data.js"></script>
+  <script src="js/art.js"></script>
   <script src="js/voicebox.js"></script>
   <script src="js/sound.js"></script>
   <script src="js/cloud-config.js"></script>

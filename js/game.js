@@ -1,13 +1,15 @@
 // 🎣 すうじつり
-//   1しゅうかん（にちようび〜どようび）さかなを つる。1にちは 6じ〜16じ（じかんざかなで のびる。さいだい 24じ）
-//   ばしょを えらぶ → えさを えらぶ →「つる！」→ かかったら れんだ → 「せーの」で すうじを いう
-//   さいごに バケツに のこった さかなの すうじを ゆっくり たしざん して ランキングへ
+//   1しゅうかん（にちようび〜どようび）さかなを つる。1にちは 6じ〜18じ（じかんざかなで 2じかんずつ のびる。さいだい 24じ）
+//   なみを えらぶ → かかったら れんだ（みずしぶきが おおきく なる）→「せーの」で すうじを いう
+//   →「どっちの すうじが おおきい？」で おおきい ほうを のこす（のこした さかなが つぎの えさ）
+//   1かい つるたびに じかんが すすむ（7じ・10じ・12じ・15じ・18じ、よるは 1じかんずつ。よるは 2ばい）
+//   1にちの おわりに もっている さかなが「きょうの きろく」。どようびの あとに 7にちぶんを ゆっくり たしざん
 (() => {
   'use strict';
 
   const $ = s => document.querySelector(s);
   const {
-    SPECIES, CLOCK_FISH, WORM, speciesOf, byTier, WEEKDAYS, WEEKDAY_SHORT, WEEKDAY_COLOR, funText, Keys, Sound,
+    SPECIES, CLOCK_FISH, WORM, speciesOf, WEEKDAYS, WEEKDAY_SHORT, WEEKDAY_COLOR, Keys, Sound, Art,
   } = window;
   const SAVE_KEY = 'sujitsuri-v1';
   const SPEED = Number(new URLSearchParams(location.search).get('speed')) || 1;   // テストよう（はやおくり・こえなし）
@@ -15,23 +17,33 @@
 
   // ---------- ルール ----------
   const DAY_START = 6 * 60;           // あさ 6じ から
-  const BASE_END = 16 * 60;           // ゆうがた 4じ（16じ）まで
+  const BASE_END = 18 * 60;           // ゆうがた 6じ（18じ）まで
+  const NIGHT = 18 * 60;              // 18じ からは よるの つり（てんすう 2ばい）
   const MAX_END = 24 * 60;            // じかんざかなで のびても 1にち（24じ）まで
-  const MS_PER_MIN = 1700 / 60;       // 1じかん = 1.7びょう（1しゅうかんが 5ふんくらいで おわる）
-  const DAY_MAX = [10, 20, 30, 50, 70, 90, 100];   // ようびごとの いちばん おおきい すうじ（さいしょの 3にちは かんたん）
-  const DAY_FLOOR = [1, 1, 1, 4, 6, 8, 10];        // あとの ようびほど、ミミズでも おおきめの さかなが よってくる（えさの だんかいの したげん）
-  const SUM_MAX = 1000;               // バケツの ごうけいは どんなに がんばっても 1000 まで
+  const SLOTS = [7, 10, 12, 15, 18].map(h => h * 60);   // 1かい つるたびに すすむ じかん
+  const CLOCK_ADD = 120;              // じかんざかなは 2じかん
   const CLOCK_MAX = 3;                // じかんざかなは 1しゅうかんに 3かい まで
-  const POOL_SIZE = 7;                // およいでいる さかなの かず
-  const SPOTS = [0.34, 0.6, 0.85];    // つる ばしょ（みずの はばの どこか）
-  // えさの まえと うしろ 3だんかい。おおきい ほうが つれやすい
-  const TIER_WEIGHT = { '-3': 0.25, '-2': 0.45, '-1': 0.8, 0: 1, 1: 1.5, 2: 1.3, 3: 0.9 };
-  const JUNK_RATE = 0.1;              // マイナス（ながぐつ など）は めったに つれない
+  const CLOCK_RATE = 0.12;
+  const SUM_MAX = 1000;               // きろくの ごうけいは どんなに がんばっても 1000 まで
+  const MAX_N = 100;
+  // 3つの なみ: いまの さかなより 5〜8 おおきい / 1〜5 おおきい / 1〜5 ちいさい（どれが どれかは ないしょ）
+  const WAVES = [[5, 8], [1, 5], [-5, -1]];
+  const RIPPLES = [0.3, 0.56, 0.82];  // なみの いち（みずの はばの どこか）
+  // 1じの ちいさい すうじより したに なったら: たまに マイナス（ながぐつ など）、ときどき かいがら（0）
+  const JUNK_RATE = 0.15;
+  const SHELL_RATE = 0.25;
 
   // ---------- こえ ----------
   // nar・kid に かいた セリフは tools/voices/lines.mjs が あつめて VOICEVOX で こえに する
   const nar = t => `narr|${t}`;
   const kid = t => `kid|${t}`;
+  // ごはん・おやつ（さりげなく）
+  const MEALS = {
+    [7 * 60]: { icon: '🍙', voice: kid('あさごはん いただきますなのだ！') },
+    [12 * 60]: { icon: '🐟', voice: kid('おさかな ちょっとだけ たべるのだ') },
+    [15 * 60]: { icon: '🍪', voice: kid('おやつなのだ！') },
+    [18 * 60]: { icon: '🍛', voice: kid('ばんごはんなのだ！'), crow: true },
+  };
 
   // ---------- セーブ ----------
   function defaultSave() {
@@ -100,15 +112,14 @@
 
   const rand = (a, b) => a + Math.random() * (b - a);
   const randInt = (a, b) => Math.floor(rand(a, b + 1));
-  function pickWeighted(items, weight) {
-    const total = items.reduce((s, x) => s + weight(x), 0);
-    let r = Math.random() * total;
-    for (const x of items) {
-      r -= weight(x);
-      if (r <= 0) return x;
+  const shuffle = a => {
+    const b = [...a];
+    for (let i = b.length - 1; i > 0; i--) {
+      const j = randInt(0, i);
+      [b[i], b[j]] = [b[j], b[i]];
     }
-    return items[items.length - 1];
-  }
+    return b;
+  };
 
   // ---------- がめん ----------
   function showScreen(id) {
@@ -122,9 +133,8 @@
   const hm = t => [Math.floor(t / 60), Math.round(t % 60)];
   const timeText = t => {
     const [h, m] = hm(t);
-    return m ? `${h}じ ${funText(m)}` : `${h}じ`;
+    return m ? `${h}じ ${window.funText(m)}` : `${h}じ`;
   };
-  const spanText = (h, m) => [h ? `${h}じかん` : '', m ? funText(m) : ''].filter(Boolean).join(' ');
 
   // アナログどけい（minutes は 0じ からの ふん）
   function clockSVG(minutes, cls = '', { ticks = false } = {}) {
@@ -165,175 +175,43 @@
   }
 
   // ---------- さかな ----------
-  function fishScale(f) {
-    if (f.clock) return 1.25;
-    if (f.sp.junk) return 0.85;
-    if (f.n === 0) return 0.75;
-    return 0.7 + 1.5 * Math.sqrt(f.n / 100);
-  }
-  function emojiHTML(sp) {
-    return `<span class="femoji${sp.tint ? ' t-' + sp.tint : ''}${sp.gold ? ' gold' : ''}">${sp.emoji}</span>`;
-  }
-  // すうじ（または とけい）を せおった さかな
-  function fishHTML(f) {
-    const badge = f.clock
-      ? clockSVG(f.clock.h * 60 + f.clock.m, 'fish-clock')
-      : `<span class="fnum${f.n < 0 ? ' minus' : ''}${f.n >= 100 ? ' wide' : ''}">${f.n}</span>`;
-    return `<div class="fish-in">${emojiHTML(f.sp)}${badge}</div>`;
+  const artOf = sp => Art.of(sp);
+  const fishName = f => (f.worm ? WORM.name : f.sp.name);
+  const fishArt = f => (f.worm ? `<span class="femoji">${WORM.emoji}</span>` : artOf(f.sp));
+  const isNight = () => day.now >= NIGHT;
+
+  // いまの さかな と なみ から つれる すうじ
+  function nextNumber(base, [a, b]) {
+    let n = Math.min(MAX_N, base + randInt(a, b));
+    if (n < 1) {
+      const r = Math.random();
+      n = r < JUNK_RATE ? Math.max(-10, n) : r < JUNK_RATE + SHELL_RATE ? 0 : randInt(1, 3);
+    }
+    return n;
   }
 
   // ---------- あそびの じょうたい ----------
-  let week = null;     // { start, day, bucket, clockCaught, uid, caught }
-  let day = null;      // { idx, now, end, clockAt, clockDone }
-  let phase = 'off';   // spot / bait / ready / cast / mash / busy / off
-  let selSpot = null;
-  let selBait = null;  // 'worm' か バケツの さかなの uid
-  let pool = [];       // およいでいる さかな
+  let week = null;     // { start, held, records, clockCaught, caught }
+  let day = null;      // { idx, now, end, nightSaid }
+  let phase = 'off';   // spot / cast / mash / busy / off
+  let waves = null;    // なみごとの ふえかた
   let sessionCaught = [];
   let calendarNext = null;   // つぎの しゅうの にちようび（つづけて あそぶと カレンダーが すすむ）
-  let hint = { said: {}, timer: 0 };
+  let hint = { said: 0, timer: 0 };
 
   const dateOf = i => new Date(week.start.getFullYear(), week.start.getMonth(), week.start.getDate() + i);
-  const bucketSum = () => week.bucket.reduce((s, f) => s + f.n, 0);
-  const dayMax = () => DAY_MAX[day.idx];
-
-  // ---------- えさ と つれる さかな ----------
-  const baitOf = id => (id === 'worm' ? { ...WORM, sp: speciesOf(1), worm: true } : week.bucket.find(f => f.uid === id));
-  const canBait = f => !f.sp.junk;
-
-  // えさから つれる だんかいの おもさ（ようびと ごうけいの せいげんつき）
-  function tierWeights(bait) {
-    const keepSum = bucketSum() - (week.bucket.includes(bait) ? bait.n : 0);   // えさに した さかなは のこらない
-    const cap = Math.min(dayMax(), SUM_MAX - keepSum);
-    const bt = Math.max(bait.sp.tier, DAY_FLOOR[day.idx]);
-    const out = [];
-    for (let d = -3; d <= 3; d++) {
-      const t = bt + d;
-      if (t < -1) continue;
-      const kinds = byTier(t).filter(s => s.min <= cap);
-      if (!kinds.length) continue;
-      out.push({ tier: t, kinds, cap, w: TIER_WEIGHT[d] * (t === -1 ? JUNK_RATE : t === 0 ? 0.5 : 1) });
-    }
-    // ごうけいが 1000に ちかくて なにも つれない ときは かいがら（0）
-    if (!out.length) out.push({ tier: 0, kinds: byTier(0), cap: 0, w: 1 });
-    return out;
-  }
-  function sampleNumber(bait) {
-    const tw = tierWeights(bait);
-    const t = pickWeighted(tw, x => x.w);
-    const sp = t.kinds[randInt(0, t.kinds.length - 1)];
-    return randInt(sp.min, Math.min(sp.max, t.cap < sp.min ? sp.min : t.cap));
-  }
-  function baitOptions() {
-    return [baitOf('worm'), ...week.bucket.filter(canBait)];
-  }
-
-  // ---------- じかんざかな ----------
-  // ようびが すすむと むずかしい じこくに なる
-  function clockTime(cap) {
-    const d = day.idx;
-    const maxH = Math.min([2, 2, 3, 4, 4, 5, 6][d], Math.floor(cap / 60));
-    if (maxH < 1) return null;
-    const step = [0, 0, 30, 15, 15, 5, 1][d];
-    for (let i = 0; i < 20; i++) {
-      const h = randInt(1, maxH);
-      const m = step ? randInt(0, Math.floor(59 / step)) * step : 0;
-      if (h * 60 + m <= cap) return { h, m };
-    }
-    return { h: 1, m: 0 };
-  }
-
-  // ---------- およぐ さかな ----------
-  const water = $('#water');
-  const poolEl = $('#pool');
-  let geo = { w: 300, h: 300, top: 0, left: 0 };
-  function layout() {
-    geo = { w: water.clientWidth, h: water.clientHeight, top: water.offsetTop, left: water.offsetLeft };
-    const sc = $('#scene').getBoundingClientRect();
-    const kidR = $('#fisher .kid').getBoundingClientRect();
-    geo.rod = { x: kidR.right - sc.left - kidR.width * 0.15, y: kidR.top - sc.top + kidR.height * 0.55 };
-    geo.tip = { x: geo.rod.x + Math.min(90, geo.w * 0.2), y: geo.rod.y - Math.min(70, geo.h * 0.18) };
-    geo.base = Math.max(24, Math.min(46, Math.min(geo.h * 0.085, geo.w * 0.08)));
-    pool.forEach(f => sizeFish(f));
-  }
-  window.addEventListener('resize', layout);
-
-  function sizeFish(f) {
-    f.el.style.fontSize = `${(geo.base * fishScale(f)).toFixed(1)}px`;
-  }
-
-  let uid = 0;
-  function makeFish(n, { clock = null, edge = false, x = null } = {}) {
-    const sp = clock ? CLOCK_FISH : speciesOf(n);
-    const f = { uid: ++uid, n: clock ? null : n, sp, clock, state: 'swim', phase: rand(0, 6) };
-    f.el = document.createElement('div');
-    f.el.className = 'fish' + (clock ? ' clockfish' : '');
-    f.el.innerHTML = fishHTML(f);
-    sizeFish(f);
-    const sp0 = rand(0.025, 0.05) * (0.6 + 0.6 / fishScale(f));
-    f.y = rand(0.22, 0.9) * geo.h;
-    if (edge) {
-      const left = Math.random() < 0.5;
-      f.x = left ? -geo.base * 2 : geo.w + geo.base * 2;
-      f.vx = left ? sp0 : -sp0;
-    } else {
-      f.x = x != null ? x : rand(0.08, 0.92) * geo.w;
-      f.vx = Math.random() < 0.5 ? sp0 : -sp0;
-    }
-    f.baseY = f.y;
-    poolEl.appendChild(f.el);
-    pool.push(f);
-    placeFish(f);
-    return f;
-  }
-  function placeFish(f) {
-    f.el.style.transform = `translate(${f.x.toFixed(1)}px, ${f.y.toFixed(1)}px) translate(-50%, -50%)`;
-    f.el.classList.toggle('right', f.vx > 0);
-  }
-  function removeFish(f) {
-    pool = pool.filter(x => x !== f);
-    f.el.remove();
-  }
-  function spawnRandom(opts) {
-    const opt = baitOptions();
-    return makeFish(sampleNumber(opt[randInt(0, opt.length - 1)]), opts);
-  }
-  function fillPool(spread) {
-    let i = 0;
-    while (pool.filter(f => !f.clock).length < POOL_SIZE) {
-      spawnRandom(spread ? { x: ((i++ + 0.5) / POOL_SIZE + rand(-0.04, 0.04)) * geo.w } : { edge: true });
-    }
-  }
-  function clearPool() {
-    pool.forEach(f => f.el.remove());
-    pool = [];
-  }
-
-  function moveFish(dt) {
-    for (const f of pool) {
-      if (f.state === 'swim' || f.state === 'leave') {
-        f.x += f.vx * dt;
-        f.phase += dt * 0.002;
-        f.y = f.baseY + Math.sin(f.phase) * geo.h * 0.03;
-        if (f.state === 'swim') {
-          if ((f.x < geo.w * 0.04 && f.vx < 0) || (f.x > geo.w * 0.96 && f.vx > 0)) f.vx = -f.vx;
-        } else if (f.x < -geo.base * 3 || f.x > geo.w + geo.base * 3) {
-          f.gone = true;
-        }
-      }
-      placeFish(f);
-    }
-    pool.filter(f => f.gone).forEach(removeFish);
-  }
+  const recordSum = () => week.records.reduce((s, r) => s + r.score, 0);
+  // おなじ セリフは しゅうの はじめの 3かいだけ ながく いう（なれたら みじかく して テンポよく）
+  const longFirst = key => (week.said[key] = (week.said[key] || 0) + 1) <= 3;
 
   // ---------- がめんの ようす（そら・とけい） ----------
   const SKY = [
     [6 * 60, '#ffb48f', '#ffe2c4', '#5cc4e8', '#2f8fc8'],
     [8 * 60, '#7fcaff', '#d6f1ff', '#4cc0f0', '#1f7fc0'],
     [15 * 60, '#7fcaff', '#d6f1ff', '#4cc0f0', '#1f7fc0'],
-    [16 * 60, '#ffb877', '#ffe6b8', '#4cb4e6', '#1c74b4'],
-    [17 * 60, '#ff8f5e', '#ffd39a', '#4aa8d8', '#1c6aa8'],
-    [18.5 * 60, '#5e4b8b', '#f49b86', '#3a7fb5', '#164b80'],
+    [17 * 60, '#ffb877', '#ffe6b8', '#4cb4e6', '#1c74b4'],
+    [18 * 60, '#ff8f5e', '#ffd39a', '#4aa8d8', '#1c6aa8'],
+    [19 * 60, '#3b3570', '#a2709a', '#2b5f94', '#123a66'],
     [20 * 60, '#1b2a55', '#3c4a80', '#1f4f80', '#0d2c55'],
     [24 * 60, '#0a1230', '#1b2a55', '#123a66', '#081d3d'],
   ];
@@ -346,27 +224,22 @@
     const k = Math.max(0, Math.min(1, (t - a[0]) / (b[0] - a[0])));
     const scene = $('#scene');
     ['--sky1', '--sky2', '--sea1', '--sea2'].forEach((v, j) => scene.style.setProperty(v, mix(a[j + 1], b[j + 1], k)));
-    scene.classList.toggle('night', t >= 19 * 60);
+    scene.classList.toggle('night', t >= 18.5 * 60);
     const sun = $('#sun');
     const night = t >= 18.5 * 60;
     sun.textContent = night ? '🌙' : '☀️';
     const p = night ? Math.min(1, (t - 18.5 * 60) / (5 * 60)) : Math.min(1, (t - DAY_START) / (12.5 * 60));
     sun.style.left = `${28 + p * 64}%`;
-    sun.style.top = `${70 - Math.sin(p * Math.PI) * 55}%`;
+    sun.style.top = `${75 - Math.sin(p * Math.PI) * 55}%`;
   }
 
-  let shownMin = -1;
-  function renderTime(force) {
-    const now = Math.floor(day.now);
-    if (!force && now === shownMin) return;
-    const slow = force || Math.floor(now / 5) !== Math.floor(shownMin / 5);
-    shownMin = now;
-    setClock($('#hud-clock svg'), now);
-    $('#hud-now').textContent = timeText(now);
-    if (!slow) return;
+  function renderTime(t = day.now) {
+    setClock($('#hud-clock svg'), t);
+    $('#hud-now').textContent = timeText(t);
     $('#hud-end').textContent = `🏁 ${timeText(day.end)} まで`;
-    renderTimeline($('#timeline'), now, day.end);
-    paintSky(now);
+    renderTimeline($('#timeline'), t, day.end);
+    paintSky(t);
+    $('#night-badge').hidden = t < NIGHT;
   }
 
   function renderWeekStrip(el, cur, { marker = true } = {}) {
@@ -395,85 +268,57 @@
     $('#hud-clockfish').innerHTML = '<small>じかんざかな</small><div>' +
       Array.from({ length: CLOCK_MAX }, (_, i) => `<span class="${i < left ? '' : 'used'}">⏰</span>`).join('') + '</div>';
     if (!$('#hud-clock svg')) $('#hud-clock').innerHTML = clockSVG(day.now);
-    renderTime(true);
+    renderTime();
+    renderHeld();
+    renderRecords();
   }
 
-  // ---------- えさ ----------
-  function renderBaits() {
-    const list = [baitOf('worm'), ...[...week.bucket].sort((a, b) => a.n - b.n)];
-    $('#baits').innerHTML = list.map(f => {
-      const id = f.worm ? 'worm' : f.uid;
-      const off = !f.worm && !canBait(f);
-      return `<button class="bait${String(selBait) === String(id) ? ' on' : ''}${off ? ' off' : ''}" data-id="${id}"${off ? ' disabled' : ''}>` +
-        `${f.worm ? `<span class="femoji">${WORM.emoji}</span>` : emojiHTML(f.sp)}<b class="${f.n < 0 ? 'minus' : ''}">${f.n}</b>` +
-        `${f.worm ? '<small>ミミズ</small>' : ''}</button>`;
-    }).join('');
-    $('#bucket-count').textContent = `🪣 ${week.bucket.length}ひき`;
-  }
-  $('#baits').addEventListener('click', e => {
-    const b = e.target.closest('.bait');
-    if (!b || b.disabled || !['spot', 'bait', 'ready'].includes(phase)) return;
-    Sound.tap();
-    selBait = b.dataset.id === 'worm' ? 'worm' : Number(b.dataset.id);
-    renderBaits();
-    nextStep();
-  });
-
-  // ---------- ばしょ ----------
-  function renderSpots() {
-    $('#spots').innerHTML = SPOTS.map((x, i) => {
-      const l = i === 0 ? 0.18 : (SPOTS[i - 1] + x) / 2;
-      const r = i === SPOTS.length - 1 ? 1 : (SPOTS[i + 1] + x) / 2;
-      return `<button class="spot${selSpot === i ? ' on' : ''}" data-i="${i}" style="left:${l * 100}%;width:${(r - l) * 100}%" aria-label="ここで つる">` +
-        `<span class="ring" style="left:${((x - l) / (r - l)) * 100}%"></span></button>`;
-    }).join('');
-  }
-  $('#spots').addEventListener('click', e => {
-    const b = e.target.closest('.spot');
-    if (!b || !['spot', 'bait', 'ready'].includes(phase)) return;
-    Sound.plop();
-    selSpot = Number(b.dataset.i);
-    renderSpots();
-    nextStep();
-  });
-
-  // ---------- てじゅんの あんない ----------
-  const GUIDE = {
-    spot: { text: '👇 どこで つる？', voice: nar('どこで つる？ ゆびで えらんでね') },
-    bait: { text: '👇 えさは どれ？', voice: nar('えさは どれに する？') },
-    ready: { text: '👇「つる！」を おしてね', voice: nar('「つる！」ボタンを おしてね') },
-  };
-  function nextStep() {
-    if (!['spot', 'bait', 'ready'].includes(phase)) return;
-    phase = selSpot == null ? 'spot' : selBait == null || !baitOf(selBait) ? 'bait' : 'ready';
-    if (selBait != null && !baitOf(selBait)) selBait = null;
-    const scene = $('#scene');
-    scene.classList.toggle('want-spot', phase === 'spot');
-    $('.dock').classList.toggle('want-bait', phase === 'bait');
-    $('#btn-fish').classList.toggle('want', phase === 'ready');
-    $('#btn-fish').disabled = phase !== 'ready';
-    $('#guide').textContent = GUIDE[phase].text;
-    $('#guide').className = 'guide show g-' + phase;
-    // はじめの ころは こえで あんない。なれてきたら しばらく まよった ときだけ
-    clearTimeout(hint.timer);
-    const said = hint.said[phase] || 0;
-    if (said < (phase === 'spot' ? 1 : 2)) {
-      hint.said[phase] = said + 1;
-      Sound.hush();
-      Sound.say(GUIDE[phase].voice);
+  function renderHeld(pop) {
+    const f = week.held;
+    $('#held').innerHTML = `<div class="hf-art">${fishArt(f)}</div><b class="${f.n < 0 ? 'minus' : ''}">${f.n}</b><small>${fishName(f)}${f.night ? ' 🌙' : ''}</small>`;
+    if (pop) {
+      $('#held').classList.remove('pop');
+      void $('#held').offsetWidth;
+      $('#held').classList.add('pop');
     }
-    const my = epoch, ph = phase;
-    hint.timer = setTimeout(() => {
-      if (my === epoch && phase === ph && !paused) Sound.say(GUIDE[ph].voice);
-    }, 7000 / SPEED);
   }
-  function hideGuide() {
-    clearTimeout(hint.timer);
-    $('#guide').className = 'guide';
-    $('#scene').classList.remove('want-spot');
-    $('.dock').classList.remove('want-bait');
-    $('#btn-fish').classList.remove('want');
-    $('#btn-fish').disabled = true;
+  function renderRecords() {
+    $('#records').innerHTML = WEEKDAY_SHORT.map((w, i) => {
+      const r = week.records[i];
+      const now = day && i === day.idx && !r;
+      return `<div class="rec${r ? ' got' : ''}${now ? ' now' : ''}" style="--c:${WEEKDAY_COLOR[i]}"><small>${w}</small>` +
+        `<b class="${r && r.score < 0 ? 'minus' : ''}">${r ? r.score : ''}</b>${r && r.night ? '<i>🌙</i>' : ''}</div>`;
+    }).join('');
+  }
+
+  // ---------- ねこ と いと ----------
+  $('#fisher').insertAdjacentHTML('afterbegin', Art.cat());
+  const water = $('#water');
+  let geo = { w: 300, h: 100, top: 0, left: 0 };
+  function layout() {
+    const sc = $('#scene').getBoundingClientRect();
+    const wr = water.getBoundingClientRect();
+    geo = { w: wr.width, h: wr.height, top: wr.top - sc.top, left: wr.left - sc.left };
+    const cat = $('#fisher .cat-svg').getBoundingClientRect();
+    geo.rod = { x: cat.left - sc.left + cat.width * Art.ROD.x / 120, y: cat.top - sc.top + cat.height * Art.ROD.y / 132 };
+    geo.tip = { x: geo.rod.x + Math.min(110, sc.width * 0.22), y: geo.rod.y - Math.min(90, sc.height * 0.2) };
+    drawLine();
+  }
+  window.addEventListener('resize', () => { if (week) layout(); });
+
+  const line = { on: false, bob: null, sink: 0 };
+  function drawLine() {
+    const svg = $('#line');
+    const r = geo.rod, t = geo.tip;
+    if (!r) return;
+    let s = `<line class="rod" x1="${r.x}" y1="${r.y}" x2="${t.x}" y2="${t.y}"/>`;
+    if (line.on && line.bob) {
+      const b = line.bob;
+      const mx = (t.x + b.x) / 2, my = Math.max(t.y, b.y) + 20;
+      s += `<path class="string" d="M${t.x} ${t.y} Q${mx} ${my} ${b.x} ${b.y + line.sink}"/>`;
+      $('#bobber').style.transform = `translate(${b.x}px, ${b.y + line.sink}px) translate(-50%, -70%)`;
+    }
+    svg.innerHTML = s;
   }
 
   function catSay(text, ms = 1600) {
@@ -484,128 +329,117 @@
     catSay.t = setTimeout(() => el.classList.remove('show'), ms / SPEED);
   }
 
-  // ---------- いと と うき ----------
-  const line = { on: false, bob: null, hook: null, fish: null };
-  function drawLine() {
-    const svg = $('#line');
-    const r = geo.rod, t = geo.tip;
-    let s = `<line class="rod" x1="${r.x}" y1="${r.y}" x2="${t.x}" y2="${t.y}"/>`;
-    if (line.on && line.bob) {
-      const b = line.bob;
-      const mx = (t.x + b.x) / 2, my = Math.max(t.y, b.y) + 18;
-      s += `<path class="string" d="M${t.x} ${t.y} Q${mx} ${my} ${b.x} ${b.y}"/>`;
-      if (line.hook) {
-        const h = line.fish ? { x: geo.left + line.fish.x, y: geo.top + line.fish.y } : line.hook;
-        s += `<line class="string" x1="${b.x}" y1="${b.y}" x2="${h.x}" y2="${h.y}"/>`;
-      }
-      const bob = $('#bobber');
-      bob.style.transform = `translate(${b.x}px, ${b.y}px) translate(-50%, -60%)`;
+  // ---------- なみ（つる ばしょ） ----------
+  function renderRipples() {
+    $('#ripples').innerHTML = RIPPLES.map((x, i) => {
+      const l = i === 0 ? 0.16 : (RIPPLES[i - 1] + x) / 2;
+      const r = i === RIPPLES.length - 1 ? 1 : (RIPPLES[i + 1] + x) / 2;
+      return `<button class="ripple" data-i="${i}" style="left:${l * 100}%;width:${(r - l) * 100}%" aria-label="ここで つる">` +
+        `<span class="rings" style="left:${((x - l) / (r - l)) * 100}%"><i></i><i></i><i></i></span></button>`;
+    }).join('');
+  }
+  $('#ripples').addEventListener('click', e => {
+    const b = e.target.closest('.ripple');
+    if (!b || phase !== 'spot' || paused) return;
+    Sound.unlock();
+    Sound.tap();
+    b.classList.add('on');
+    cast(Number(b.dataset.i)).catch(ignoreCancel);
+  });
+
+  function nextTurn() {
+    phase = 'spot';
+    waves = shuffle(WAVES);
+    renderRipples();
+    $('#scene').classList.add('want-spot');
+    $('#guide').textContent = '👇 どこで つる？';
+    $('#guide').className = 'guide show';
+    clearTimeout(hint.timer);
+    // はじめは こえで あんない。なれてきたら しばらく まよった ときだけ
+    if (hint.said < 2) {
+      hint.said++;
+      Sound.say(nar('どこで つる？ なみを タップしてね'));
     }
-    svg.innerHTML = s;
+    const my = epoch;
+    hint.timer = setTimeout(() => {
+      if (my === epoch && phase === 'spot' && !paused) Sound.say(nar('どこで つる？ なみを タップしてね'));
+    }, 8000 / SPEED);
+  }
+  function hideGuide() {
+    clearTimeout(hint.timer);
+    $('#guide').className = 'guide';
+    $('#scene').classList.remove('want-spot');
   }
 
   // ---------- つる ----------
-  $('#btn-fish').onclick = () => {
-    if (phase !== 'ready') return;
-    Sound.unlock();
-    cast().catch(ignoreCancel);
-  };
-
-  async function cast() {
-    const bait = baitOf(selBait);
-    const spot = selSpot;
+  async function cast(i) {
     phase = 'cast';
     hideGuide();
     Sound.hush();
-    // えさに した さかなは バケツから でる
-    if (!bait.worm) week.bucket = week.bucket.filter(f => f !== bait);
-    selBait = null;
-    renderBaits();
-    const sx = geo.left + SPOTS[spot] * geo.w;
-    const sy = geo.top + 4;
+    const sx = geo.left + RIPPLES[i] * geo.w;
+    const sy = geo.top + geo.h * 0.32;
     Sound.cast();
     catSay('えいっ！', 900);
+    $('#fisher').classList.add('casting');
     line.on = true;
-    line.hook = null;
-    line.fish = null;
+    line.sink = 0;
     $('#bobber').hidden = false;
-    $('#bobber').className = 'bobber';
     const t0 = geo.tip;
     await tween(550, k => {
       line.bob = { x: t0.x + (sx - t0.x) * k, y: t0.y + (sy - t0.y) * k - Math.sin(k * Math.PI) * 60 };
+      drawLine();
     }, linear);
+    $('#fisher').classList.remove('casting');
     Sound.plop();
-    line.hook = { x: sx, y: geo.top + geo.h * 0.42 };
-    await sleep(500);
-
-    // どの さかなが くいつくか
-    const f = chooseBiter(bait, sx - geo.left);
-    f.state = 'come';
-    const hx = sx - geo.left, hy = geo.h * 0.42;
-    const fx = f.x, fy = f.y;
-    f.vx = hx > fx ? 1 : -1;
-    const dist = Math.hypot(hx - fx, hy - fy);
-    await tween(Math.max(900, Math.min(2200, dist * 5)), k => {
-      f.x = fx + (hx - fx) * k;
-      f.y = fy + (hy - fy) * k;
-    });
-    f.state = 'hooked';
-    line.fish = f;
+    // なにが つれるか（つれるまで ないしょ）
+    const clockOk = week.clockCaught < CLOCK_MAX && day.end + CLOCK_ADD <= MAX_END && week.caught > 0;
+    const f = clockOk && Math.random() < CLOCK_RATE
+      ? { clock: true, sp: CLOCK_FISH }
+      : (n => ({ n, sp: speciesOf(n) }))(nextNumber(week.held.n, waves[i]));
     // つんつん … ぐいっ！
-    for (let i = 0; i < 2; i++) {
-      $('#bobber').classList.add('nibble');
+    await sleep(rand(300, 600));
+    for (let k = 0; k < 2; k++) {
+      await tween(160, t => { line.sink = Math.sin(t * Math.PI) * 5; drawLine(); }, linear);
       Sound.plop();
-      await sleep(380);
-      $('#bobber').classList.remove('nibble');
-      await sleep(rand(250, 550));
+      await sleep(rand(150, 350));
     }
+    await tween(150, t => { line.sink = t * 14; drawLine(); }, linear);
     $('#bobber').classList.add('sink');
     Sound.bite();
     if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
     catSay('かかった！');
     Sound.say(kid('かかったのだ！'));
-    await mash(f);
+    await mash(f, sx, sy);
   }
 
-  function chooseBiter(bait, spotX) {
-    const near = f => Math.abs(f.x - spotX) < geo.w * 0.22;
-    const swim = pool.filter(f => f.state === 'swim');
-    const cf = swim.find(f => f.clock);
-    if (cf && Math.random() < (near(cf) ? 0.55 : 0.1)) return cf;
-    const tw = tierWeights(bait);
-    const cands = swim.filter(f => !f.clock && tw.some(t => t.tier === f.sp.tier && f.n <= t.cap));
-    if (cands.length && Math.random() > 0.2) {
-      return pickWeighted(cands, f => tw.find(t => t.tier === f.sp.tier).w * (near(f) ? 4 : 1));
-    }
-    // とおくから あたらしい さかなが やってくる
-    const nf = makeFish(sampleNumber(bait), { edge: true });
-    nf.x = spotX < geo.w / 2 ? -geo.base * 2 : geo.w + geo.base * 2;
-    return nf;
-  }
-
-  // れんだ で ひきあげる
-  function mash(f) {
+  // れんだ: みずしぶきが だんだん おおきく なる（おおきい さかなほど おおきい しぶき）
+  function mash(f, sx, sy) {
     phase = 'mash';
-    const need = f.clock ? 7 : f.sp.junk ? 3 : 4 + Math.round(Math.max(0, f.sp.tier) * 0.55);
+    const tier = f.clock ? 8 : Math.max(0, f.sp.tier);
+    const need = f.clock ? 7 : f.sp.junk ? 3 : 4 + Math.round(tier * 0.4);
+    const big = 0.7 + tier / 14;
     let got = 0;
-    const box = $('#mash');
-    box.hidden = false;
-    $('#mash-fill').style.width = '0%';
-    const hookY = f.y;
+    const sp = $('#splash');
+    sp.hidden = false;
+    sp.style.left = `${sx}px`;
+    sp.style.top = `${sy}px`;
+    sp.style.setProperty('--s', (0.5 * big).toFixed(2));
+    $('#mash').hidden = false;
     const my = epoch;
     return new Promise((res, rej) => {
       const onTap = e => {
         if (my !== epoch) { cleanup(); return rej(CANCEL); }
         if (paused || e.target.closest('#btn-home')) return;
-        e.preventDefault();
+        if (e.preventDefault) e.preventDefault();
         got++;
         const k = Math.min(1, got / need);
-        $('#mash-fill').style.width = `${k * 100}%`;
         Sound.reel(k);
-        f.y = hookY - (hookY - geo.h * 0.06) * k;
-        f.el.classList.remove('tug');
-        void f.el.offsetWidth;
-        f.el.classList.add('tug');
+        sp.style.setProperty('--s', ((0.5 + k * 1.3) * big).toFixed(2));
+        sp.classList.remove('burst');
+        void sp.offsetWidth;
+        sp.classList.add('burst');
+        line.sink = 14 + Math.sin(got) * 4;
+        drawLine();
         if (got === Math.ceil(need / 2)) Sound.say(kid('がんばるのだ！'));
         if (got >= need) {
           cleanup();
@@ -614,33 +448,41 @@
       };
       const cleanup = () => {
         $('#scene').removeEventListener('pointerdown', onTap);
-        box.hidden = true;
+        $('#mash').hidden = true;
       };
       $('#scene').addEventListener('pointerdown', onTap);
-      window.__mashTap = () => onTap({ target: $('#scene'), preventDefault() {} });   // テストよう
+      window.__mashTap = () => onTap({ target: $('#scene') });   // テストよう
     });
   }
 
   async function landed(f) {
     phase = 'busy';
     Sound.splash();
-    line.fish = null;
+    $('#splash').classList.add('final');
     line.on = false;
     $('#bobber').hidden = true;
-    f.el.classList.add('jump');
-    await sleep(450);
-    removeFish(f);
-    if (f.clock) await revealClock(f);
-    else await revealFish(f);
-    afterCatch();
+    $('#bobber').classList.remove('sink');
+    drawLine();
+    await sleep(500);
+    $('#splash').hidden = true;
+    $('#splash').classList.remove('final', 'burst');
+    if (f.clock) {
+      await revealClock(f);
+    } else {
+      await revealFish(f);
+      await compare(f);
+      await advanceTime();
+    }
+    afterTurn();
   }
 
   // ---------- つれた！ ----------
   function showCatch(f) {
     const ov = $('#overlay-catch');
-    ov.classList.remove('is-new', 'named', 'said', 'junk', 'gold');
-    $('#catch-fish').innerHTML = fishHTML(f);
-    $('#catch-fish').style.fontSize = `${Math.min(150, 70 + (f.clock ? 50 : Math.max(0, f.n)) * 0.8)}px`;
+    ov.classList.remove('is-new', 'named', 'said', 'wait', 'junk', 'gold');
+    $('#catch-fish').innerHTML = artOf(f.sp);
+    const tier = f.clock ? 8 : Math.max(0, f.sp.tier);
+    $('#catch-fish').style.fontSize = `${Math.round(54 + tier * 5)}px`;
     $('#catch-num').innerHTML = f.clock ? '' : `<span class="${f.n < 0 ? 'minus' : ''}">${f.n}</span>`;
     $('#catch-name').textContent = f.sp.name;
     $('#catch-say').textContent = '🗣️ せーの！';
@@ -665,9 +507,9 @@
     showCatch(f);
     if (f.sp.junk) Sound.junk(); else if (f.n >= 80) Sound.big(); else Sound.caught();
     await talk(f.sp.junk ? kid('なんか へんなの つれたのだ…') : kid('つれたのだー！'));
-    await talk(nar('なんの すうじの さかなかな？ いってみよう。せーの！'));
+    await talk(longFirst('seeno') ? nar('なんの すうじの さかなかな？ いってみよう。せーの！') : nar('せーの！'));
     ov.classList.add('wait');
-    await sleep(1600);
+    await sleep(1300);
     ov.classList.remove('wait');
     ov.classList.add('said');
     await talk(Keys.num(f.n));
@@ -679,182 +521,223 @@
       await talk(nar('あたらしい なかまだ！ ずかんに のったよ'));
       if (f.sp.junk) await talk(nar('マイナスは ゼロより ちいさい すうじだよ'));
     }
-    await sleep(500);
-    showOverlay('#overlay-catch', false);
-    week.bucket.push(f);
-    renderBaits();
-    const chip = $(`#baits .bait[data-id="${f.uid}"]`);
-    if (chip) chip.classList.add('pop');
-    if (!save.hintSeen && !f.sp.junk) {
-      save.hintSeen = true;
-      writeSave();
-      await talk(nar('つった さかなは えさに できるよ。おおきい すうじの えさだと、おおきい さかなが つれるよ'));
-    }
-  }
-
-  async function revealClock(f) {
-    record(f);
-    const ov = $('#overlay-catch');
-    showCatch(f);
-    $('#catch-num').textContent = '';
-    Sound.big();
-    await talk(kid('つれたのだー！'));
-    ov.classList.add('named');
-    await talk(nar('じかんざかなだ！'));
-    await talk(nar('なんじ なんぷんかな？ いってみよう。せーの！'));
-    ov.classList.add('wait');
-    await sleep(1600);
-    ov.classList.remove('wait');
-    ov.classList.add('said');
-    $('#catch-num').textContent = timeText(f.clock.h * 60 + f.clock.m);
-    await talk(Keys.time(f.clock.h, f.clock.m));
     await sleep(400);
     showOverlay('#overlay-catch', false);
-    await extendTime(f.clock.h, f.clock.m);
   }
 
-  // じかんざかなで おわりの じかんが のびる（ズームして ゆっくり）
-  async function extendTime(h, m) {
-    const from = day.end;
-    const add = Math.min(h * 60 + m, MAX_END - from);
-    const ov = $('#overlay-time');
-    $('#time-title').innerHTML = `⏰ ${timeText(h * 60 + m)} の じかんざかな`;
-    $('#time-clock').innerHTML = clockSVG(from, 'big-clock', { ticks: true }) + '<div class="tc-label">🏁 おわりの じかん</div>';
+  // ---------- どっちの すうじが おおきい？ ----------
+  async function compare(f) {
+    const old = week.held;
+    const night = isNight();
+    const fresh = { n: f.n, sp: f.sp, night };
+    if (old.n === f.n) {
+      // おなじ すうじ: あたらしい ほうを のこす
+      await talk(nar('おなじ すうじだ！'));
+      week.held = fresh;
+      renderHeld(true);
+      return;
+    }
+    const ov = $('#overlay-compare');
+    const cards = { old: ov.querySelector('[data-side="old"]'), new: ov.querySelector('[data-side="new"]') };
+    const fill = (c, x) => {
+      c.className = 'ccard';
+      c.querySelector('.cc-art').innerHTML = fishArt(x);
+      c.querySelector('b').innerHTML = `<span class="${x.n < 0 ? 'minus' : ''}">${x.n}</span>`;
+    };
+    fill(cards.old, old);
+    fill(cards.new, fresh);
+    $('#compare-msg').textContent = '';
+    ov.classList.remove('done');
+    showOverlay('#overlay-compare', true);
+    Sound.say(nar('どっちの すうじが おおきい？'));
+    const my = epoch;
+    const side = await new Promise((res, rej) => {
+      const onTap = e => {
+        const c = e.target.closest('.ccard');
+        if (!c || paused) return;
+        if (my !== epoch) return rej(CANCEL);
+        ov.removeEventListener('click', onTap);
+        res(c.dataset.side);
+      };
+      ov.addEventListener('click', onTap);
+      window.__compare = s => onTap({ target: cards[s] });   // テストよう
+    });
+    Sound.hush();
+    ov.classList.add('done');
+    const bigSide = old.n > fresh.n ? 'old' : 'new';
+    const smallSide = bigSide === 'old' ? 'new' : 'old';
+    const pick = { old, new: fresh };
+    if (side === bigSide) {
+      cards[bigSide].classList.add('keep');
+      cards[smallSide].classList.add('bye');
+      $('#compare-msg').textContent = '⭕ せいかい！ おおきい ほうを のこすよ';
+      Sound.caught();
+      week.held = pick[bigSide];
+      await talk(longFirst('ok') ? nar('せいかい！ おおきい ほうを のこすよ') : nar('せいかい！'));
+    } else {
+      cards[side].classList.add('keep');
+      cards[bigSide].classList.add('flee');
+      $('#compare-msg').textContent = '💦 ざんねん… おおきい さかなが にげちゃった';
+      Sound.junk();
+      week.held = pick[smallSide];
+      await talk(nar('ざんねん！ おおきい さかなが にげちゃった'));
+    }
+    await sleep(500);
+    showOverlay('#overlay-compare', false);
+    renderHeld(true);
+    if (!save.hintSeen) {
+      save.hintSeen = true;
+      writeSave();
+      await talk(nar('のこした さかなが つぎの えさに なるよ。おおきい えさだと、おおきい さかなが つれるよ'));
+    }
+  }
+
+  // ---------- とけいを ズームして すすめる ----------
+  // from → to を 10ぷんずつ すすめる。onHour(h) は ちょうどの じかんごとに よぶ
+  async function clockRun(from, to, { stepMs, onStep, onHour } = {}) {
     const svg = $('#time-clock svg');
-    const show = cur => {
-      setClock(svg, cur);
-      $('#time-digital').innerHTML = `<span class="td-from">${timeText(from)}</span> → <b>${timeText(cur)}</b>`;
-      const [ah, am] = hm(cur - from);
-      $('#time-plus').textContent = cur > from ? `＋ ${spanText(ah, am)}` : '';
-      renderTimeline($('#time-line'), day.now, cur, { added: cur - from });
+    for (let t = from + 10; t <= to; t += 10) {
+      setClock(svg, t);
+      Sound.tick();
+      if (onStep) onStep(t);
+      await sleep(stepMs);
+      if (t % 60 === 0 && onHour) await onHour(t);
+    }
+  }
+  function openClock(title, minutes) {
+    $('#time-title').innerHTML = title;
+    $('#time-clock').innerHTML = clockSVG(minutes, 'big-clock', { ticks: true });
+    $('#time-digital').innerHTML = '';
+    $('#time-plus').textContent = '';
+    $('#time-event').textContent = '';
+    showOverlay('#overlay-time', true);
+    const ov = $('#overlay-time');
+    ov.classList.remove('zoom');
+    void ov.offsetWidth;
+    ov.classList.add('zoom');
+  }
+
+  // 1かい つったら じかんが すすむ
+  async function advanceTime() {
+    const from = day.now;
+    let to = SLOTS.find(s => s > from);
+    if (to == null) to = from + 60;   // よるは 1じかんずつ
+    to = Math.min(to, day.end);
+    openClock('⏰ じかんが すすむよ', from);
+    const show = t => {
+      $('#time-digital').innerHTML = `<span class="td-from">${timeText(from)}</span> → <b>${timeText(t)}</b>`;
+      renderTimeline($('#time-line'), t, day.end);
     };
     show(from);
-    showOverlay('#overlay-time', true);
-    ov.classList.add('zoom');
-    Sound.tick();
-    await talk(Keys.time(h, m), nar('の さかなだったから'));
-    await sleep(300);
-    // 1じかんずつ（ながい はりが ひとまわり）
-    for (let i = 1; i <= h && (i - 1) * 60 < add; i++) {
-      const a = from + (i - 1) * 60;
-      const b = Math.min(from + add, from + i * 60);
-      let lastTick = -1;
-      await tween(1400, k => {
-        const cur = a + (b - a) * k;
-        show(cur);
-        const tk = Math.floor(cur / 5);
-        if (tk !== lastTick) { lastTick = tk; Sound.tick(); }
-      }, linear);
-      Sound.hourChime(i);
-      await talk(Keys.jikan(i));
-    }
-    // のこりの ふん
-    if (m && h * 60 < add) {
-      const a = from + h * 60;
-      let lastTick = -1;
-      await tween(Math.max(900, m * 45), k => {
-        const cur = a + m * k;
-        show(cur);
-        const tk = Math.floor(cur);
-        if (tk !== lastTick) { lastTick = tk; Sound.tick(); }
-      }, linear);
-      Sound.ding(2);
-      await talk(Keys.fun(m));
-    }
-    day.end = from + add;
-    week.clockCaught++;
-    renderHud();
-    Sound.fanfare();
-    await talk(Keys.span(h, m), nar('のびた！'));
-    const [eh, em] = hm(day.end);
-    await talk(nar('おわりの じかんが'), Keys.time(eh, em), nar('に なったよ！'));
     await sleep(500);
-    ov.classList.remove('zoom');
+    await clockRun(from, to, { stepMs: 70, onStep: show });
+    day.now = to;
+    renderTime();
+    Sound.hourChime(to / 60);
+    await talk(Keys.ji(to / 60), nar('に なったよ！'));
+    await sleep(300);
     showOverlay('#overlay-time', false);
+    // ごはん・おやつ（さりげなく）
+    const meal = MEALS[to];
+    if (meal) {
+      catSay(meal.icon, 2400);
+      $('#fisher').classList.add('eating');
+      setTimeout(() => $('#fisher').classList.remove('eating'), 2000 / SPEED);
+      if (meal.crow) crow();
+      await talk(meal.voice);
+    }
+    if (to >= NIGHT && to < day.end && !day.nightSaid) {
+      day.nightSaid = true;
+      await talk(nar('よるの つりは てんすうが 2ばい！'));
+    }
+  }
+  function crow() {
+    const c = document.createElement('div');
+    c.className = 'crow';
+    c.innerHTML = '🐦<span>カー カー</span>';
+    $('#scene').appendChild(c);
+    Sound.caw();
+    setTimeout(() => c.remove(), 5000 / SPEED);
   }
 
-  function afterCatch() {
+  // ---------- じかんざかな ----------
+  async function revealClock(f) {
+    record(f);
+    showCatch(f);
+    $('#overlay-catch').classList.add('named');
+    Sound.big();
+    await talk(kid('つれたのだー！'));
+    await talk(nar('じかんざかなだ！'));
+    await sleep(300);
+    showOverlay('#overlay-catch', false);
+    // 0じ から 10ぷんずつ はりを うごかして 2じかんを みせる
+    openClock('⏰ じかんざかなは なんじかん？', 0);
+    const show = t => {
+      const [h, m] = hm(t);
+      $('#time-digital').innerHTML = `<b>${h ? `${h}じかん` : ''}${m ? ` ${window.funText(m)}` : ''}${t ? '' : '0'}</b>`;
+    };
+    show(0);
+    await sleep(600);
+    await clockRun(0, CLOCK_ADD, {
+      stepMs: 380,
+      onStep: show,
+      onHour: async t => { Sound.hourChime(t / 60); await talk(Keys.jikan(t / 60)); },
+    });
+    await talk(nar('じかんざかなは 2じかんざかなだった！'));
+    // おわりの じかんが のびる
+    const from = day.end;
+    day.end = Math.min(MAX_END, from + CLOCK_ADD);
+    week.clockCaught++;
+    $('#time-title').innerHTML = '🏁 おわりの じかんが のびた！';
+    $('#time-clock').innerHTML = clockSVG(day.end, 'big-clock', { ticks: true });
+    $('#time-digital').innerHTML = `<span class="td-from">${timeText(from)}</span> → <b>${timeText(day.end)}</b>`;
+    $('#time-plus').textContent = '＋ 2じかん';
+    renderTimeline($('#time-line'), day.now, day.end, { added: day.end - from });
+    Sound.fanfare();
+    await talk(nar('おわりの じかんが'), Keys.ji(from / 60), nar('から'), Keys.ji(day.end / 60), nar('に のびた！'));
+    if (from <= NIGHT) await talk(nar('よるの つりは てんすうが 2ばい！'));
+    await sleep(400);
+    showOverlay('#overlay-time', false);
+    renderHud();
+  }
+
+  function afterTurn() {
     if (!week) return;
-    fillPool(false);
-    phase = 'spot';
     if (day.now >= day.end) {
       endDay().catch(ignoreCancel);
       return;
     }
-    selSpot = null;
-    selBait = null;
-    renderSpots();
-    renderBaits();
-    nextStep();
+    nextTurn();
   }
 
   // ---------- まいにちの ながれ ----------
-  let loopLast = 0;
-  let swapAt = 0;
-  function loop(now) {
-    requestAnimationFrame(loop);
-    const dt = Math.min(100, now - (loopLast || now)) * SPEED;
-    loopLast = now;
-    if (!week || !day || paused) return;
-    if (!$('#screen-play').classList.contains('active')) return;
-    moveFish(dt);
-    drawLine();
-    if (['spot', 'bait', 'ready', 'cast', 'mash'].includes(phase)) {
-      day.now = Math.min(day.end, day.now + dt / MS_PER_MIN);
-      renderTime();
-      // じかんざかなが やってくる（1にち 1ぴき まで・1しゅうかんに 3びき まで）
-      if (!day.clockDone && day.now >= day.clockAt && week.clockCaught < CLOCK_MAX) {
-        day.clockDone = true;
-        const c = clockTime(MAX_END - day.end);
-        if (c) makeFish(null, { clock: c, edge: true });
-      }
-      // ときどき さかなが いれかわる
-      if (now > swapAt) {
-        swapAt = now + 6000 / SPEED;
-        const out = pool.filter(f => f.state === 'swim' && !f.clock);
-        if (out.length >= POOL_SIZE) {
-          out[randInt(0, out.length - 1)].state = 'leave';
-          spawnRandom({ edge: true });
-        }
-      }
-      if (day.now >= day.end && ['spot', 'bait', 'ready'].includes(phase)) endDay().catch(ignoreCancel);
-    }
-  }
-  requestAnimationFrame(loop);
-
   function startDay(idx) {
-    day = {
-      idx, now: DAY_START, end: BASE_END,
-      // じかんざかなは 8じ〜12じ ごろに でてくる（でない ひも ある）
-      clockAt: Math.random() < 0.8 ? randInt(8 * 60, 12 * 60) : Infinity,
-      clockDone: false,
-    };
-    shownMin = -1;
-    clearPool();
+    day = { idx, now: DAY_START, end: BASE_END, nightSaid: false };
     layout();
-    fillPool(true);
     renderHud();
-    renderBaits();
-    selSpot = null;
-    selBait = null;
-    renderSpots();
-    phase = 'spot';
-    nextStep();
+    nextTurn();
   }
 
   async function endDay() {
-    if (phase === 'busy' || phase === 'off') return;
     phase = 'busy';
     hideGuide();
-    selSpot = null;
-    renderSpots();
     Sound.hush();
     Sound.sunset();
-    const [h, m] = hm(day.end);
     catSay(`${timeText(day.end)}！`, 2500);
-    await talk(Keys.time(h, m), nar('に なったよ。きょうの つりは おしまい！'));
-    pool.forEach(f => { f.state = 'leave'; f.vx = (f.x < geo.w / 2 ? -1 : 1) * 0.12; });
-    await sleep(900);
+    await talk(Keys.ji(day.end / 60), nar('に なったよ。きょうの つりは おしまい！'));
+    // もっている さかなが きょうの きろく（よるに つった さかなは 2ばい）
+    const f = week.held;
+    let score = f.n * (f.night ? 2 : 1);
+    score = Math.min(score, SUM_MAX - recordSum());
+    week.records[day.idx] = { n: f.n, sp: f.sp, worm: !!f.worm, night: !!f.night, score };
+    renderRecords();
+    $('#records .rec:nth-child(' + (day.idx + 1) + ')').classList.add('pop');
+    renderHeld(true);
+    await talk(nar('きょうの きろくは'), Keys.num(f.n));
+    if (f.night) await talk(nar('よるに つった さかなだから 2ばい！'), Keys.num(score));
+    f.night = false;   // あしたは もう よるの さかなでは ない
+    renderHeld();
+    await sleep(600);
     if (day.idx >= 6) await weekEnd();
     else {
       await showDay(day.idx, day.idx + 1);
@@ -897,11 +780,9 @@
     $('#day-date').innerHTML = `<span>${d.getMonth() + 1}</span>がつ <span>${d.getDate()}</span>にち<b style="color:${WEEKDAY_COLOR[idx]}">${WEEKDAYS[idx]}</b>`;
     Sound.ding(idx);
     await talk(nar('きょうは'), Keys.date(d));
-    $('#day-note').textContent = `🐟 きょうは ${DAY_MAX[idx]} までの さかなが いるよ`;
-    await talk(nar('きょうは'), Keys.num(DAY_MAX[idx]), nar('までの さかなが いるよ'));
     if (idx === 0) {
-      $('#day-note').textContent += `\n⏰ ${timeText(DAY_START)} から ${timeText(BASE_END)} まで`;
-      await talk(Keys.ji(6), nar('から'), Keys.ji(16), nar('まで つれるよ！'));
+      $('#day-note').textContent = `⏰ ${timeText(DAY_START)} から ${timeText(BASE_END)} まで`;
+      await talk(Keys.ji(6), nar('から'), Keys.ji(18), nar('まで つれるよ！'));
     }
     await sleep(500);
     showOverlay('#overlay-day', false);
@@ -910,30 +791,25 @@
   // ---------- 1しゅうかんの おわり: たしざん ----------
   async function weekEnd() {
     phase = 'busy';
-    clearPool();
     await showDay(6, 7);
-    const fish = week.bucket;
-    $('#sum-fish').innerHTML = fish.map((f, i) =>
-      `<div class="sf" data-i="${i}">${emojiHTML(f.sp)}<b class="${f.n < 0 ? 'minus' : ''}">${f.n}</b></div>`).join('');
+    const recs = week.records;
+    $('#sum-fish').innerHTML = recs.map((r, i) =>
+      `<div class="sf" style="--c:${WEEKDAY_COLOR[i]}"><small>${WEEKDAY_SHORT[i]}</small>${r.worm ? `<span class="femoji">${WORM.emoji}</span>` : artOf(r.sp)}` +
+      `<b class="${r.score < 0 ? 'minus' : ''}">${r.score}</b>${r.night ? '<i>🌙×2</i>' : ''}</div>`).join('');
     $('#sum-eq').innerHTML = '';
     $('#sum-total').innerHTML = '';
     $('#sum-rank').innerHTML = '';
     $('#sum-ask').classList.remove('show');
     showOverlay('#overlay-sum', true);
-    let total = 0;
-    if (!fish.length) {
-      await talk(nar('バケツが からっぽ…'));
-    } else {
-      await talk(nar('いっしゅうかん おつかれさま！ のこった さかなを たしざん しよう！'));
-    }
+    await talk(nar('いっしゅうかん おつかれさま！ まいにちの きろくを たしざん しよう！'));
     const cards = $('#sum-fish').querySelectorAll('.sf');
     const eq = $('#sum-eq');
     const sign = n => (n < 0 ? `<span class="minus">${n}</span>` : n);
-    for (let i = 0; i < fish.length; i++) {
-      const n = fish[i].n;
+    let total = 0;
+    for (let i = 0; i < recs.length; i++) {
+      const n = recs[i].score;
       cards.forEach(c => c.classList.remove('now'));
       cards[i].classList.add('now');
-      cards[i].scrollIntoView({ block: 'nearest', inline: 'nearest' });
       if (i === 0) {
         total = n;
         eq.innerHTML = `<b>${sign(n)}</b>`;
@@ -953,15 +829,14 @@
       $('#sum-total').innerHTML = `ごうけい <b>${sign(total)}</b>`;
       await sleep(300);
     }
-    cards.forEach(c => c.classList.remove('now'));
-    $('#sum-total').innerHTML = `ごうけい <b>${sign(total)}</b>`;
     eq.innerHTML = `ぜんぶで <b>${sign(total)}</b>`;
     Sound.fanfare();
     confetti($('#overlay-sum'));
     await talk(nar('ぜんぶで'), Keys.num(total), nar('に なったよ！'));
 
     // ランキング
-    const entry = { score: total, at: Date.now(), fish: fish.length, best: fish.reduce((b, f) => Math.max(b, f.n), -99) };
+    const best = recs.reduce((b, r) => Math.max(b, r.n), -99);
+    const entry = { score: total, at: Date.now(), fish: week.caught, best };
     const ranking = [...save.ranking, entry].sort((a, b) => b.score - a.score || a.at - b.at);
     const rank = ranking.indexOf(entry);
     save.ranking = ranking.slice(0, 10);
@@ -986,7 +861,7 @@
       const d = new Date(r.at);
       const best = r.best > -99 ? speciesOf(Math.max(-10, Math.min(100, r.best))) : null;
       return `<div class="rk${mine && r.at === mine.at ? ' mine' : ''}"><span class="rk-i">${medal[i] || i + 1}</span>` +
-        `<b class="rk-score">${r.score}</b><span class="rk-fish">${best ? best.emoji : ''} ${r.fish}ひき</span>` +
+        `<b class="rk-score">${r.score}</b><span class="rk-fish">${best ? `<span class="rk-art">${artOf(best)}</span>` : ''} ${r.fish}ひき</span>` +
         `<small>${d.getMonth() + 1}/${d.getDate()}</small></div>`;
     }).join('');
   }
@@ -1015,20 +890,18 @@
     cancelAll();
     const today = new Date();
     const start = calendarNext || new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
-    week = { start, bucket: [], clockCaught: 0, caught: 0 };
-    hint = { said: {}, timer: 0 };
-    day = { idx: 0, now: DAY_START, end: BASE_END, clockAt: Infinity, clockDone: true };
+    week = { start, held: { ...WORM, sp: speciesOf(1), worm: true, night: false }, records: [], clockCaught: 0, caught: 0, said: {} };
+    hint = { said: 0, timer: 0 };
+    day = { idx: 0, now: DAY_START, end: BASE_END, nightSaid: false };
     phase = 'busy';
     ['#overlay-sum', '#overlay-bye', '#overlay-pause'].forEach(id => showOverlay(id, false));
     $('#hud-clock').innerHTML = '';
+    $('#ripples').innerHTML = '';
     showScreen('screen-play');
     keepAwake(true);
     if (!history.state || !history.state.play) history.pushState({ play: true }, '');
-    clearPool();
     layout();
     renderHud();
-    renderBaits();
-    renderSpots();
     try {
       await showDay(null, 0);
       startDay(0);
@@ -1047,7 +920,6 @@
   $('#btn-resume').onclick = () => {
     showOverlay('#overlay-pause', false);
     paused = false;
-    if (['spot', 'bait', 'ready'].includes(phase)) nextStep();
   };
   $('#btn-quit').onclick = () => bye();
   window.addEventListener('popstate', () => {
@@ -1060,19 +932,27 @@
     }
   });
 
-  function bye() {
-    cancelAll();
+  const PLAY_OVERLAYS = ['#overlay-sum', '#overlay-pause', '#overlay-catch', '#overlay-compare', '#overlay-time', '#overlay-day'];
+  function resetPlay() {
     week = null;
     phase = 'off';
+    line.on = false;
+    $('#bobber').hidden = true;
+    $('#splash').hidden = true;
+    $('#mash').hidden = true;
+    hideGuide();
+  }
+  function bye() {
+    cancelAll();
+    resetPlay();
     calendarNext = null;
-    clearPool();
-    ['#overlay-sum', '#overlay-pause', '#overlay-catch', '#overlay-time', '#overlay-day'].forEach(id => showOverlay(id, false));
+    PLAY_OVERLAYS.forEach(id => showOverlay(id, false));
     const kinds = [...new Set(sessionCaught)];
     $('#overlay-bye .bye-text').innerHTML =
       `きょうは <b>${sessionCaught.length}ひき</b> つったよ！<br>ずかん ${Object.keys(save.species).length} / ${SPECIES.length + 1}`;
     $('#overlay-bye .bye-parade').innerHTML = kinds.map(id => {
       const sp = id === 'clock' ? CLOCK_FISH : SPECIES.find(s => s.id === id);
-      return `<span>${emojiHTML(sp)}</span>`;
+      return `<span>${artOf(sp)}</span>`;
     }).join('');
     showOverlay('#overlay-bye', true);
     Sound.say(nar('きょうも がんばったね。また あしたね！'));
@@ -1083,16 +963,10 @@
 
   function goTitle(fromBack) {
     cancelAll();
-    week = null;
-    phase = 'off';
+    resetPlay();
     keepAwake(false);
-    clearPool();
-    line.on = false;
-    $('#bobber').hidden = true;
-    $('#mash').hidden = true;
     if (!fromBack && history.state && history.state.play) history.back();
-    ['#overlay-sum', '#overlay-bye', '#overlay-pause', '#overlay-catch', '#overlay-time', '#overlay-day', '#overlay-zukan', '#overlay-rank', '#overlay-cloud']
-      .forEach(id => showOverlay(id, false));
+    [...PLAY_OVERLAYS, '#overlay-bye', '#overlay-zukan', '#overlay-rank', '#overlay-cloud'].forEach(id => showOverlay(id, false));
     renderTitle();
     showScreen('screen-title');
   }
@@ -1108,10 +982,9 @@
     $('#zukan-count').textContent = `${kinds}/${SPECIES.length + 1}`;
     const sea = $('#title-sea');
     if (!sea.childElementCount) {
-      const show = [SPECIES[4], SPECIES[6], SPECIES[11], SPECIES[9], SPECIES[19], SPECIES[20]];
-      sea.innerHTML = show.map((sp, i) =>
-        `<div class="tfish" style="top:${12 + (i * 37) % 70}%;animation-delay:${-i * 2.3}s;animation-duration:${12 + i * 2}s;font-size:${26 + i * 5}px">` +
-        `${emojiHTML(sp)}<span class="fnum">${[2, 8, 33, 23, 90, 97][i]}</span></div>`).join('');
+      sea.innerHTML = `<div class="title-cat">${Art.cat()}</div><div class="title-water"><span class="rings"><i></i><i></i><i></i></span></div>` +
+        ['medaka', 'kingyo', 'aji', 'nettai'].map((id, i) =>
+          `<div class="tfish" style="left:${30 + i * 17}%;animation-delay:${-i * 0.9}s">${artOf({ id })}<span class="fnum">${[2, 8, 18, 45][i]}</span></div>`).join('');
     }
   }
 
@@ -1126,8 +999,8 @@
     $('#zukan-numbers').hidden = zukanTab !== 'numbers';
     $('#zukan-species').innerHTML = all.map(sp => {
       const n = save.species[sp.id] || 0;
-      const range = sp === CLOCK_FISH ? '⏰' : sp.min === sp.max ? `${sp.min}` : `${sp.min}〜${sp.max}`;
-      return `<button class="zk${n ? ' got' : ''}" data-id="${sp.id}">${emojiHTML(sp)}` +
+      const range = sp === CLOCK_FISH ? '⏰ 2じかん' : sp.min === sp.max ? `${sp.min}` : `${sp.min}〜${sp.max}`;
+      return `<button class="zk${n ? ' got' : ''}" data-id="${sp.id}"><span class="zk-art">${artOf(sp)}</span>` +
         `<b>${n ? sp.name : '？？？'}</b><small>${range}</small>${n ? `<i>×${n}</i>` : ''}</button>`;
     }).join('');
     let s = '<div class="zn-row minus">';
@@ -1142,7 +1015,7 @@
   }
   function numCell(n) {
     const got = save.numbers[n];
-    return `<button class="zn${got ? ' got' : ''}${n < 0 ? ' neg' : ''}" data-n="${n}">${got ? `<span class="zn-e">${speciesOf(n).emoji}</span>` : ''}${n}</button>`;
+    return `<button class="zn${got ? ' got' : ''}${n < 0 ? ' neg' : ''}" data-n="${n}">${n}</button>`;
   }
   $('#zukan-species').addEventListener('click', e => {
     const b = e.target.closest('.zk.got');
@@ -1231,8 +1104,6 @@
     get week() { return week; },
     get day() { return day; },
     get phase() { return phase; },
-    get pool() { return pool; },
-    tierWeights: b => tierWeights(b),
   };
 
   renderTitle();

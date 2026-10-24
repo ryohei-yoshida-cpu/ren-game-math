@@ -4,7 +4,7 @@
 // ほぞんする ファイルの しゅるいを かえたら VERSION を あげる
 // GitHub Pages では「ひらがなまてまて」と おなじ ばしょ（オリジン）に なるので、キャッシュの なまえには sujitsuri- を つけて、
 // じぶんの ものしか けさない
-const VERSION = 'v1';
+const VERSION = 'v2';
 const PREFIX = 'sujitsuri-';
 const APP = PREFIX + 'app-' + VERSION;
 const FONTS = PREFIX + 'fonts-v1';
@@ -14,6 +14,7 @@ const FILES = [
   './manifest.webmanifest',
   './css/style.css',
   './js/data.js',
+  './js/art.js',
   './js/voicebox.js',
   './js/sound.js',
   './js/cloud-config.js',

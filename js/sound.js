@@ -257,6 +257,12 @@ window.Sound = (() => {
       [79, 84, 88, 91, 96].forEach((m, i) => tone(midi(m), i * 0.06, 0.3, { type: 'triangle', vol: 0.1 }));
       noise(0, 0.4, { vol: 0.08, freq: 7000 });
     },
+    caw() {
+      [0, 0.45].forEach(t => {
+        tone(620, t, 0.22, { type: 'sawtooth', vol: 0.05, slide: 0.7 });
+        noise(t, 0.2, { vol: 0.12, freq: 1400 });
+      });
+    },
     // ---- とけい・こよみ ----
     tick() { tone(1800, 0, 0.04, { type: 'square', vol: 0.05 }); },
     hourChime(i) {
