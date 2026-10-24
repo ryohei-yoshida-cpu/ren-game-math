@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="すうじつり">
+  <meta name="theme-color" content="#bfe9ff">
+  <title>つって おぼえる すうじつり</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- タイトル -->
+    <section id="screen-title" class="screen active">
+      <h1 class="logo">
+        <span class="logo-sub">つって おぼえる</span>
+        <span class="logo-main">🎣 すうじつり</span>
+      </h1>
+      <div id="title-sea" class="title-sea" aria-hidden="true"></div>
+      <p id="title-stats" class="title-stats"></p>
+      <button id="btn-play" class="btn btn-go btn-big">▶ あそぶ</button>
+      <div class="title-menu">
+        <button id="btn-zukan" class="btn btn-soft">📖 ずかん <small id="zukan-count"></small></button>
+        <button id="btn-rank" class="btn btn-soft">🏆 ランキング</button>
+        <button id="btn-studio" class="btn btn-soft">🎙 こえ</button>
+        <button id="btn-cloud" class="btn btn-soft">☁️ きょうゆう</button>
+      </div>
+      <div class="title-foot">
+        <button id="btn-install" class="btn btn-soft" hidden>📲 ホームがめんに ついか</button>
+        <button id="btn-reset" class="btn-tiny">さいしょから（おとなよう）</button>
+        <p class="credit">こえ: VOICEVOX:春日部つむぎ・VOICEVOX:ずんだもん</p>
+      </div>
+    </section>
+
+    <!-- あそぶ -->
+    <section id="screen-play" class="screen">
+      <div class="hud">
+        <button id="btn-home" class="btn-icon" aria-label="やめる">🏠</button>
+        <div id="hud-week" class="hud-week"></div>
+        <div id="hud-clockfish" class="hud-clockfish" aria-label="じかんざかな"></div>
+      </div>
+      <div class="hud hud2">
+        <div id="hud-date" class="hud-date"></div>
+        <div id="hud-clock" class="hud-clock"></div>
+        <div class="hud-time">
+          <div id="hud-now" class="hud-now"></div>
+          <div id="hud-end" class="hud-end"></div>
+        </div>
+      </div>
+      <div id="timeline" class="timeline"></div>
+
+      <div id="scene" class="scene">
+        <div class="sky">
+          <div id="sun" class="sun">☀️</div>
+          <div class="stars">✨ ⭐ ✨ ⭐ ✨</div>
+        </div>
+        <div class="bank">
+          <div class="pier"></div>
+          <div id="fisher" class="fisher"><span class="kid">🧒</span><span class="cat">🐱</span><div id="cat-say" class="cat-say"></div></div>
+        </div>
+        <div id="water" class="water">
+          <div id="spots" class="spots"></div>
+          <div id="pool" class="pool"></div>
+        </div>
+        <svg id="line" class="line" aria-hidden="true"></svg>
+        <div id="bobber" class="bobber" hidden>🔴</div>
+        <div id="mash" class="mash" hidden>
+          <div class="mash-label">れんだ！ <span class="mash-hand">👆</span></div>
+          <div class="mash-bar"><div id="mash-fill" class="mash-fill"></div></div>
+        </div>
+        <div id="guide" class="guide"></div>
+      </div>
+
+      <div class="dock">
+        <div class="bait-head">えさ <small id="bucket-count"></small></div>
+        <div id="baits" class="baits"></div>
+        <button id="btn-fish" class="btn btn-go btn-fish" disabled>🎣 つる！</button>
+      </div>
+    </section>
+
+    <!-- つれた！ -->
+    <div id="overlay-catch" class="overlay catch-overlay">
+      <div class="panel catch-panel">
+        <div class="catch-new">🆕 あたらしい なかま！</div>
+        <div id="catch-fish" class="catch-fish"></div>
+        <div id="catch-num" class="catch-num"></div>
+        <div id="catch-name" class="catch-name"></div>
+        <div id="catch-say" class="catch-say">せーの！</div>
+      </div>
+    </div>
+
+    <!-- じかんが のびる -->
+    <div id="overlay-time" class="overlay time-overlay">
+      <div class="panel time-panel">
+        <div id="time-title" class="time-title"></div>
+        <div id="time-clock" class="time-clock"></div>
+        <div id="time-digital" class="time-digital"></div>
+        <div id="time-plus" class="time-plus"></div>
+        <div id="time-line" class="timeline big"></div>
+      </div>
+    </div>
+
+    <!-- ようびが かわる -->
+    <div id="overlay-day" class="overlay day-overlay">
+      <div class="day-box">
+        <div id="day-title" class="day-title"></div>
+        <div id="day-strip" class="day-strip"></div>
+        <div id="day-date" class="day-date"></div>
+        <div id="day-note" class="day-note"></div>
+      </div>
+    </div>
+
+    <!-- たしざん -->
+    <div id="overlay-sum" class="overlay sum-overlay">
+      <div class="panel panel-wide sum-panel">
+        <div class="zukan-title">🪣 たしざん しよう！</div>
+        <div id="sum-fish" class="sum-fish"></div>
+        <div id="sum-eq" class="sum-eq"></div>
+        <div id="sum-total" class="sum-total"></div>
+        <div id="sum-rank" class="sum-rank"></div>
+        <div id="sum-ask" class="ask">
+          <p class="ask-q">きょうは やめとく？</p>
+          <div class="ask-btns">
+            <button id="btn-more" class="btn btn-go btn-big">まだ やる！</button>
+            <button id="btn-stop" class="btn btn-soft">やめとく</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- とちゅうで やめとく？ -->
+    <div id="overlay-pause" class="overlay">
+      <div class="panel">
+        <div class="bye-title">やめとく？</div>
+        <p class="bye-text">やめると この しゅうの さかなは きえちゃうよ<br><small>（ずかんは のこるよ）</small></p>
+        <div class="ask-btns">
+          <button id="btn-resume" class="btn btn-go btn-big">まだ やる！</button>
+          <button id="btn-quit" class="btn btn-soft">やめとく</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- またね -->
+    <div id="overlay-bye" class="overlay">
+      <div class="panel">
+        <div class="bye-title">またね！</div>
+        <div class="bye-wave" aria-hidden="true">👋</div>
+        <p class="bye-text"></p>
+        <div class="parade bye-parade"></div>
+        <button id="btn-bye" class="btn btn-soft">おわる</button>
+      </div>
+    </div>
+
+    <!-- ずかん -->
+    <div id="overlay-zukan" class="overlay">
+      <div class="panel panel-wide">
+        <div class="zukan-title">📖 ずかん</div>
+        <div class="zukan-tabs">
+          <button class="ztab on" data-tab="species">🐟 さかな <small id="zk-species"></small></button>
+          <button class="ztab" data-tab="numbers">🔢 すうじ <small id="zk-numbers"></small></button>
+        </div>
+        <div id="zukan-species" class="zukan-species"></div>
+        <div id="zukan-numbers" class="zukan-numbers" hidden></div>
+        <button id="btn-zukan-close" class="btn btn-soft">とじる</button>
+      </div>
+    </div>
+
+    <!-- ランキング -->
+    <div id="overlay-rank" class="overlay">
+      <div class="panel">
+        <div class="zukan-title">🏆 ランキング</div>
+        <div id="rank-list" class="rank-list"></div>
+        <button id="btn-rank-close" class="btn btn-soft">とじる</button>
+      </div>
+    </div>
+
+    <!-- ☁️ データ きょうゆう -->
+    <div id="overlay-cloud" class="overlay">
+      <div class="panel cloud">
+        <div class="studio-head">
+          <div class="studio-title">☁️ データ きょうゆう</div>
+          <button id="cloud-close" class="btn-icon" aria-label="とじる">✕</button>
+        </div>
+        <p class="cloud-lead">ID を いれると、ずかん・ランキング・とった こえを ウェブに ほぞんします。<br>
+          ほかの スマホで おなじ ID を いれると、おなじ データで あそべます。</p>
+        <div id="cloud-setup" class="cloud-box" hidden>
+          まだ セットアップが できていません（おとなよう）。<br>README の「データを ほかの スマホと きょうゆう する」を みてね。
+        </div>
+        <div id="cloud-form" class="cloud-box" hidden>
+          <label class="cloud-label" for="cloud-id">ID（8もじ いじょう・えいすうじと -）</label>
+          <input id="cloud-id" class="cloud-input" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="tako-ab12-cd34">
+          <div class="cloud-btns">
+            <button id="cloud-connect" class="btn btn-go">つなぐ</button>
+            <button id="cloud-new" class="btn btn-soft">ID を つくる</button>
+          </div>
+          <p class="cloud-note">はじめての ときは「ID を つくる」→「つなぐ」。ほかの スマホでは その ID を いれて「つなぐ」。「ひらがなまてまて」と おなじ ID でも だいじょうぶ（データは まざりません）。</p>
+        </div>
+        <div id="cloud-linked" class="cloud-box" hidden>
+          <div class="cloud-label">つながっている ID</div>
+          <div class="cloud-id-now"><span id="cloud-id-now"></span> <button id="cloud-copy" class="btn-tiny">コピー</button></div>
+          <div id="cloud-state" class="cloud-state"></div>
+          <div id="cloud-choice" class="cloud-choice" hidden>
+            <div class="cloud-compare">
+              <div><span class="cloud-label">📱 この スマホ</span><b id="cloud-here"></b></div>
+              <div><span class="cloud-label">☁️ ウェブ</span><b id="cloud-web"></b></div>
+            </div>
+            <button id="cloud-merge" class="btn btn-go cloud-pick">🔀 まぜる（おすすめ）<small>りょうほうの ずかんと ランキングを あわせる</small></button>
+            <button id="cloud-pull" class="btn btn-soft cloud-pick">⬇️ うけいれる<small>ウェブの データを この スマホに いれる</small></button>
+            <button id="cloud-push" class="btn btn-soft cloud-pick">⬆️ こうしんする<small>この スマホの データで ウェブを うわがき</small></button>
+            <button id="cloud-cancel" class="btn-tiny">やめる</button>
+          </div>
+          <div id="cloud-btns-linked" class="cloud-btns">
+            <button id="cloud-sync" class="btn btn-go">いま どうきする</button>
+            <button id="cloud-unlink" class="btn btn-soft">きょうゆうを やめる</button>
+          </div>
+        </div>
+        <p id="cloud-msg" class="studio-msg" aria-live="polite"></p>
+        <p class="cloud-note">⚠️ ID を しっている ひとは だれでも データを みたり かえたり できます。かぞく だけの ひみつに してね。</p>
+      </div>
+    </div>
+
+    <!-- 🎙 こえの スタジオ -->
+    <div id="overlay-studio" class="overlay">
+      <div class="panel panel-wide studio">
+        <div class="studio-head">
+          <div class="studio-title">🎙 こえの スタジオ</div>
+          <button id="studio-close" class="btn-icon" aria-label="とじる">✕</button>
+        </div>
+        <div id="studio-request" class="studio-request" hidden></div>
+        <div class="studio-me">
+          <label>なまえ <input id="studio-name" maxlength="12" placeholder="パパ"></label>
+          <label class="studio-use"><input type="checkbox" id="studio-use"> とった こえを つかう</label>
+        </div>
+        <div id="studio-tabs" class="studio-tabs"></div>
+        <input id="studio-search" class="studio-search" type="search" placeholder="🔍 セリフを さがす（すうじも さがせるよ）">
+        <div id="studio-list" class="studio-list"></div>
+        <p id="studio-msg" class="studio-msg" aria-live="polite"></p>
+        <div class="studio-foot">
+          <button id="studio-ask" class="btn btn-soft">📨 えらんだ セリフを LINEで たのむ</button>
+          <button id="studio-send" class="btn btn-go">📤 とった こえを おくる</button>
+          <label class="btn btn-soft studio-import">📥 こえを よみこむ<input id="studio-file" type="file" accept=".pdf,application/pdf,.txt,.json,text/plain,application/json" hidden></label>
+        </div>
+      </div>
+      <!-- こえパックの なにを いれるか えらぶ -->
+      <div id="import-dialog" class="sub-dialog import-dialog">
+        <div class="panel panel-wide">
+          <div class="studio-title imp-title">📥 こえパック</div>
+          <p class="imp-lead">いれる セリフに ✓ を つけてね。▶ で きけるよ</p>
+          <div class="imp-body"></div>
+          <div class="cloud-btns">
+            <button id="imp-ok" class="btn btn-go">いれる</button>
+            <button id="imp-cancel" class="btn btn-soft">やめる</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/voicebox.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/cloud-config.js"></script>
+  <script src="js/cloud.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/studio.js"></script>
+</body>
+</html>

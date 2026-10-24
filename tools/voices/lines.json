@@ -1,0 +1,5103 @@
+[
+ {
+  "who": "narr",
+  "text": "どこで つる？ ゆびで えらんでね"
+ },
+ {
+  "who": "narr",
+  "text": "えさは どれに する？"
+ },
+ {
+  "who": "narr",
+  "text": "「つる！」ボタンを おしてね"
+ },
+ {
+  "who": "kid",
+  "text": "かかったのだ！"
+ },
+ {
+  "who": "kid",
+  "text": "がんばるのだ！"
+ },
+ {
+  "who": "kid",
+  "text": "なんか へんなの つれたのだ…"
+ },
+ {
+  "who": "kid",
+  "text": "つれたのだー！"
+ },
+ {
+  "who": "narr",
+  "text": "なんの すうじの さかなかな？ いってみよう。せーの！"
+ },
+ {
+  "who": "narr",
+  "text": "あたらしい なかまだ！ ずかんに のったよ"
+ },
+ {
+  "who": "narr",
+  "text": "マイナスは ゼロより ちいさい すうじだよ"
+ },
+ {
+  "who": "narr",
+  "text": "つった さかなは えさに できるよ。おおきい すうじの えさだと、おおきい さかなが つれるよ"
+ },
+ {
+  "who": "narr",
+  "text": "じかんざかなだ！"
+ },
+ {
+  "who": "narr",
+  "text": "なんじ なんぷんかな？ いってみよう。せーの！"
+ },
+ {
+  "who": "narr",
+  "text": "の さかなだったから"
+ },
+ {
+  "who": "narr",
+  "text": "のびた！"
+ },
+ {
+  "who": "narr",
+  "text": "おわりの じかんが"
+ },
+ {
+  "who": "narr",
+  "text": "に なったよ！"
+ },
+ {
+  "who": "narr",
+  "text": "に なったよ。きょうの つりは おしまい！"
+ },
+ {
+  "who": "narr",
+  "text": "いっしゅうかん、さかなを つろう！ にちようびから どようびまで だよ"
+ },
+ {
+  "who": "narr",
+  "text": "の つぎは",
+  "read": "の 次は"
+ },
+ {
+  "who": "narr",
+  "text": "いっしゅうかん たったよ！"
+ },
+ {
+  "who": "narr",
+  "text": "きょうは"
+ },
+ {
+  "who": "narr",
+  "text": "までの さかなが いるよ"
+ },
+ {
+  "who": "narr",
+  "text": "から"
+ },
+ {
+  "who": "narr",
+  "text": "まで つれるよ！"
+ },
+ {
+  "who": "narr",
+  "text": "バケツが からっぽ…"
+ },
+ {
+  "who": "narr",
+  "text": "いっしゅうかん おつかれさま！ のこった さかなを たしざん しよう！"
+ },
+ {
+  "who": "narr",
+  "text": "まずは"
+ },
+ {
+  "who": "narr",
+  "text": "は"
+ },
+ {
+  "who": "narr",
+  "text": "ぜんぶで"
+ },
+ {
+  "who": "narr",
+  "text": "ランキング"
+ },
+ {
+  "who": "narr",
+  "text": "しんきろく！"
+ },
+ {
+  "who": "narr",
+  "text": "きょうは やめとく？"
+ },
+ {
+  "who": "narr",
+  "text": "きょうも がんばったね。また あしたね！"
+ },
+ {
+  "who": "narr",
+  "text": "ひく"
+ },
+ {
+  "who": "narr",
+  "text": "たす"
+ },
+ {
+  "who": "narr",
+  "text": "マイナス"
+ },
+ {
+  "who": "num",
+  "text": "0"
+ },
+ {
+  "who": "num",
+  "text": "1"
+ },
+ {
+  "who": "num",
+  "text": "2"
+ },
+ {
+  "who": "num",
+  "text": "3"
+ },
+ {
+  "who": "num",
+  "text": "4"
+ },
+ {
+  "who": "num",
+  "text": "5"
+ },
+ {
+  "who": "num",
+  "text": "6"
+ },
+ {
+  "who": "num",
+  "text": "7"
+ },
+ {
+  "who": "num",
+  "text": "8"
+ },
+ {
+  "who": "num",
+  "text": "9"
+ },
+ {
+  "who": "num",
+  "text": "10"
+ },
+ {
+  "who": "num",
+  "text": "11"
+ },
+ {
+  "who": "num",
+  "text": "12"
+ },
+ {
+  "who": "num",
+  "text": "13"
+ },
+ {
+  "who": "num",
+  "text": "14"
+ },
+ {
+  "who": "num",
+  "text": "15"
+ },
+ {
+  "who": "num",
+  "text": "16"
+ },
+ {
+  "who": "num",
+  "text": "17"
+ },
+ {
+  "who": "num",
+  "text": "18"
+ },
+ {
+  "who": "num",
+  "text": "19"
+ },
+ {
+  "who": "num",
+  "text": "20"
+ },
+ {
+  "who": "num",
+  "text": "21"
+ },
+ {
+  "who": "num",
+  "text": "22"
+ },
+ {
+  "who": "num",
+  "text": "23"
+ },
+ {
+  "who": "num",
+  "text": "24"
+ },
+ {
+  "who": "num",
+  "text": "25"
+ },
+ {
+  "who": "num",
+  "text": "26"
+ },
+ {
+  "who": "num",
+  "text": "27"
+ },
+ {
+  "who": "num",
+  "text": "28"
+ },
+ {
+  "who": "num",
+  "text": "29"
+ },
+ {
+  "who": "num",
+  "text": "30"
+ },
+ {
+  "who": "num",
+  "text": "31"
+ },
+ {
+  "who": "num",
+  "text": "32"
+ },
+ {
+  "who": "num",
+  "text": "33"
+ },
+ {
+  "who": "num",
+  "text": "34"
+ },
+ {
+  "who": "num",
+  "text": "35"
+ },
+ {
+  "who": "num",
+  "text": "36"
+ },
+ {
+  "who": "num",
+  "text": "37"
+ },
+ {
+  "who": "num",
+  "text": "38"
+ },
+ {
+  "who": "num",
+  "text": "39"
+ },
+ {
+  "who": "num",
+  "text": "40"
+ },
+ {
+  "who": "num",
+  "text": "41"
+ },
+ {
+  "who": "num",
+  "text": "42"
+ },
+ {
+  "who": "num",
+  "text": "43"
+ },
+ {
+  "who": "num",
+  "text": "44"
+ },
+ {
+  "who": "num",
+  "text": "45"
+ },
+ {
+  "who": "num",
+  "text": "46"
+ },
+ {
+  "who": "num",
+  "text": "47"
+ },
+ {
+  "who": "num",
+  "text": "48"
+ },
+ {
+  "who": "num",
+  "text": "49"
+ },
+ {
+  "who": "num",
+  "text": "50"
+ },
+ {
+  "who": "num",
+  "text": "51"
+ },
+ {
+  "who": "num",
+  "text": "52"
+ },
+ {
+  "who": "num",
+  "text": "53"
+ },
+ {
+  "who": "num",
+  "text": "54"
+ },
+ {
+  "who": "num",
+  "text": "55"
+ },
+ {
+  "who": "num",
+  "text": "56"
+ },
+ {
+  "who": "num",
+  "text": "57"
+ },
+ {
+  "who": "num",
+  "text": "58"
+ },
+ {
+  "who": "num",
+  "text": "59"
+ },
+ {
+  "who": "num",
+  "text": "60"
+ },
+ {
+  "who": "num",
+  "text": "61"
+ },
+ {
+  "who": "num",
+  "text": "62"
+ },
+ {
+  "who": "num",
+  "text": "63"
+ },
+ {
+  "who": "num",
+  "text": "64"
+ },
+ {
+  "who": "num",
+  "text": "65"
+ },
+ {
+  "who": "num",
+  "text": "66"
+ },
+ {
+  "who": "num",
+  "text": "67"
+ },
+ {
+  "who": "num",
+  "text": "68"
+ },
+ {
+  "who": "num",
+  "text": "69"
+ },
+ {
+  "who": "num",
+  "text": "70"
+ },
+ {
+  "who": "num",
+  "text": "71"
+ },
+ {
+  "who": "num",
+  "text": "72"
+ },
+ {
+  "who": "num",
+  "text": "73"
+ },
+ {
+  "who": "num",
+  "text": "74"
+ },
+ {
+  "who": "num",
+  "text": "75"
+ },
+ {
+  "who": "num",
+  "text": "76"
+ },
+ {
+  "who": "num",
+  "text": "77"
+ },
+ {
+  "who": "num",
+  "text": "78"
+ },
+ {
+  "who": "num",
+  "text": "79"
+ },
+ {
+  "who": "num",
+  "text": "80"
+ },
+ {
+  "who": "num",
+  "text": "81"
+ },
+ {
+  "who": "num",
+  "text": "82"
+ },
+ {
+  "who": "num",
+  "text": "83"
+ },
+ {
+  "who": "num",
+  "text": "84"
+ },
+ {
+  "who": "num",
+  "text": "85"
+ },
+ {
+  "who": "num",
+  "text": "86"
+ },
+ {
+  "who": "num",
+  "text": "87"
+ },
+ {
+  "who": "num",
+  "text": "88"
+ },
+ {
+  "who": "num",
+  "text": "89"
+ },
+ {
+  "who": "num",
+  "text": "90"
+ },
+ {
+  "who": "num",
+  "text": "91"
+ },
+ {
+  "who": "num",
+  "text": "92"
+ },
+ {
+  "who": "num",
+  "text": "93"
+ },
+ {
+  "who": "num",
+  "text": "94"
+ },
+ {
+  "who": "num",
+  "text": "95"
+ },
+ {
+  "who": "num",
+  "text": "96"
+ },
+ {
+  "who": "num",
+  "text": "97"
+ },
+ {
+  "who": "num",
+  "text": "98"
+ },
+ {
+  "who": "num",
+  "text": "99"
+ },
+ {
+  "who": "num",
+  "text": "100"
+ },
+ {
+  "who": "num",
+  "text": "101"
+ },
+ {
+  "who": "num",
+  "text": "102"
+ },
+ {
+  "who": "num",
+  "text": "103"
+ },
+ {
+  "who": "num",
+  "text": "104"
+ },
+ {
+  "who": "num",
+  "text": "105"
+ },
+ {
+  "who": "num",
+  "text": "106"
+ },
+ {
+  "who": "num",
+  "text": "107"
+ },
+ {
+  "who": "num",
+  "text": "108"
+ },
+ {
+  "who": "num",
+  "text": "109"
+ },
+ {
+  "who": "num",
+  "text": "110"
+ },
+ {
+  "who": "num",
+  "text": "111"
+ },
+ {
+  "who": "num",
+  "text": "112"
+ },
+ {
+  "who": "num",
+  "text": "113"
+ },
+ {
+  "who": "num",
+  "text": "114"
+ },
+ {
+  "who": "num",
+  "text": "115"
+ },
+ {
+  "who": "num",
+  "text": "116"
+ },
+ {
+  "who": "num",
+  "text": "117"
+ },
+ {
+  "who": "num",
+  "text": "118"
+ },
+ {
+  "who": "num",
+  "text": "119"
+ },
+ {
+  "who": "num",
+  "text": "120"
+ },
+ {
+  "who": "num",
+  "text": "121"
+ },
+ {
+  "who": "num",
+  "text": "122"
+ },
+ {
+  "who": "num",
+  "text": "123"
+ },
+ {
+  "who": "num",
+  "text": "124"
+ },
+ {
+  "who": "num",
+  "text": "125"
+ },
+ {
+  "who": "num",
+  "text": "126"
+ },
+ {
+  "who": "num",
+  "text": "127"
+ },
+ {
+  "who": "num",
+  "text": "128"
+ },
+ {
+  "who": "num",
+  "text": "129"
+ },
+ {
+  "who": "num",
+  "text": "130"
+ },
+ {
+  "who": "num",
+  "text": "131"
+ },
+ {
+  "who": "num",
+  "text": "132"
+ },
+ {
+  "who": "num",
+  "text": "133"
+ },
+ {
+  "who": "num",
+  "text": "134"
+ },
+ {
+  "who": "num",
+  "text": "135"
+ },
+ {
+  "who": "num",
+  "text": "136"
+ },
+ {
+  "who": "num",
+  "text": "137"
+ },
+ {
+  "who": "num",
+  "text": "138"
+ },
+ {
+  "who": "num",
+  "text": "139"
+ },
+ {
+  "who": "num",
+  "text": "140"
+ },
+ {
+  "who": "num",
+  "text": "141"
+ },
+ {
+  "who": "num",
+  "text": "142"
+ },
+ {
+  "who": "num",
+  "text": "143"
+ },
+ {
+  "who": "num",
+  "text": "144"
+ },
+ {
+  "who": "num",
+  "text": "145"
+ },
+ {
+  "who": "num",
+  "text": "146"
+ },
+ {
+  "who": "num",
+  "text": "147"
+ },
+ {
+  "who": "num",
+  "text": "148"
+ },
+ {
+  "who": "num",
+  "text": "149"
+ },
+ {
+  "who": "num",
+  "text": "150"
+ },
+ {
+  "who": "num",
+  "text": "151"
+ },
+ {
+  "who": "num",
+  "text": "152"
+ },
+ {
+  "who": "num",
+  "text": "153"
+ },
+ {
+  "who": "num",
+  "text": "154"
+ },
+ {
+  "who": "num",
+  "text": "155"
+ },
+ {
+  "who": "num",
+  "text": "156"
+ },
+ {
+  "who": "num",
+  "text": "157"
+ },
+ {
+  "who": "num",
+  "text": "158"
+ },
+ {
+  "who": "num",
+  "text": "159"
+ },
+ {
+  "who": "num",
+  "text": "160"
+ },
+ {
+  "who": "num",
+  "text": "161"
+ },
+ {
+  "who": "num",
+  "text": "162"
+ },
+ {
+  "who": "num",
+  "text": "163"
+ },
+ {
+  "who": "num",
+  "text": "164"
+ },
+ {
+  "who": "num",
+  "text": "165"
+ },
+ {
+  "who": "num",
+  "text": "166"
+ },
+ {
+  "who": "num",
+  "text": "167"
+ },
+ {
+  "who": "num",
+  "text": "168"
+ },
+ {
+  "who": "num",
+  "text": "169"
+ },
+ {
+  "who": "num",
+  "text": "170"
+ },
+ {
+  "who": "num",
+  "text": "171"
+ },
+ {
+  "who": "num",
+  "text": "172"
+ },
+ {
+  "who": "num",
+  "text": "173"
+ },
+ {
+  "who": "num",
+  "text": "174"
+ },
+ {
+  "who": "num",
+  "text": "175"
+ },
+ {
+  "who": "num",
+  "text": "176"
+ },
+ {
+  "who": "num",
+  "text": "177"
+ },
+ {
+  "who": "num",
+  "text": "178"
+ },
+ {
+  "who": "num",
+  "text": "179"
+ },
+ {
+  "who": "num",
+  "text": "180"
+ },
+ {
+  "who": "num",
+  "text": "181"
+ },
+ {
+  "who": "num",
+  "text": "182"
+ },
+ {
+  "who": "num",
+  "text": "183"
+ },
+ {
+  "who": "num",
+  "text": "184"
+ },
+ {
+  "who": "num",
+  "text": "185"
+ },
+ {
+  "who": "num",
+  "text": "186"
+ },
+ {
+  "who": "num",
+  "text": "187"
+ },
+ {
+  "who": "num",
+  "text": "188"
+ },
+ {
+  "who": "num",
+  "text": "189"
+ },
+ {
+  "who": "num",
+  "text": "190"
+ },
+ {
+  "who": "num",
+  "text": "191"
+ },
+ {
+  "who": "num",
+  "text": "192"
+ },
+ {
+  "who": "num",
+  "text": "193"
+ },
+ {
+  "who": "num",
+  "text": "194"
+ },
+ {
+  "who": "num",
+  "text": "195"
+ },
+ {
+  "who": "num",
+  "text": "196"
+ },
+ {
+  "who": "num",
+  "text": "197"
+ },
+ {
+  "who": "num",
+  "text": "198"
+ },
+ {
+  "who": "num",
+  "text": "199"
+ },
+ {
+  "who": "num",
+  "text": "200"
+ },
+ {
+  "who": "num",
+  "text": "201"
+ },
+ {
+  "who": "num",
+  "text": "202"
+ },
+ {
+  "who": "num",
+  "text": "203"
+ },
+ {
+  "who": "num",
+  "text": "204"
+ },
+ {
+  "who": "num",
+  "text": "205"
+ },
+ {
+  "who": "num",
+  "text": "206"
+ },
+ {
+  "who": "num",
+  "text": "207"
+ },
+ {
+  "who": "num",
+  "text": "208"
+ },
+ {
+  "who": "num",
+  "text": "209"
+ },
+ {
+  "who": "num",
+  "text": "210"
+ },
+ {
+  "who": "num",
+  "text": "211"
+ },
+ {
+  "who": "num",
+  "text": "212"
+ },
+ {
+  "who": "num",
+  "text": "213"
+ },
+ {
+  "who": "num",
+  "text": "214"
+ },
+ {
+  "who": "num",
+  "text": "215"
+ },
+ {
+  "who": "num",
+  "text": "216"
+ },
+ {
+  "who": "num",
+  "text": "217"
+ },
+ {
+  "who": "num",
+  "text": "218"
+ },
+ {
+  "who": "num",
+  "text": "219"
+ },
+ {
+  "who": "num",
+  "text": "220"
+ },
+ {
+  "who": "num",
+  "text": "221"
+ },
+ {
+  "who": "num",
+  "text": "222"
+ },
+ {
+  "who": "num",
+  "text": "223"
+ },
+ {
+  "who": "num",
+  "text": "224"
+ },
+ {
+  "who": "num",
+  "text": "225"
+ },
+ {
+  "who": "num",
+  "text": "226"
+ },
+ {
+  "who": "num",
+  "text": "227"
+ },
+ {
+  "who": "num",
+  "text": "228"
+ },
+ {
+  "who": "num",
+  "text": "229"
+ },
+ {
+  "who": "num",
+  "text": "230"
+ },
+ {
+  "who": "num",
+  "text": "231"
+ },
+ {
+  "who": "num",
+  "text": "232"
+ },
+ {
+  "who": "num",
+  "text": "233"
+ },
+ {
+  "who": "num",
+  "text": "234"
+ },
+ {
+  "who": "num",
+  "text": "235"
+ },
+ {
+  "who": "num",
+  "text": "236"
+ },
+ {
+  "who": "num",
+  "text": "237"
+ },
+ {
+  "who": "num",
+  "text": "238"
+ },
+ {
+  "who": "num",
+  "text": "239"
+ },
+ {
+  "who": "num",
+  "text": "240"
+ },
+ {
+  "who": "num",
+  "text": "241"
+ },
+ {
+  "who": "num",
+  "text": "242"
+ },
+ {
+  "who": "num",
+  "text": "243"
+ },
+ {
+  "who": "num",
+  "text": "244"
+ },
+ {
+  "who": "num",
+  "text": "245"
+ },
+ {
+  "who": "num",
+  "text": "246"
+ },
+ {
+  "who": "num",
+  "text": "247"
+ },
+ {
+  "who": "num",
+  "text": "248"
+ },
+ {
+  "who": "num",
+  "text": "249"
+ },
+ {
+  "who": "num",
+  "text": "250"
+ },
+ {
+  "who": "num",
+  "text": "251"
+ },
+ {
+  "who": "num",
+  "text": "252"
+ },
+ {
+  "who": "num",
+  "text": "253"
+ },
+ {
+  "who": "num",
+  "text": "254"
+ },
+ {
+  "who": "num",
+  "text": "255"
+ },
+ {
+  "who": "num",
+  "text": "256"
+ },
+ {
+  "who": "num",
+  "text": "257"
+ },
+ {
+  "who": "num",
+  "text": "258"
+ },
+ {
+  "who": "num",
+  "text": "259"
+ },
+ {
+  "who": "num",
+  "text": "260"
+ },
+ {
+  "who": "num",
+  "text": "261"
+ },
+ {
+  "who": "num",
+  "text": "262"
+ },
+ {
+  "who": "num",
+  "text": "263"
+ },
+ {
+  "who": "num",
+  "text": "264"
+ },
+ {
+  "who": "num",
+  "text": "265"
+ },
+ {
+  "who": "num",
+  "text": "266"
+ },
+ {
+  "who": "num",
+  "text": "267"
+ },
+ {
+  "who": "num",
+  "text": "268"
+ },
+ {
+  "who": "num",
+  "text": "269"
+ },
+ {
+  "who": "num",
+  "text": "270"
+ },
+ {
+  "who": "num",
+  "text": "271"
+ },
+ {
+  "who": "num",
+  "text": "272"
+ },
+ {
+  "who": "num",
+  "text": "273"
+ },
+ {
+  "who": "num",
+  "text": "274"
+ },
+ {
+  "who": "num",
+  "text": "275"
+ },
+ {
+  "who": "num",
+  "text": "276"
+ },
+ {
+  "who": "num",
+  "text": "277"
+ },
+ {
+  "who": "num",
+  "text": "278"
+ },
+ {
+  "who": "num",
+  "text": "279"
+ },
+ {
+  "who": "num",
+  "text": "280"
+ },
+ {
+  "who": "num",
+  "text": "281"
+ },
+ {
+  "who": "num",
+  "text": "282"
+ },
+ {
+  "who": "num",
+  "text": "283"
+ },
+ {
+  "who": "num",
+  "text": "284"
+ },
+ {
+  "who": "num",
+  "text": "285"
+ },
+ {
+  "who": "num",
+  "text": "286"
+ },
+ {
+  "who": "num",
+  "text": "287"
+ },
+ {
+  "who": "num",
+  "text": "288"
+ },
+ {
+  "who": "num",
+  "text": "289"
+ },
+ {
+  "who": "num",
+  "text": "290"
+ },
+ {
+  "who": "num",
+  "text": "291"
+ },
+ {
+  "who": "num",
+  "text": "292"
+ },
+ {
+  "who": "num",
+  "text": "293"
+ },
+ {
+  "who": "num",
+  "text": "294"
+ },
+ {
+  "who": "num",
+  "text": "295"
+ },
+ {
+  "who": "num",
+  "text": "296"
+ },
+ {
+  "who": "num",
+  "text": "297"
+ },
+ {
+  "who": "num",
+  "text": "298"
+ },
+ {
+  "who": "num",
+  "text": "299"
+ },
+ {
+  "who": "num",
+  "text": "300"
+ },
+ {
+  "who": "num",
+  "text": "301"
+ },
+ {
+  "who": "num",
+  "text": "302"
+ },
+ {
+  "who": "num",
+  "text": "303"
+ },
+ {
+  "who": "num",
+  "text": "304"
+ },
+ {
+  "who": "num",
+  "text": "305"
+ },
+ {
+  "who": "num",
+  "text": "306"
+ },
+ {
+  "who": "num",
+  "text": "307"
+ },
+ {
+  "who": "num",
+  "text": "308"
+ },
+ {
+  "who": "num",
+  "text": "309"
+ },
+ {
+  "who": "num",
+  "text": "310"
+ },
+ {
+  "who": "num",
+  "text": "311"
+ },
+ {
+  "who": "num",
+  "text": "312"
+ },
+ {
+  "who": "num",
+  "text": "313"
+ },
+ {
+  "who": "num",
+  "text": "314"
+ },
+ {
+  "who": "num",
+  "text": "315"
+ },
+ {
+  "who": "num",
+  "text": "316"
+ },
+ {
+  "who": "num",
+  "text": "317"
+ },
+ {
+  "who": "num",
+  "text": "318"
+ },
+ {
+  "who": "num",
+  "text": "319"
+ },
+ {
+  "who": "num",
+  "text": "320"
+ },
+ {
+  "who": "num",
+  "text": "321"
+ },
+ {
+  "who": "num",
+  "text": "322"
+ },
+ {
+  "who": "num",
+  "text": "323"
+ },
+ {
+  "who": "num",
+  "text": "324"
+ },
+ {
+  "who": "num",
+  "text": "325"
+ },
+ {
+  "who": "num",
+  "text": "326"
+ },
+ {
+  "who": "num",
+  "text": "327"
+ },
+ {
+  "who": "num",
+  "text": "328"
+ },
+ {
+  "who": "num",
+  "text": "329"
+ },
+ {
+  "who": "num",
+  "text": "330"
+ },
+ {
+  "who": "num",
+  "text": "331"
+ },
+ {
+  "who": "num",
+  "text": "332"
+ },
+ {
+  "who": "num",
+  "text": "333"
+ },
+ {
+  "who": "num",
+  "text": "334"
+ },
+ {
+  "who": "num",
+  "text": "335"
+ },
+ {
+  "who": "num",
+  "text": "336"
+ },
+ {
+  "who": "num",
+  "text": "337"
+ },
+ {
+  "who": "num",
+  "text": "338"
+ },
+ {
+  "who": "num",
+  "text": "339"
+ },
+ {
+  "who": "num",
+  "text": "340"
+ },
+ {
+  "who": "num",
+  "text": "341"
+ },
+ {
+  "who": "num",
+  "text": "342"
+ },
+ {
+  "who": "num",
+  "text": "343"
+ },
+ {
+  "who": "num",
+  "text": "344"
+ },
+ {
+  "who": "num",
+  "text": "345"
+ },
+ {
+  "who": "num",
+  "text": "346"
+ },
+ {
+  "who": "num",
+  "text": "347"
+ },
+ {
+  "who": "num",
+  "text": "348"
+ },
+ {
+  "who": "num",
+  "text": "349"
+ },
+ {
+  "who": "num",
+  "text": "350"
+ },
+ {
+  "who": "num",
+  "text": "351"
+ },
+ {
+  "who": "num",
+  "text": "352"
+ },
+ {
+  "who": "num",
+  "text": "353"
+ },
+ {
+  "who": "num",
+  "text": "354"
+ },
+ {
+  "who": "num",
+  "text": "355"
+ },
+ {
+  "who": "num",
+  "text": "356"
+ },
+ {
+  "who": "num",
+  "text": "357"
+ },
+ {
+  "who": "num",
+  "text": "358"
+ },
+ {
+  "who": "num",
+  "text": "359"
+ },
+ {
+  "who": "num",
+  "text": "360"
+ },
+ {
+  "who": "num",
+  "text": "361"
+ },
+ {
+  "who": "num",
+  "text": "362"
+ },
+ {
+  "who": "num",
+  "text": "363"
+ },
+ {
+  "who": "num",
+  "text": "364"
+ },
+ {
+  "who": "num",
+  "text": "365"
+ },
+ {
+  "who": "num",
+  "text": "366"
+ },
+ {
+  "who": "num",
+  "text": "367"
+ },
+ {
+  "who": "num",
+  "text": "368"
+ },
+ {
+  "who": "num",
+  "text": "369"
+ },
+ {
+  "who": "num",
+  "text": "370"
+ },
+ {
+  "who": "num",
+  "text": "371"
+ },
+ {
+  "who": "num",
+  "text": "372"
+ },
+ {
+  "who": "num",
+  "text": "373"
+ },
+ {
+  "who": "num",
+  "text": "374"
+ },
+ {
+  "who": "num",
+  "text": "375"
+ },
+ {
+  "who": "num",
+  "text": "376"
+ },
+ {
+  "who": "num",
+  "text": "377"
+ },
+ {
+  "who": "num",
+  "text": "378"
+ },
+ {
+  "who": "num",
+  "text": "379"
+ },
+ {
+  "who": "num",
+  "text": "380"
+ },
+ {
+  "who": "num",
+  "text": "381"
+ },
+ {
+  "who": "num",
+  "text": "382"
+ },
+ {
+  "who": "num",
+  "text": "383"
+ },
+ {
+  "who": "num",
+  "text": "384"
+ },
+ {
+  "who": "num",
+  "text": "385"
+ },
+ {
+  "who": "num",
+  "text": "386"
+ },
+ {
+  "who": "num",
+  "text": "387"
+ },
+ {
+  "who": "num",
+  "text": "388"
+ },
+ {
+  "who": "num",
+  "text": "389"
+ },
+ {
+  "who": "num",
+  "text": "390"
+ },
+ {
+  "who": "num",
+  "text": "391"
+ },
+ {
+  "who": "num",
+  "text": "392"
+ },
+ {
+  "who": "num",
+  "text": "393"
+ },
+ {
+  "who": "num",
+  "text": "394"
+ },
+ {
+  "who": "num",
+  "text": "395"
+ },
+ {
+  "who": "num",
+  "text": "396"
+ },
+ {
+  "who": "num",
+  "text": "397"
+ },
+ {
+  "who": "num",
+  "text": "398"
+ },
+ {
+  "who": "num",
+  "text": "399"
+ },
+ {
+  "who": "num",
+  "text": "400"
+ },
+ {
+  "who": "num",
+  "text": "401"
+ },
+ {
+  "who": "num",
+  "text": "402"
+ },
+ {
+  "who": "num",
+  "text": "403"
+ },
+ {
+  "who": "num",
+  "text": "404"
+ },
+ {
+  "who": "num",
+  "text": "405"
+ },
+ {
+  "who": "num",
+  "text": "406"
+ },
+ {
+  "who": "num",
+  "text": "407"
+ },
+ {
+  "who": "num",
+  "text": "408"
+ },
+ {
+  "who": "num",
+  "text": "409"
+ },
+ {
+  "who": "num",
+  "text": "410"
+ },
+ {
+  "who": "num",
+  "text": "411"
+ },
+ {
+  "who": "num",
+  "text": "412"
+ },
+ {
+  "who": "num",
+  "text": "413"
+ },
+ {
+  "who": "num",
+  "text": "414"
+ },
+ {
+  "who": "num",
+  "text": "415"
+ },
+ {
+  "who": "num",
+  "text": "416"
+ },
+ {
+  "who": "num",
+  "text": "417"
+ },
+ {
+  "who": "num",
+  "text": "418"
+ },
+ {
+  "who": "num",
+  "text": "419"
+ },
+ {
+  "who": "num",
+  "text": "420"
+ },
+ {
+  "who": "num",
+  "text": "421"
+ },
+ {
+  "who": "num",
+  "text": "422"
+ },
+ {
+  "who": "num",
+  "text": "423"
+ },
+ {
+  "who": "num",
+  "text": "424"
+ },
+ {
+  "who": "num",
+  "text": "425"
+ },
+ {
+  "who": "num",
+  "text": "426"
+ },
+ {
+  "who": "num",
+  "text": "427"
+ },
+ {
+  "who": "num",
+  "text": "428"
+ },
+ {
+  "who": "num",
+  "text": "429"
+ },
+ {
+  "who": "num",
+  "text": "430"
+ },
+ {
+  "who": "num",
+  "text": "431"
+ },
+ {
+  "who": "num",
+  "text": "432"
+ },
+ {
+  "who": "num",
+  "text": "433"
+ },
+ {
+  "who": "num",
+  "text": "434"
+ },
+ {
+  "who": "num",
+  "text": "435"
+ },
+ {
+  "who": "num",
+  "text": "436"
+ },
+ {
+  "who": "num",
+  "text": "437"
+ },
+ {
+  "who": "num",
+  "text": "438"
+ },
+ {
+  "who": "num",
+  "text": "439"
+ },
+ {
+  "who": "num",
+  "text": "440"
+ },
+ {
+  "who": "num",
+  "text": "441"
+ },
+ {
+  "who": "num",
+  "text": "442"
+ },
+ {
+  "who": "num",
+  "text": "443"
+ },
+ {
+  "who": "num",
+  "text": "444"
+ },
+ {
+  "who": "num",
+  "text": "445"
+ },
+ {
+  "who": "num",
+  "text": "446"
+ },
+ {
+  "who": "num",
+  "text": "447"
+ },
+ {
+  "who": "num",
+  "text": "448"
+ },
+ {
+  "who": "num",
+  "text": "449"
+ },
+ {
+  "who": "num",
+  "text": "450"
+ },
+ {
+  "who": "num",
+  "text": "451"
+ },
+ {
+  "who": "num",
+  "text": "452"
+ },
+ {
+  "who": "num",
+  "text": "453"
+ },
+ {
+  "who": "num",
+  "text": "454"
+ },
+ {
+  "who": "num",
+  "text": "455"
+ },
+ {
+  "who": "num",
+  "text": "456"
+ },
+ {
+  "who": "num",
+  "text": "457"
+ },
+ {
+  "who": "num",
+  "text": "458"
+ },
+ {
+  "who": "num",
+  "text": "459"
+ },
+ {
+  "who": "num",
+  "text": "460"
+ },
+ {
+  "who": "num",
+  "text": "461"
+ },
+ {
+  "who": "num",
+  "text": "462"
+ },
+ {
+  "who": "num",
+  "text": "463"
+ },
+ {
+  "who": "num",
+  "text": "464"
+ },
+ {
+  "who": "num",
+  "text": "465"
+ },
+ {
+  "who": "num",
+  "text": "466"
+ },
+ {
+  "who": "num",
+  "text": "467"
+ },
+ {
+  "who": "num",
+  "text": "468"
+ },
+ {
+  "who": "num",
+  "text": "469"
+ },
+ {
+  "who": "num",
+  "text": "470"
+ },
+ {
+  "who": "num",
+  "text": "471"
+ },
+ {
+  "who": "num",
+  "text": "472"
+ },
+ {
+  "who": "num",
+  "text": "473"
+ },
+ {
+  "who": "num",
+  "text": "474"
+ },
+ {
+  "who": "num",
+  "text": "475"
+ },
+ {
+  "who": "num",
+  "text": "476"
+ },
+ {
+  "who": "num",
+  "text": "477"
+ },
+ {
+  "who": "num",
+  "text": "478"
+ },
+ {
+  "who": "num",
+  "text": "479"
+ },
+ {
+  "who": "num",
+  "text": "480"
+ },
+ {
+  "who": "num",
+  "text": "481"
+ },
+ {
+  "who": "num",
+  "text": "482"
+ },
+ {
+  "who": "num",
+  "text": "483"
+ },
+ {
+  "who": "num",
+  "text": "484"
+ },
+ {
+  "who": "num",
+  "text": "485"
+ },
+ {
+  "who": "num",
+  "text": "486"
+ },
+ {
+  "who": "num",
+  "text": "487"
+ },
+ {
+  "who": "num",
+  "text": "488"
+ },
+ {
+  "who": "num",
+  "text": "489"
+ },
+ {
+  "who": "num",
+  "text": "490"
+ },
+ {
+  "who": "num",
+  "text": "491"
+ },
+ {
+  "who": "num",
+  "text": "492"
+ },
+ {
+  "who": "num",
+  "text": "493"
+ },
+ {
+  "who": "num",
+  "text": "494"
+ },
+ {
+  "who": "num",
+  "text": "495"
+ },
+ {
+  "who": "num",
+  "text": "496"
+ },
+ {
+  "who": "num",
+  "text": "497"
+ },
+ {
+  "who": "num",
+  "text": "498"
+ },
+ {
+  "who": "num",
+  "text": "499"
+ },
+ {
+  "who": "num",
+  "text": "500"
+ },
+ {
+  "who": "num",
+  "text": "501"
+ },
+ {
+  "who": "num",
+  "text": "502"
+ },
+ {
+  "who": "num",
+  "text": "503"
+ },
+ {
+  "who": "num",
+  "text": "504"
+ },
+ {
+  "who": "num",
+  "text": "505"
+ },
+ {
+  "who": "num",
+  "text": "506"
+ },
+ {
+  "who": "num",
+  "text": "507"
+ },
+ {
+  "who": "num",
+  "text": "508"
+ },
+ {
+  "who": "num",
+  "text": "509"
+ },
+ {
+  "who": "num",
+  "text": "510"
+ },
+ {
+  "who": "num",
+  "text": "511"
+ },
+ {
+  "who": "num",
+  "text": "512"
+ },
+ {
+  "who": "num",
+  "text": "513"
+ },
+ {
+  "who": "num",
+  "text": "514"
+ },
+ {
+  "who": "num",
+  "text": "515"
+ },
+ {
+  "who": "num",
+  "text": "516"
+ },
+ {
+  "who": "num",
+  "text": "517"
+ },
+ {
+  "who": "num",
+  "text": "518"
+ },
+ {
+  "who": "num",
+  "text": "519"
+ },
+ {
+  "who": "num",
+  "text": "520"
+ },
+ {
+  "who": "num",
+  "text": "521"
+ },
+ {
+  "who": "num",
+  "text": "522"
+ },
+ {
+  "who": "num",
+  "text": "523"
+ },
+ {
+  "who": "num",
+  "text": "524"
+ },
+ {
+  "who": "num",
+  "text": "525"
+ },
+ {
+  "who": "num",
+  "text": "526"
+ },
+ {
+  "who": "num",
+  "text": "527"
+ },
+ {
+  "who": "num",
+  "text": "528"
+ },
+ {
+  "who": "num",
+  "text": "529"
+ },
+ {
+  "who": "num",
+  "text": "530"
+ },
+ {
+  "who": "num",
+  "text": "531"
+ },
+ {
+  "who": "num",
+  "text": "532"
+ },
+ {
+  "who": "num",
+  "text": "533"
+ },
+ {
+  "who": "num",
+  "text": "534"
+ },
+ {
+  "who": "num",
+  "text": "535"
+ },
+ {
+  "who": "num",
+  "text": "536"
+ },
+ {
+  "who": "num",
+  "text": "537"
+ },
+ {
+  "who": "num",
+  "text": "538"
+ },
+ {
+  "who": "num",
+  "text": "539"
+ },
+ {
+  "who": "num",
+  "text": "540"
+ },
+ {
+  "who": "num",
+  "text": "541"
+ },
+ {
+  "who": "num",
+  "text": "542"
+ },
+ {
+  "who": "num",
+  "text": "543"
+ },
+ {
+  "who": "num",
+  "text": "544"
+ },
+ {
+  "who": "num",
+  "text": "545"
+ },
+ {
+  "who": "num",
+  "text": "546"
+ },
+ {
+  "who": "num",
+  "text": "547"
+ },
+ {
+  "who": "num",
+  "text": "548"
+ },
+ {
+  "who": "num",
+  "text": "549"
+ },
+ {
+  "who": "num",
+  "text": "550"
+ },
+ {
+  "who": "num",
+  "text": "551"
+ },
+ {
+  "who": "num",
+  "text": "552"
+ },
+ {
+  "who": "num",
+  "text": "553"
+ },
+ {
+  "who": "num",
+  "text": "554"
+ },
+ {
+  "who": "num",
+  "text": "555"
+ },
+ {
+  "who": "num",
+  "text": "556"
+ },
+ {
+  "who": "num",
+  "text": "557"
+ },
+ {
+  "who": "num",
+  "text": "558"
+ },
+ {
+  "who": "num",
+  "text": "559"
+ },
+ {
+  "who": "num",
+  "text": "560"
+ },
+ {
+  "who": "num",
+  "text": "561"
+ },
+ {
+  "who": "num",
+  "text": "562"
+ },
+ {
+  "who": "num",
+  "text": "563"
+ },
+ {
+  "who": "num",
+  "text": "564"
+ },
+ {
+  "who": "num",
+  "text": "565"
+ },
+ {
+  "who": "num",
+  "text": "566"
+ },
+ {
+  "who": "num",
+  "text": "567"
+ },
+ {
+  "who": "num",
+  "text": "568"
+ },
+ {
+  "who": "num",
+  "text": "569"
+ },
+ {
+  "who": "num",
+  "text": "570"
+ },
+ {
+  "who": "num",
+  "text": "571"
+ },
+ {
+  "who": "num",
+  "text": "572"
+ },
+ {
+  "who": "num",
+  "text": "573"
+ },
+ {
+  "who": "num",
+  "text": "574"
+ },
+ {
+  "who": "num",
+  "text": "575"
+ },
+ {
+  "who": "num",
+  "text": "576"
+ },
+ {
+  "who": "num",
+  "text": "577"
+ },
+ {
+  "who": "num",
+  "text": "578"
+ },
+ {
+  "who": "num",
+  "text": "579"
+ },
+ {
+  "who": "num",
+  "text": "580"
+ },
+ {
+  "who": "num",
+  "text": "581"
+ },
+ {
+  "who": "num",
+  "text": "582"
+ },
+ {
+  "who": "num",
+  "text": "583"
+ },
+ {
+  "who": "num",
+  "text": "584"
+ },
+ {
+  "who": "num",
+  "text": "585"
+ },
+ {
+  "who": "num",
+  "text": "586"
+ },
+ {
+  "who": "num",
+  "text": "587"
+ },
+ {
+  "who": "num",
+  "text": "588"
+ },
+ {
+  "who": "num",
+  "text": "589"
+ },
+ {
+  "who": "num",
+  "text": "590"
+ },
+ {
+  "who": "num",
+  "text": "591"
+ },
+ {
+  "who": "num",
+  "text": "592"
+ },
+ {
+  "who": "num",
+  "text": "593"
+ },
+ {
+  "who": "num",
+  "text": "594"
+ },
+ {
+  "who": "num",
+  "text": "595"
+ },
+ {
+  "who": "num",
+  "text": "596"
+ },
+ {
+  "who": "num",
+  "text": "597"
+ },
+ {
+  "who": "num",
+  "text": "598"
+ },
+ {
+  "who": "num",
+  "text": "599"
+ },
+ {
+  "who": "num",
+  "text": "600"
+ },
+ {
+  "who": "num",
+  "text": "601"
+ },
+ {
+  "who": "num",
+  "text": "602"
+ },
+ {
+  "who": "num",
+  "text": "603"
+ },
+ {
+  "who": "num",
+  "text": "604"
+ },
+ {
+  "who": "num",
+  "text": "605"
+ },
+ {
+  "who": "num",
+  "text": "606"
+ },
+ {
+  "who": "num",
+  "text": "607"
+ },
+ {
+  "who": "num",
+  "text": "608"
+ },
+ {
+  "who": "num",
+  "text": "609"
+ },
+ {
+  "who": "num",
+  "text": "610"
+ },
+ {
+  "who": "num",
+  "text": "611"
+ },
+ {
+  "who": "num",
+  "text": "612"
+ },
+ {
+  "who": "num",
+  "text": "613"
+ },
+ {
+  "who": "num",
+  "text": "614"
+ },
+ {
+  "who": "num",
+  "text": "615"
+ },
+ {
+  "who": "num",
+  "text": "616"
+ },
+ {
+  "who": "num",
+  "text": "617"
+ },
+ {
+  "who": "num",
+  "text": "618"
+ },
+ {
+  "who": "num",
+  "text": "619"
+ },
+ {
+  "who": "num",
+  "text": "620"
+ },
+ {
+  "who": "num",
+  "text": "621"
+ },
+ {
+  "who": "num",
+  "text": "622"
+ },
+ {
+  "who": "num",
+  "text": "623"
+ },
+ {
+  "who": "num",
+  "text": "624"
+ },
+ {
+  "who": "num",
+  "text": "625"
+ },
+ {
+  "who": "num",
+  "text": "626"
+ },
+ {
+  "who": "num",
+  "text": "627"
+ },
+ {
+  "who": "num",
+  "text": "628"
+ },
+ {
+  "who": "num",
+  "text": "629"
+ },
+ {
+  "who": "num",
+  "text": "630"
+ },
+ {
+  "who": "num",
+  "text": "631"
+ },
+ {
+  "who": "num",
+  "text": "632"
+ },
+ {
+  "who": "num",
+  "text": "633"
+ },
+ {
+  "who": "num",
+  "text": "634"
+ },
+ {
+  "who": "num",
+  "text": "635"
+ },
+ {
+  "who": "num",
+  "text": "636"
+ },
+ {
+  "who": "num",
+  "text": "637"
+ },
+ {
+  "who": "num",
+  "text": "638"
+ },
+ {
+  "who": "num",
+  "text": "639"
+ },
+ {
+  "who": "num",
+  "text": "640"
+ },
+ {
+  "who": "num",
+  "text": "641"
+ },
+ {
+  "who": "num",
+  "text": "642"
+ },
+ {
+  "who": "num",
+  "text": "643"
+ },
+ {
+  "who": "num",
+  "text": "644"
+ },
+ {
+  "who": "num",
+  "text": "645"
+ },
+ {
+  "who": "num",
+  "text": "646"
+ },
+ {
+  "who": "num",
+  "text": "647"
+ },
+ {
+  "who": "num",
+  "text": "648"
+ },
+ {
+  "who": "num",
+  "text": "649"
+ },
+ {
+  "who": "num",
+  "text": "650"
+ },
+ {
+  "who": "num",
+  "text": "651"
+ },
+ {
+  "who": "num",
+  "text": "652"
+ },
+ {
+  "who": "num",
+  "text": "653"
+ },
+ {
+  "who": "num",
+  "text": "654"
+ },
+ {
+  "who": "num",
+  "text": "655"
+ },
+ {
+  "who": "num",
+  "text": "656"
+ },
+ {
+  "who": "num",
+  "text": "657"
+ },
+ {
+  "who": "num",
+  "text": "658"
+ },
+ {
+  "who": "num",
+  "text": "659"
+ },
+ {
+  "who": "num",
+  "text": "660"
+ },
+ {
+  "who": "num",
+  "text": "661"
+ },
+ {
+  "who": "num",
+  "text": "662"
+ },
+ {
+  "who": "num",
+  "text": "663"
+ },
+ {
+  "who": "num",
+  "text": "664"
+ },
+ {
+  "who": "num",
+  "text": "665"
+ },
+ {
+  "who": "num",
+  "text": "666"
+ },
+ {
+  "who": "num",
+  "text": "667"
+ },
+ {
+  "who": "num",
+  "text": "668"
+ },
+ {
+  "who": "num",
+  "text": "669"
+ },
+ {
+  "who": "num",
+  "text": "670"
+ },
+ {
+  "who": "num",
+  "text": "671"
+ },
+ {
+  "who": "num",
+  "text": "672"
+ },
+ {
+  "who": "num",
+  "text": "673"
+ },
+ {
+  "who": "num",
+  "text": "674"
+ },
+ {
+  "who": "num",
+  "text": "675"
+ },
+ {
+  "who": "num",
+  "text": "676"
+ },
+ {
+  "who": "num",
+  "text": "677"
+ },
+ {
+  "who": "num",
+  "text": "678"
+ },
+ {
+  "who": "num",
+  "text": "679"
+ },
+ {
+  "who": "num",
+  "text": "680"
+ },
+ {
+  "who": "num",
+  "text": "681"
+ },
+ {
+  "who": "num",
+  "text": "682"
+ },
+ {
+  "who": "num",
+  "text": "683"
+ },
+ {
+  "who": "num",
+  "text": "684"
+ },
+ {
+  "who": "num",
+  "text": "685"
+ },
+ {
+  "who": "num",
+  "text": "686"
+ },
+ {
+  "who": "num",
+  "text": "687"
+ },
+ {
+  "who": "num",
+  "text": "688"
+ },
+ {
+  "who": "num",
+  "text": "689"
+ },
+ {
+  "who": "num",
+  "text": "690"
+ },
+ {
+  "who": "num",
+  "text": "691"
+ },
+ {
+  "who": "num",
+  "text": "692"
+ },
+ {
+  "who": "num",
+  "text": "693"
+ },
+ {
+  "who": "num",
+  "text": "694"
+ },
+ {
+  "who": "num",
+  "text": "695"
+ },
+ {
+  "who": "num",
+  "text": "696"
+ },
+ {
+  "who": "num",
+  "text": "697"
+ },
+ {
+  "who": "num",
+  "text": "698"
+ },
+ {
+  "who": "num",
+  "text": "699"
+ },
+ {
+  "who": "num",
+  "text": "700"
+ },
+ {
+  "who": "num",
+  "text": "701"
+ },
+ {
+  "who": "num",
+  "text": "702"
+ },
+ {
+  "who": "num",
+  "text": "703"
+ },
+ {
+  "who": "num",
+  "text": "704"
+ },
+ {
+  "who": "num",
+  "text": "705"
+ },
+ {
+  "who": "num",
+  "text": "706"
+ },
+ {
+  "who": "num",
+  "text": "707"
+ },
+ {
+  "who": "num",
+  "text": "708"
+ },
+ {
+  "who": "num",
+  "text": "709"
+ },
+ {
+  "who": "num",
+  "text": "710"
+ },
+ {
+  "who": "num",
+  "text": "711"
+ },
+ {
+  "who": "num",
+  "text": "712"
+ },
+ {
+  "who": "num",
+  "text": "713"
+ },
+ {
+  "who": "num",
+  "text": "714"
+ },
+ {
+  "who": "num",
+  "text": "715"
+ },
+ {
+  "who": "num",
+  "text": "716"
+ },
+ {
+  "who": "num",
+  "text": "717"
+ },
+ {
+  "who": "num",
+  "text": "718"
+ },
+ {
+  "who": "num",
+  "text": "719"
+ },
+ {
+  "who": "num",
+  "text": "720"
+ },
+ {
+  "who": "num",
+  "text": "721"
+ },
+ {
+  "who": "num",
+  "text": "722"
+ },
+ {
+  "who": "num",
+  "text": "723"
+ },
+ {
+  "who": "num",
+  "text": "724"
+ },
+ {
+  "who": "num",
+  "text": "725"
+ },
+ {
+  "who": "num",
+  "text": "726"
+ },
+ {
+  "who": "num",
+  "text": "727"
+ },
+ {
+  "who": "num",
+  "text": "728"
+ },
+ {
+  "who": "num",
+  "text": "729"
+ },
+ {
+  "who": "num",
+  "text": "730"
+ },
+ {
+  "who": "num",
+  "text": "731"
+ },
+ {
+  "who": "num",
+  "text": "732"
+ },
+ {
+  "who": "num",
+  "text": "733"
+ },
+ {
+  "who": "num",
+  "text": "734"
+ },
+ {
+  "who": "num",
+  "text": "735"
+ },
+ {
+  "who": "num",
+  "text": "736"
+ },
+ {
+  "who": "num",
+  "text": "737"
+ },
+ {
+  "who": "num",
+  "text": "738"
+ },
+ {
+  "who": "num",
+  "text": "739"
+ },
+ {
+  "who": "num",
+  "text": "740"
+ },
+ {
+  "who": "num",
+  "text": "741"
+ },
+ {
+  "who": "num",
+  "text": "742"
+ },
+ {
+  "who": "num",
+  "text": "743"
+ },
+ {
+  "who": "num",
+  "text": "744"
+ },
+ {
+  "who": "num",
+  "text": "745"
+ },
+ {
+  "who": "num",
+  "text": "746"
+ },
+ {
+  "who": "num",
+  "text": "747"
+ },
+ {
+  "who": "num",
+  "text": "748"
+ },
+ {
+  "who": "num",
+  "text": "749"
+ },
+ {
+  "who": "num",
+  "text": "750"
+ },
+ {
+  "who": "num",
+  "text": "751"
+ },
+ {
+  "who": "num",
+  "text": "752"
+ },
+ {
+  "who": "num",
+  "text": "753"
+ },
+ {
+  "who": "num",
+  "text": "754"
+ },
+ {
+  "who": "num",
+  "text": "755"
+ },
+ {
+  "who": "num",
+  "text": "756"
+ },
+ {
+  "who": "num",
+  "text": "757"
+ },
+ {
+  "who": "num",
+  "text": "758"
+ },
+ {
+  "who": "num",
+  "text": "759"
+ },
+ {
+  "who": "num",
+  "text": "760"
+ },
+ {
+  "who": "num",
+  "text": "761"
+ },
+ {
+  "who": "num",
+  "text": "762"
+ },
+ {
+  "who": "num",
+  "text": "763"
+ },
+ {
+  "who": "num",
+  "text": "764"
+ },
+ {
+  "who": "num",
+  "text": "765"
+ },
+ {
+  "who": "num",
+  "text": "766"
+ },
+ {
+  "who": "num",
+  "text": "767"
+ },
+ {
+  "who": "num",
+  "text": "768"
+ },
+ {
+  "who": "num",
+  "text": "769"
+ },
+ {
+  "who": "num",
+  "text": "770"
+ },
+ {
+  "who": "num",
+  "text": "771"
+ },
+ {
+  "who": "num",
+  "text": "772"
+ },
+ {
+  "who": "num",
+  "text": "773"
+ },
+ {
+  "who": "num",
+  "text": "774"
+ },
+ {
+  "who": "num",
+  "text": "775"
+ },
+ {
+  "who": "num",
+  "text": "776"
+ },
+ {
+  "who": "num",
+  "text": "777"
+ },
+ {
+  "who": "num",
+  "text": "778"
+ },
+ {
+  "who": "num",
+  "text": "779"
+ },
+ {
+  "who": "num",
+  "text": "780"
+ },
+ {
+  "who": "num",
+  "text": "781"
+ },
+ {
+  "who": "num",
+  "text": "782"
+ },
+ {
+  "who": "num",
+  "text": "783"
+ },
+ {
+  "who": "num",
+  "text": "784"
+ },
+ {
+  "who": "num",
+  "text": "785"
+ },
+ {
+  "who": "num",
+  "text": "786"
+ },
+ {
+  "who": "num",
+  "text": "787"
+ },
+ {
+  "who": "num",
+  "text": "788"
+ },
+ {
+  "who": "num",
+  "text": "789"
+ },
+ {
+  "who": "num",
+  "text": "790"
+ },
+ {
+  "who": "num",
+  "text": "791"
+ },
+ {
+  "who": "num",
+  "text": "792"
+ },
+ {
+  "who": "num",
+  "text": "793"
+ },
+ {
+  "who": "num",
+  "text": "794"
+ },
+ {
+  "who": "num",
+  "text": "795"
+ },
+ {
+  "who": "num",
+  "text": "796"
+ },
+ {
+  "who": "num",
+  "text": "797"
+ },
+ {
+  "who": "num",
+  "text": "798"
+ },
+ {
+  "who": "num",
+  "text": "799"
+ },
+ {
+  "who": "num",
+  "text": "800"
+ },
+ {
+  "who": "num",
+  "text": "801"
+ },
+ {
+  "who": "num",
+  "text": "802"
+ },
+ {
+  "who": "num",
+  "text": "803"
+ },
+ {
+  "who": "num",
+  "text": "804"
+ },
+ {
+  "who": "num",
+  "text": "805"
+ },
+ {
+  "who": "num",
+  "text": "806"
+ },
+ {
+  "who": "num",
+  "text": "807"
+ },
+ {
+  "who": "num",
+  "text": "808"
+ },
+ {
+  "who": "num",
+  "text": "809"
+ },
+ {
+  "who": "num",
+  "text": "810"
+ },
+ {
+  "who": "num",
+  "text": "811"
+ },
+ {
+  "who": "num",
+  "text": "812"
+ },
+ {
+  "who": "num",
+  "text": "813"
+ },
+ {
+  "who": "num",
+  "text": "814"
+ },
+ {
+  "who": "num",
+  "text": "815"
+ },
+ {
+  "who": "num",
+  "text": "816"
+ },
+ {
+  "who": "num",
+  "text": "817"
+ },
+ {
+  "who": "num",
+  "text": "818"
+ },
+ {
+  "who": "num",
+  "text": "819"
+ },
+ {
+  "who": "num",
+  "text": "820"
+ },
+ {
+  "who": "num",
+  "text": "821"
+ },
+ {
+  "who": "num",
+  "text": "822"
+ },
+ {
+  "who": "num",
+  "text": "823"
+ },
+ {
+  "who": "num",
+  "text": "824"
+ },
+ {
+  "who": "num",
+  "text": "825"
+ },
+ {
+  "who": "num",
+  "text": "826"
+ },
+ {
+  "who": "num",
+  "text": "827"
+ },
+ {
+  "who": "num",
+  "text": "828"
+ },
+ {
+  "who": "num",
+  "text": "829"
+ },
+ {
+  "who": "num",
+  "text": "830"
+ },
+ {
+  "who": "num",
+  "text": "831"
+ },
+ {
+  "who": "num",
+  "text": "832"
+ },
+ {
+  "who": "num",
+  "text": "833"
+ },
+ {
+  "who": "num",
+  "text": "834"
+ },
+ {
+  "who": "num",
+  "text": "835"
+ },
+ {
+  "who": "num",
+  "text": "836"
+ },
+ {
+  "who": "num",
+  "text": "837"
+ },
+ {
+  "who": "num",
+  "text": "838"
+ },
+ {
+  "who": "num",
+  "text": "839"
+ },
+ {
+  "who": "num",
+  "text": "840"
+ },
+ {
+  "who": "num",
+  "text": "841"
+ },
+ {
+  "who": "num",
+  "text": "842"
+ },
+ {
+  "who": "num",
+  "text": "843"
+ },
+ {
+  "who": "num",
+  "text": "844"
+ },
+ {
+  "who": "num",
+  "text": "845"
+ },
+ {
+  "who": "num",
+  "text": "846"
+ },
+ {
+  "who": "num",
+  "text": "847"
+ },
+ {
+  "who": "num",
+  "text": "848"
+ },
+ {
+  "who": "num",
+  "text": "849"
+ },
+ {
+  "who": "num",
+  "text": "850"
+ },
+ {
+  "who": "num",
+  "text": "851"
+ },
+ {
+  "who": "num",
+  "text": "852"
+ },
+ {
+  "who": "num",
+  "text": "853"
+ },
+ {
+  "who": "num",
+  "text": "854"
+ },
+ {
+  "who": "num",
+  "text": "855"
+ },
+ {
+  "who": "num",
+  "text": "856"
+ },
+ {
+  "who": "num",
+  "text": "857"
+ },
+ {
+  "who": "num",
+  "text": "858"
+ },
+ {
+  "who": "num",
+  "text": "859"
+ },
+ {
+  "who": "num",
+  "text": "860"
+ },
+ {
+  "who": "num",
+  "text": "861"
+ },
+ {
+  "who": "num",
+  "text": "862"
+ },
+ {
+  "who": "num",
+  "text": "863"
+ },
+ {
+  "who": "num",
+  "text": "864"
+ },
+ {
+  "who": "num",
+  "text": "865"
+ },
+ {
+  "who": "num",
+  "text": "866"
+ },
+ {
+  "who": "num",
+  "text": "867"
+ },
+ {
+  "who": "num",
+  "text": "868"
+ },
+ {
+  "who": "num",
+  "text": "869"
+ },
+ {
+  "who": "num",
+  "text": "870"
+ },
+ {
+  "who": "num",
+  "text": "871"
+ },
+ {
+  "who": "num",
+  "text": "872"
+ },
+ {
+  "who": "num",
+  "text": "873"
+ },
+ {
+  "who": "num",
+  "text": "874"
+ },
+ {
+  "who": "num",
+  "text": "875"
+ },
+ {
+  "who": "num",
+  "text": "876"
+ },
+ {
+  "who": "num",
+  "text": "877"
+ },
+ {
+  "who": "num",
+  "text": "878"
+ },
+ {
+  "who": "num",
+  "text": "879"
+ },
+ {
+  "who": "num",
+  "text": "880"
+ },
+ {
+  "who": "num",
+  "text": "881"
+ },
+ {
+  "who": "num",
+  "text": "882"
+ },
+ {
+  "who": "num",
+  "text": "883"
+ },
+ {
+  "who": "num",
+  "text": "884"
+ },
+ {
+  "who": "num",
+  "text": "885"
+ },
+ {
+  "who": "num",
+  "text": "886"
+ },
+ {
+  "who": "num",
+  "text": "887"
+ },
+ {
+  "who": "num",
+  "text": "888"
+ },
+ {
+  "who": "num",
+  "text": "889"
+ },
+ {
+  "who": "num",
+  "text": "890"
+ },
+ {
+  "who": "num",
+  "text": "891"
+ },
+ {
+  "who": "num",
+  "text": "892"
+ },
+ {
+  "who": "num",
+  "text": "893"
+ },
+ {
+  "who": "num",
+  "text": "894"
+ },
+ {
+  "who": "num",
+  "text": "895"
+ },
+ {
+  "who": "num",
+  "text": "896"
+ },
+ {
+  "who": "num",
+  "text": "897"
+ },
+ {
+  "who": "num",
+  "text": "898"
+ },
+ {
+  "who": "num",
+  "text": "899"
+ },
+ {
+  "who": "num",
+  "text": "900"
+ },
+ {
+  "who": "num",
+  "text": "901"
+ },
+ {
+  "who": "num",
+  "text": "902"
+ },
+ {
+  "who": "num",
+  "text": "903"
+ },
+ {
+  "who": "num",
+  "text": "904"
+ },
+ {
+  "who": "num",
+  "text": "905"
+ },
+ {
+  "who": "num",
+  "text": "906"
+ },
+ {
+  "who": "num",
+  "text": "907"
+ },
+ {
+  "who": "num",
+  "text": "908"
+ },
+ {
+  "who": "num",
+  "text": "909"
+ },
+ {
+  "who": "num",
+  "text": "910"
+ },
+ {
+  "who": "num",
+  "text": "911"
+ },
+ {
+  "who": "num",
+  "text": "912"
+ },
+ {
+  "who": "num",
+  "text": "913"
+ },
+ {
+  "who": "num",
+  "text": "914"
+ },
+ {
+  "who": "num",
+  "text": "915"
+ },
+ {
+  "who": "num",
+  "text": "916"
+ },
+ {
+  "who": "num",
+  "text": "917"
+ },
+ {
+  "who": "num",
+  "text": "918"
+ },
+ {
+  "who": "num",
+  "text": "919"
+ },
+ {
+  "who": "num",
+  "text": "920"
+ },
+ {
+  "who": "num",
+  "text": "921"
+ },
+ {
+  "who": "num",
+  "text": "922"
+ },
+ {
+  "who": "num",
+  "text": "923"
+ },
+ {
+  "who": "num",
+  "text": "924"
+ },
+ {
+  "who": "num",
+  "text": "925"
+ },
+ {
+  "who": "num",
+  "text": "926"
+ },
+ {
+  "who": "num",
+  "text": "927"
+ },
+ {
+  "who": "num",
+  "text": "928"
+ },
+ {
+  "who": "num",
+  "text": "929"
+ },
+ {
+  "who": "num",
+  "text": "930"
+ },
+ {
+  "who": "num",
+  "text": "931"
+ },
+ {
+  "who": "num",
+  "text": "932"
+ },
+ {
+  "who": "num",
+  "text": "933"
+ },
+ {
+  "who": "num",
+  "text": "934"
+ },
+ {
+  "who": "num",
+  "text": "935"
+ },
+ {
+  "who": "num",
+  "text": "936"
+ },
+ {
+  "who": "num",
+  "text": "937"
+ },
+ {
+  "who": "num",
+  "text": "938"
+ },
+ {
+  "who": "num",
+  "text": "939"
+ },
+ {
+  "who": "num",
+  "text": "940"
+ },
+ {
+  "who": "num",
+  "text": "941"
+ },
+ {
+  "who": "num",
+  "text": "942"
+ },
+ {
+  "who": "num",
+  "text": "943"
+ },
+ {
+  "who": "num",
+  "text": "944"
+ },
+ {
+  "who": "num",
+  "text": "945"
+ },
+ {
+  "who": "num",
+  "text": "946"
+ },
+ {
+  "who": "num",
+  "text": "947"
+ },
+ {
+  "who": "num",
+  "text": "948"
+ },
+ {
+  "who": "num",
+  "text": "949"
+ },
+ {
+  "who": "num",
+  "text": "950"
+ },
+ {
+  "who": "num",
+  "text": "951"
+ },
+ {
+  "who": "num",
+  "text": "952"
+ },
+ {
+  "who": "num",
+  "text": "953"
+ },
+ {
+  "who": "num",
+  "text": "954"
+ },
+ {
+  "who": "num",
+  "text": "955"
+ },
+ {
+  "who": "num",
+  "text": "956"
+ },
+ {
+  "who": "num",
+  "text": "957"
+ },
+ {
+  "who": "num",
+  "text": "958"
+ },
+ {
+  "who": "num",
+  "text": "959"
+ },
+ {
+  "who": "num",
+  "text": "960"
+ },
+ {
+  "who": "num",
+  "text": "961"
+ },
+ {
+  "who": "num",
+  "text": "962"
+ },
+ {
+  "who": "num",
+  "text": "963"
+ },
+ {
+  "who": "num",
+  "text": "964"
+ },
+ {
+  "who": "num",
+  "text": "965"
+ },
+ {
+  "who": "num",
+  "text": "966"
+ },
+ {
+  "who": "num",
+  "text": "967"
+ },
+ {
+  "who": "num",
+  "text": "968"
+ },
+ {
+  "who": "num",
+  "text": "969"
+ },
+ {
+  "who": "num",
+  "text": "970"
+ },
+ {
+  "who": "num",
+  "text": "971"
+ },
+ {
+  "who": "num",
+  "text": "972"
+ },
+ {
+  "who": "num",
+  "text": "973"
+ },
+ {
+  "who": "num",
+  "text": "974"
+ },
+ {
+  "who": "num",
+  "text": "975"
+ },
+ {
+  "who": "num",
+  "text": "976"
+ },
+ {
+  "who": "num",
+  "text": "977"
+ },
+ {
+  "who": "num",
+  "text": "978"
+ },
+ {
+  "who": "num",
+  "text": "979"
+ },
+ {
+  "who": "num",
+  "text": "980"
+ },
+ {
+  "who": "num",
+  "text": "981"
+ },
+ {
+  "who": "num",
+  "text": "982"
+ },
+ {
+  "who": "num",
+  "text": "983"
+ },
+ {
+  "who": "num",
+  "text": "984"
+ },
+ {
+  "who": "num",
+  "text": "985"
+ },
+ {
+  "who": "num",
+  "text": "986"
+ },
+ {
+  "who": "num",
+  "text": "987"
+ },
+ {
+  "who": "num",
+  "text": "988"
+ },
+ {
+  "who": "num",
+  "text": "989"
+ },
+ {
+  "who": "num",
+  "text": "990"
+ },
+ {
+  "who": "num",
+  "text": "991"
+ },
+ {
+  "who": "num",
+  "text": "992"
+ },
+ {
+  "who": "num",
+  "text": "993"
+ },
+ {
+  "who": "num",
+  "text": "994"
+ },
+ {
+  "who": "num",
+  "text": "995"
+ },
+ {
+  "who": "num",
+  "text": "996"
+ },
+ {
+  "who": "num",
+  "text": "997"
+ },
+ {
+  "who": "num",
+  "text": "998"
+ },
+ {
+  "who": "num",
+  "text": "999"
+ },
+ {
+  "who": "num",
+  "text": "1000"
+ },
+ {
+  "who": "time",
+  "text": "1じ",
+  "read": "1時"
+ },
+ {
+  "who": "time",
+  "text": "2じ",
+  "read": "2時"
+ },
+ {
+  "who": "time",
+  "text": "3じ",
+  "read": "3時"
+ },
+ {
+  "who": "time",
+  "text": "4じ",
+  "read": "4時"
+ },
+ {
+  "who": "time",
+  "text": "5じ",
+  "read": "5時"
+ },
+ {
+  "who": "time",
+  "text": "6じ",
+  "read": "6時"
+ },
+ {
+  "who": "time",
+  "text": "7じ",
+  "read": "7時"
+ },
+ {
+  "who": "time",
+  "text": "8じ",
+  "read": "8時"
+ },
+ {
+  "who": "time",
+  "text": "9じ",
+  "read": "9時"
+ },
+ {
+  "who": "time",
+  "text": "10じ",
+  "read": "10時"
+ },
+ {
+  "who": "time",
+  "text": "11じ",
+  "read": "11時"
+ },
+ {
+  "who": "time",
+  "text": "12じ",
+  "read": "12時"
+ },
+ {
+  "who": "time",
+  "text": "13じ",
+  "read": "13時"
+ },
+ {
+  "who": "time",
+  "text": "14じ",
+  "read": "14時"
+ },
+ {
+  "who": "time",
+  "text": "15じ",
+  "read": "15時"
+ },
+ {
+  "who": "time",
+  "text": "16じ",
+  "read": "16時"
+ },
+ {
+  "who": "time",
+  "text": "17じ",
+  "read": "17時"
+ },
+ {
+  "who": "time",
+  "text": "18じ",
+  "read": "18時"
+ },
+ {
+  "who": "time",
+  "text": "19じ",
+  "read": "19時"
+ },
+ {
+  "who": "time",
+  "text": "20じ",
+  "read": "20時"
+ },
+ {
+  "who": "time",
+  "text": "21じ",
+  "read": "21時"
+ },
+ {
+  "who": "time",
+  "text": "22じ",
+  "read": "22時"
+ },
+ {
+  "who": "time",
+  "text": "23じ",
+  "read": "23時"
+ },
+ {
+  "who": "time",
+  "text": "24じ",
+  "read": "24時"
+ },
+ {
+  "who": "time",
+  "text": "1ぷん",
+  "read": "1分"
+ },
+ {
+  "who": "time",
+  "text": "2ふん",
+  "read": "2分"
+ },
+ {
+  "who": "time",
+  "text": "3ぷん",
+  "read": "3分"
+ },
+ {
+  "who": "time",
+  "text": "4ぷん",
+  "read": "4分"
+ },
+ {
+  "who": "time",
+  "text": "5ふん",
+  "read": "5分"
+ },
+ {
+  "who": "time",
+  "text": "6ぷん",
+  "read": "6分"
+ },
+ {
+  "who": "time",
+  "text": "7ふん",
+  "read": "7分"
+ },
+ {
+  "who": "time",
+  "text": "8ぷん",
+  "read": "8分"
+ },
+ {
+  "who": "time",
+  "text": "9ふん",
+  "read": "9分"
+ },
+ {
+  "who": "time",
+  "text": "10ぷん",
+  "read": "10分"
+ },
+ {
+  "who": "time",
+  "text": "11ぷん",
+  "read": "11分"
+ },
+ {
+  "who": "time",
+  "text": "12ふん",
+  "read": "12分"
+ },
+ {
+  "who": "time",
+  "text": "13ぷん",
+  "read": "13分"
+ },
+ {
+  "who": "time",
+  "text": "14ぷん",
+  "read": "14分"
+ },
+ {
+  "who": "time",
+  "text": "15ふん",
+  "read": "15分"
+ },
+ {
+  "who": "time",
+  "text": "16ぷん",
+  "read": "16分"
+ },
+ {
+  "who": "time",
+  "text": "17ふん",
+  "read": "17分"
+ },
+ {
+  "who": "time",
+  "text": "18ぷん",
+  "read": "18分"
+ },
+ {
+  "who": "time",
+  "text": "19ふん",
+  "read": "19分"
+ },
+ {
+  "who": "time",
+  "text": "20ぷん",
+  "read": "20分"
+ },
+ {
+  "who": "time",
+  "text": "21ぷん",
+  "read": "21分"
+ },
+ {
+  "who": "time",
+  "text": "22ふん",
+  "read": "22分"
+ },
+ {
+  "who": "time",
+  "text": "23ぷん",
+  "read": "23分"
+ },
+ {
+  "who": "time",
+  "text": "24ぷん",
+  "read": "24分"
+ },
+ {
+  "who": "time",
+  "text": "25ふん",
+  "read": "25分"
+ },
+ {
+  "who": "time",
+  "text": "26ぷん",
+  "read": "26分"
+ },
+ {
+  "who": "time",
+  "text": "27ふん",
+  "read": "27分"
+ },
+ {
+  "who": "time",
+  "text": "28ぷん",
+  "read": "28分"
+ },
+ {
+  "who": "time",
+  "text": "29ふん",
+  "read": "29分"
+ },
+ {
+  "who": "time",
+  "text": "30ぷん",
+  "read": "30分"
+ },
+ {
+  "who": "time",
+  "text": "31ぷん",
+  "read": "31分"
+ },
+ {
+  "who": "time",
+  "text": "32ふん",
+  "read": "32分"
+ },
+ {
+  "who": "time",
+  "text": "33ぷん",
+  "read": "33分"
+ },
+ {
+  "who": "time",
+  "text": "34ぷん",
+  "read": "34分"
+ },
+ {
+  "who": "time",
+  "text": "35ふん",
+  "read": "35分"
+ },
+ {
+  "who": "time",
+  "text": "36ぷん",
+  "read": "36分"
+ },
+ {
+  "who": "time",
+  "text": "37ふん",
+  "read": "37分"
+ },
+ {
+  "who": "time",
+  "text": "38ぷん",
+  "read": "38分"
+ },
+ {
+  "who": "time",
+  "text": "39ふん",
+  "read": "39分"
+ },
+ {
+  "who": "time",
+  "text": "40ぷん",
+  "read": "40分"
+ },
+ {
+  "who": "time",
+  "text": "41ぷん",
+  "read": "41分"
+ },
+ {
+  "who": "time",
+  "text": "42ふん",
+  "read": "42分"
+ },
+ {
+  "who": "time",
+  "text": "43ぷん",
+  "read": "43分"
+ },
+ {
+  "who": "time",
+  "text": "44ぷん",
+  "read": "44分"
+ },
+ {
+  "who": "time",
+  "text": "45ふん",
+  "read": "45分"
+ },
+ {
+  "who": "time",
+  "text": "46ぷん",
+  "read": "46分"
+ },
+ {
+  "who": "time",
+  "text": "47ふん",
+  "read": "47分"
+ },
+ {
+  "who": "time",
+  "text": "48ぷん",
+  "read": "48分"
+ },
+ {
+  "who": "time",
+  "text": "49ふん",
+  "read": "49分"
+ },
+ {
+  "who": "time",
+  "text": "50ぷん",
+  "read": "50分"
+ },
+ {
+  "who": "time",
+  "text": "51ぷん",
+  "read": "51分"
+ },
+ {
+  "who": "time",
+  "text": "52ふん",
+  "read": "52分"
+ },
+ {
+  "who": "time",
+  "text": "53ぷん",
+  "read": "53分"
+ },
+ {
+  "who": "time",
+  "text": "54ぷん",
+  "read": "54分"
+ },
+ {
+  "who": "time",
+  "text": "55ふん",
+  "read": "55分"
+ },
+ {
+  "who": "time",
+  "text": "56ぷん",
+  "read": "56分"
+ },
+ {
+  "who": "time",
+  "text": "57ふん",
+  "read": "57分"
+ },
+ {
+  "who": "time",
+  "text": "58ぷん",
+  "read": "58分"
+ },
+ {
+  "who": "time",
+  "text": "59ふん",
+  "read": "59分"
+ },
+ {
+  "who": "time",
+  "text": "1じかん",
+  "read": "1時間"
+ },
+ {
+  "who": "time",
+  "text": "2じかん",
+  "read": "2時間"
+ },
+ {
+  "who": "time",
+  "text": "3じかん",
+  "read": "3時間"
+ },
+ {
+  "who": "time",
+  "text": "4じかん",
+  "read": "4時間"
+ },
+ {
+  "who": "time",
+  "text": "5じかん",
+  "read": "5時間"
+ },
+ {
+  "who": "time",
+  "text": "6じかん",
+  "read": "6時間"
+ },
+ {
+  "who": "time",
+  "text": "7じかん",
+  "read": "7時間"
+ },
+ {
+  "who": "time",
+  "text": "8じかん",
+  "read": "8時間"
+ },
+ {
+  "who": "time",
+  "text": "9じかん",
+  "read": "9時間"
+ },
+ {
+  "who": "time",
+  "text": "10じかん",
+  "read": "10時間"
+ },
+ {
+  "who": "time",
+  "text": "11じかん",
+  "read": "11時間"
+ },
+ {
+  "who": "time",
+  "text": "12じかん",
+  "read": "12時間"
+ },
+ {
+  "who": "cal",
+  "text": "1がつ",
+  "read": "いちがつ"
+ },
+ {
+  "who": "cal",
+  "text": "2がつ",
+  "read": "にがつ"
+ },
+ {
+  "who": "cal",
+  "text": "3がつ",
+  "read": "さんがつ"
+ },
+ {
+  "who": "cal",
+  "text": "4がつ",
+  "read": "しがつ"
+ },
+ {
+  "who": "cal",
+  "text": "5がつ",
+  "read": "ごがつ"
+ },
+ {
+  "who": "cal",
+  "text": "6がつ",
+  "read": "ろくがつ"
+ },
+ {
+  "who": "cal",
+  "text": "7がつ",
+  "read": "しちがつ"
+ },
+ {
+  "who": "cal",
+  "text": "8がつ",
+  "read": "はちがつ"
+ },
+ {
+  "who": "cal",
+  "text": "9がつ",
+  "read": "くがつ"
+ },
+ {
+  "who": "cal",
+  "text": "10がつ",
+  "read": "じゅうがつ"
+ },
+ {
+  "who": "cal",
+  "text": "11がつ",
+  "read": "じゅういちがつ"
+ },
+ {
+  "who": "cal",
+  "text": "12がつ",
+  "read": "じゅうにがつ"
+ },
+ {
+  "who": "cal",
+  "text": "1にち",
+  "read": "ついたち"
+ },
+ {
+  "who": "cal",
+  "text": "2にち",
+  "read": "ふつか"
+ },
+ {
+  "who": "cal",
+  "text": "3にち",
+  "read": "みっか"
+ },
+ {
+  "who": "cal",
+  "text": "4にち",
+  "read": "よっか"
+ },
+ {
+  "who": "cal",
+  "text": "5にち",
+  "read": "いつか"
+ },
+ {
+  "who": "cal",
+  "text": "6にち",
+  "read": "むいか"
+ },
+ {
+  "who": "cal",
+  "text": "7にち",
+  "read": "なのか"
+ },
+ {
+  "who": "cal",
+  "text": "8にち",
+  "read": "ようか"
+ },
+ {
+  "who": "cal",
+  "text": "9にち",
+  "read": "ここのか"
+ },
+ {
+  "who": "cal",
+  "text": "10にち",
+  "read": "とおか"
+ },
+ {
+  "who": "cal",
+  "text": "11にち",
+  "read": "じゅういちにち"
+ },
+ {
+  "who": "cal",
+  "text": "12にち",
+  "read": "じゅうににち"
+ },
+ {
+  "who": "cal",
+  "text": "13にち",
+  "read": "じゅうさんにち"
+ },
+ {
+  "who": "cal",
+  "text": "14にち",
+  "read": "じゅうよっか"
+ },
+ {
+  "who": "cal",
+  "text": "15にち",
+  "read": "じゅうごにち"
+ },
+ {
+  "who": "cal",
+  "text": "16にち",
+  "read": "じゅうろくにち"
+ },
+ {
+  "who": "cal",
+  "text": "17にち",
+  "read": "じゅうしちにち"
+ },
+ {
+  "who": "cal",
+  "text": "18にち",
+  "read": "じゅうはちにち"
+ },
+ {
+  "who": "cal",
+  "text": "19にち",
+  "read": "じゅうくにち"
+ },
+ {
+  "who": "cal",
+  "text": "20にち",
+  "read": "はつか"
+ },
+ {
+  "who": "cal",
+  "text": "21にち",
+  "read": "にじゅういちにち"
+ },
+ {
+  "who": "cal",
+  "text": "22にち",
+  "read": "にじゅうににち"
+ },
+ {
+  "who": "cal",
+  "text": "23にち",
+  "read": "にじゅうさんにち"
+ },
+ {
+  "who": "cal",
+  "text": "24にち",
+  "read": "にじゅうよっか"
+ },
+ {
+  "who": "cal",
+  "text": "25にち",
+  "read": "にじゅうごにち"
+ },
+ {
+  "who": "cal",
+  "text": "26にち",
+  "read": "にじゅうろくにち"
+ },
+ {
+  "who": "cal",
+  "text": "27にち",
+  "read": "にじゅうしちにち"
+ },
+ {
+  "who": "cal",
+  "text": "28にち",
+  "read": "にじゅうはちにち"
+ },
+ {
+  "who": "cal",
+  "text": "29にち",
+  "read": "にじゅうくにち"
+ },
+ {
+  "who": "cal",
+  "text": "30にち",
+  "read": "さんじゅうにち"
+ },
+ {
+  "who": "cal",
+  "text": "31にち",
+  "read": "さんじゅういちにち"
+ },
+ {
+  "who": "cal",
+  "text": "にちようび"
+ },
+ {
+  "who": "cal",
+  "text": "げつようび"
+ },
+ {
+  "who": "cal",
+  "text": "かようび"
+ },
+ {
+  "who": "cal",
+  "text": "すいようび"
+ },
+ {
+  "who": "cal",
+  "text": "もくようび"
+ },
+ {
+  "who": "cal",
+  "text": "きんようび"
+ },
+ {
+  "who": "cal",
+  "text": "どようび"
+ },
+ {
+  "who": "narr",
+  "text": "ながぐつだ！"
+ },
+ {
+  "who": "narr",
+  "text": "ながぐつ"
+ },
+ {
+  "who": "narr",
+  "text": "あきかんだ！"
+ },
+ {
+  "who": "narr",
+  "text": "あきかん"
+ },
+ {
+  "who": "narr",
+  "text": "くつしただ！"
+ },
+ {
+  "who": "narr",
+  "text": "くつした"
+ },
+ {
+  "who": "narr",
+  "text": "かいがらだ！"
+ },
+ {
+  "who": "narr",
+  "text": "かいがら"
+ },
+ {
+  "who": "narr",
+  "text": "めだかだ！"
+ },
+ {
+  "who": "narr",
+  "text": "めだか"
+ },
+ {
+  "who": "narr",
+  "text": "えびだ！"
+ },
+ {
+  "who": "narr",
+  "text": "えび"
+ },
+ {
+  "who": "narr",
+  "text": "きんぎょだ！"
+ },
+ {
+  "who": "narr",
+  "text": "きんぎょ"
+ },
+ {
+  "who": "narr",
+  "text": "かにだ！"
+ },
+ {
+  "who": "narr",
+  "text": "かに"
+ },
+ {
+  "who": "narr",
+  "text": "あじだ！"
+ },
+ {
+  "who": "narr",
+  "text": "あじ"
+ },
+ {
+  "who": "narr",
+  "text": "いかだ！"
+ },
+ {
+  "who": "narr",
+  "text": "いか"
+ },
+ {
+  "who": "narr",
+  "text": "いせえびだ！"
+ },
+ {
+  "who": "narr",
+  "text": "いせえび"
+ },
+ {
+  "who": "narr",
+  "text": "たこだ！"
+ },
+ {
+  "who": "narr",
+  "text": "たこ"
+ },
+ {
+  "who": "narr",
+  "text": "ふぐだ！"
+ },
+ {
+  "who": "narr",
+  "text": "ふぐ"
+ },
+ {
+  "who": "narr",
+  "text": "ねったいぎょだ！"
+ },
+ {
+  "who": "narr",
+  "text": "ねったいぎょ"
+ },
+ {
+  "who": "narr",
+  "text": "かめだ！"
+ },
+ {
+  "who": "narr",
+  "text": "かめ"
+ },
+ {
+  "who": "narr",
+  "text": "ワニだ！"
+ },
+ {
+  "who": "narr",
+  "text": "ワニ"
+ },
+ {
+  "who": "narr",
+  "text": "アザラシだ！"
+ },
+ {
+  "who": "narr",
+  "text": "アザラシ"
+ },
+ {
+  "who": "narr",
+  "text": "ペンギンだ！"
+ },
+ {
+  "who": "narr",
+  "text": "ペンギン"
+ },
+ {
+  "who": "narr",
+  "text": "イルカだ！"
+ },
+ {
+  "who": "narr",
+  "text": "イルカ"
+ },
+ {
+  "who": "narr",
+  "text": "サメだ！"
+ },
+ {
+  "who": "narr",
+  "text": "サメ"
+ },
+ {
+  "who": "narr",
+  "text": "クジラだ！"
+ },
+ {
+  "who": "narr",
+  "text": "クジラ"
+ },
+ {
+  "who": "narr",
+  "text": "だいおうクジラだ！"
+ },
+ {
+  "who": "narr",
+  "text": "だいおうクジラ"
+ },
+ {
+  "who": "narr",
+  "text": "じかんざかな"
+ },
+ {
+  "who": "narr",
+  "text": "1い！",
+  "read": "1位！"
+ },
+ {
+  "who": "narr",
+  "text": "2い！",
+  "read": "2位！"
+ },
+ {
+  "who": "narr",
+  "text": "3い！",
+  "read": "3位！"
+ },
+ {
+  "who": "narr",
+  "text": "4い！",
+  "read": "4位！"
+ },
+ {
+  "who": "narr",
+  "text": "5い！",
+  "read": "5位！"
+ },
+ {
+  "who": "narr",
+  "text": "6い！",
+  "read": "6位！"
+ },
+ {
+  "who": "narr",
+  "text": "7い！",
+  "read": "7位！"
+ },
+ {
+  "who": "narr",
+  "text": "8い！",
+  "read": "8位！"
+ },
+ {
+  "who": "narr",
+  "text": "9い！",
+  "read": "9位！"
+ },
+ {
+  "who": "narr",
+  "text": "10い！",
+  "read": "10位！"
+ }
+]
