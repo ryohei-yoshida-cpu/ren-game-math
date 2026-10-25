@@ -675,3 +675,5 @@ button { font-family: inherit; color: inherit; cursor: pointer; }
 .ev-label { grid-column: 1 / -1; grid-row: 2; }
 .hud-clock.hour { animation: hourPop .8s ease-in-out; }
 @keyframes hourPop { 30% { transform: scale(1.18) rotate(-5deg); } 60% { transform: scale(1.1) rotate(4deg); } }
+/* とちゅうで とめた ときは いちばん てまえ（ほかの がめんの したに かくれて おせなく ならないように） */
+#overlay-pause { z-index: 30; }

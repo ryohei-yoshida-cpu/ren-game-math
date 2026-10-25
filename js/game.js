@@ -956,10 +956,6 @@
     $('#day-date').innerHTML = `<span>${d.getMonth() + 1}</span>がつ <span>${d.getDate()}</span>にち<b style="color:${WEEKDAY_COLOR[idx]}">${WEEKDAYS[idx]}</b>`;
     Sound.ding(idx);
     await talk(nar('きょうは'), Keys.date(d));
-    if (idx === 0) {
-      $('#day-note').textContent = `⏰ ${timeText(DAY_START)} から ${timeText(BASE_END)} まで・1にち 3かい`;
-      await talk(Keys.ji(7), nar('から'), Keys.ji(18), nar('まで、1にち 3かい つれるよ！'));
-    }
     await sleep(500);
     showOverlay('#overlay-day', false);
   }
