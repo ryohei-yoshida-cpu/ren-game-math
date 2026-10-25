@@ -2,7 +2,11 @@
 //   1しゅうかん（にちようび〜どようび）さかなを つる。1にちは 7じ〜18じ（じかんざかなで 2じかんずつ のびる。さいだい 24じ）
 //   なみを えらぶ → かかったら れんだ（みずしぶきが おおきく なる）→ さかなが とびだして すうじを よみあげる
 //   →「どっちの すうじが おおきい？」で おおきい ほうを のこす（のこした さかなが つぎの えさ）
-//   1にち 3かい つる。つるたびに じかんが すすむ（7じ → 12じ → 15じ → 18じ、よるは 1じかんずつ。よるは 2ばい）
+//   とけいが しゅやく: みぎうえの おおきな とけいは、つって いない ときも 5びょうで 10ぷん すすむ（ながい はりが かっちこっち）
+//   ちょうど 0ぷんに なると「60に なって 0に なったから、みじかい はりが 1つ すすんだ！ ◯じ！」
+//   1にち 3かい つる。つったら ねこが さかなを さばいて ほして、えらんだ こと（ごはん・あそぶ など）を する あいだに
+//   つぎの じかん（12じ → 15じ → 18じ、よるは 1じかんずつ）まで すすむ。よるは 2ばい
+//   「よてい」（パパが おしごとに いく じかん など）を いれると、その じかんで とまって よみあげる
 //   のこした おおきい さかなの すうじが「いまの すうじ」（てんすう）。どようびの おわりの すうじで ランキングへ
 //   じかんざかなは「18じ たす 2じかん は 20じ」と じかんの たしざんを みせる
 (() => {
@@ -32,22 +36,42 @@
   // 1じの ちいさい すうじより したに なったら: たまに マイナス（ながぐつ など）、ときどき かいがら（0）
   const JUNK_RATE = 0.15;
   const SHELL_RATE = 0.25;
+  const IDLE_STEP_MS = 5000;          // つって いない ときは 5びょうで 10ぷん すすむ
 
   // ---------- こえ ----------
   // nar・kid に かいた セリフは tools/voices/lines.mjs が あつめて VOICEVOX で こえに する
   const nar = t => `narr|${t}`;
   const kid = t => `kid|${t}`;
-  // ごはん・おやつ（さりげなく）
-  const MEALS = {
-    [7 * 60]: { icon: '🍙', voice: kid('あさごはん いただきますなのだ！') },
-    [12 * 60]: { icon: '🐟', voice: kid('おさかな ちょっとだけ たべるのだ') },
-    [15 * 60]: { icon: '🍪', voice: kid('おやつなのだ！') },
-    [18 * 60]: { icon: '🍛', voice: kid('ばんごはんなのだ！'), crow: true },
-  };
+  // つった あとに ねこが する こと（えらべる）
+  const ACTIVITIES = [
+    { id: 'gohan', icon: '🍚', props: '🍚🐟🥢', label: 'ごはん たべる', voice: kid('ごはんを たべるのだ') },
+    { id: 'asobu', icon: '⚽', props: '⚽🌼🦋', label: 'そとで あそぶ', voice: kid('そとで あそぶのだ') },
+    { id: 'game', icon: '🎮', props: '🎮✨👾', label: 'ゲームする', voice: kid('ゲームを するのだ') },
+    { id: 'ryouri', icon: '🍳', props: '🍳🔥🥕', label: 'りょうりする', voice: kid('りょうりを するのだ') },
+    { id: 'coffee', icon: '☕', props: '☕♨️📖', label: 'コーヒーを いれる', voice: kid('コーヒーを いれるのだ') },
+    { id: 'oyatsu', icon: '🍪', props: '🍪🍩🥛', label: 'おやつを とる', voice: kid('おやつを たべるのだ') },
+  ];
+  // つった さかなの しまつ（さばく → ほす → すこしは えさ、すこしは ごはん）
+  const CHORES = [
+    { props: '🔪🐟', text: 'さかなを さばいて…', voice: kid('さかなを さばくのだ') },
+    { props: '🐟〰🐟', text: 'ほして…', voice: kid('さかなを ほすのだ') },
+    { props: '🪱🍙', text: 'すこしは えさに、すこしは ごはんに', voice: kid('すこしは えさに、すこしは ごはんに するのだ') },
+  ];
+  // よていの じかんの れい（じぶんで かいても いい。こえは スタジオで ろくおん できる）
+  const EVENT_PRESETS = [
+    nar('パパが おしごとに いく じかん'),
+    nar('ほいくえんの おやつの じかん'),
+    nar('ママが おむかえに くる じかん'),
+    nar('ほいくえんに いく じかん'),
+    nar('あさごはんの じかん'),
+    nar('ばんごはんの じかん'),
+    nar('おふろの じかん'),
+    nar('ねる じかん'),
+  ].map(k => k.slice(5));
 
   // ---------- セーブ ----------
   function defaultSave() {
-    return { species: {}, numbers: {}, ranking: [], weeks: 0 };
+    return { species: {}, numbers: {}, ranking: [], weeks: 0, events: [] };
   }
   function loadSave() {
     try {
@@ -230,13 +254,13 @@
     const night = t >= 18.5 * 60;
     sun.textContent = night ? '🌙' : '☀️';
     const p = night ? Math.min(1, (t - 18.5 * 60) / (5 * 60)) : Math.min(1, (t - DAY_START) / (12.5 * 60));
-    sun.style.left = `${62 + p * 30}%`;
+    sun.style.left = `${46 + p * 18}%`;
     sun.style.top = `${75 - Math.sin(p * Math.PI) * 55}%`;
   }
 
   function renderTime(t = day.now) {
-    setClock($('#hud-clock svg'), t);
-    $('#hud-now').textContent = timeText(t);
+    setClock($('#big-clock svg'), t);
+    $('#bc-digital').textContent = timeText(t);
     $('#hud-end').textContent = `🏁 ${timeText(day.end)} まで`;
     renderTimeline($('#timeline'), t, day.end);
     paintSky(t);
@@ -268,7 +292,7 @@
     const left = CLOCK_MAX - week.clockCaught;
     $('#hud-clockfish').innerHTML = '<small>じかんざかな</small><div>' +
       Array.from({ length: CLOCK_MAX }, (_, i) => `<span class="${i < left ? '' : 'used'}">⏰</span>`).join('') + '</div>';
-    if (!$('#hud-clock svg')) $('#hud-clock').innerHTML = clockSVG(day.now);
+    if (!$('#big-clock svg')) $('#bc-face').innerHTML = clockSVG(day.now, 'bc-svg', { ticks: true });
     renderTime();
     renderHeld();
   }
@@ -372,6 +396,7 @@
 
   function nextTurn() {
     phase = 'spot';
+    idleAt = performance.now();
     mood(null);
     waves = shuffle(WAVES);
     renderRipples();
@@ -690,40 +715,152 @@
     ov.classList.add('zoom');
   }
 
-  // 1かい つったら じかんが すすむ
-  async function advanceTime() {
+  // ---------- とけいを すすめる（かっちこっち）----------
+  // いまの じかん から to まで、10ぷんずつ ながい はりを すすめる。
+  //   ちょうど 0ぷん → みじかい はりが 1つ すすんだ！ / よていの じかん → とまって よみあげる
+  //   quick: つった あとに まとめて すすむ とき（こえを みじかく）
+  function clockSay(html, ms = 2600) {
+    const el = $('#bc-say');
+    el.innerHTML = html;
+    el.classList.remove('show');
+    void el.offsetWidth;
+    el.classList.add('show');
+    clearTimeout(clockSay.t);
+    clockSay.t = setTimeout(() => el.classList.remove('show'), ms / SPEED);
+  }
+  function eventsBetween(a, b) {
+    return (save.events || []).map(e => ({ ...e, t: e.h * 60 + e.m }))
+      .filter(e => e.t > a && e.t <= b).sort((x, y) => x.t - y.t);
+  }
+  async function moveHands(from, to, ms) {
+    const svg = $('#big-clock svg');
+    await tween(ms, k => setClock(svg, from + (to - from) * k));
+  }
+  async function stepClock({ quick = false, said = { hour: 0 } } = {}) {
     const from = day.now;
-    let to = SLOTS.find(s => s > from);
-    if (to == null) to = from + 60;   // よるは 1じかんずつ
-    to = Math.min(to, day.end);
-    openClock('⏰ じかんが すすむよ', from);
-    const show = t => {
-      $('#time-digital').innerHTML = `<span class="td-from">${timeText(from)}</span> → <b>${timeText(t)}</b>`;
-      renderTimeline($('#time-line'), t, day.end);
-    };
-    show(from);
-    await sleep(500);
-    await clockRun(from, to, { stepMs: 70, onStep: show });
-    day.now = to;
+    let next = Math.floor(from / 10) * 10 + 10;
+    const ev = eventsBetween(from, next)[0];
+    if (ev) next = ev.t;
+    $('#big-clock').classList.add('ticking');
+    Sound.tick();
+    await moveHands(from, next, quick ? 260 : 420);
+    Sound.tock();
+    $('#big-clock').classList.remove('ticking');
+    day.now = next;
     renderTime();
-    Sound.hourChime(to / 60);
-    await talk(Keys.ji(to / 60), nar('に なったよ！'));
-    await sleep(300);
-    showOverlay('#overlay-time', false);
-    await meal(to);
+    const [h, m] = hm(next);
+    if (m === 0) {
+      // 50ぷん → 60 → 0ぷん。みじかい はりが 1つ すすむ
+      clockSay(`<b>60</b> に なって <b>0</b> に なったから<br>みじかい はりが 1つ すすんだ！ <b class="big">${h}じ！</b>`, 4200);
+      Sound.hourChime(h);
+      $('#big-clock').classList.add('hour');
+      setTimeout(() => $('#big-clock').classList.remove('hour'), 1200 / SPEED);
+      if (quick && said.hour++ > 0) await talk(nar('みじかい はりが 1つ すすんだ！'), Keys.ji(h));
+      else await talk(nar('60に なって 0に なったから、みじかい はりが 1つ すすんだ！'), Keys.ji(h));
+      if (next === NIGHT) crow();
+    } else if (!ev) {
+      clockSay(`ながい はりが <b>かっち こっち</b><br>${window.funText(m)}`, 1600);
+      if (!quick) await talk(nar('ながい はりが かっちこっち'));
+      else await sleep(200);
+    }
+    if (ev) await announce(ev);
+  }
+  // よていの じかんに なったよ
+  async function announce(ev) {
+    const t = ev.h * 60 + ev.m;
+    $('#big-clock').classList.add('hour');
+    Sound.newOne();
+    clockSay(`⏰ <b class="big">${timeText(t)}</b><br>${esc(ev.label)}`, 5000);
+    catSay('⏰', 2500);
+    await talk(Keys.time(ev.h, ev.m), nar(ev.label), nar('だよ！'));
+    await sleep(800);
+    $('#big-clock').classList.remove('hour');
+  }
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+
+  // つって いない ときも 5びょうで 10ぷん すすむ
+  let idleAt = 0;
+  let idleBusy = false;
+  function idleLoop(now) {
+    requestAnimationFrame(idleLoop);
+    if (!week || !day || paused || phase !== 'spot' || idleBusy) { idleAt = now; return; }
+    if ($('.overlay.show')) { idleAt = now; return; }
+    if ((now - idleAt) * SPEED < IDLE_STEP_MS) return;
+    idleBusy = true;
+    phase = 'tick';
+    (async () => {
+      try {
+        await stepClock();
+        if (day.now >= day.end) return endDay();
+        phase = 'spot';
+      } catch (e) {
+        ignoreCancel(e);
+      } finally {
+        idleBusy = false;
+        idleAt = performance.now();
+      }
+    })();
+  }
+  requestAnimationFrame(idleLoop);
+
+  // 1かい つったら: ねこが さかなを しまつして、えらんだ ことを する あいだに じかんが すすむ
+  async function advanceTime() {
+    let to = SLOTS.find(s => s > day.now);
+    if (to == null) to = day.now + 60;   // よるは 1じかんずつ
+    to = Math.min(to, day.end);
+    const act = await pickActivity();
+    const box = $('#activity');
+    const show = x => {
+      box.innerHTML = `<span class="act-props">${x.props}</span><span class="act-text">${x.text || x.label}</span>`;
+      box.classList.remove('pop');
+      void box.offsetWidth;
+      box.classList.add('pop');
+    };
+    $('#scene').classList.add('doing');
+    box.hidden = false;
+    const said = { hour: 0 };
+    let i = 0;
+    while (day.now < to) {
+      // はじめの 3かいは さかなの しまつ、そのあとは えらんだ こと
+      const x = i < CHORES.length ? CHORES[i] : act;
+      if (i <= CHORES.length) {
+        show(x);
+        mood(x === act ? 'eating' : 'stretch', 1400);
+        Sound.say(x.voice);
+      }
+      i++;
+      await stepClock({ quick: true, said });
+    }
+    box.hidden = true;
+    $('#scene').classList.remove('doing');
+    await talk(Keys.ji(Math.floor(to / 60)), nar('に なったよ！'));
     if (to >= NIGHT && to < day.end && !day.nightSaid) {
       day.nightSaid = true;
       await talk(nar('よるの つりは てんすうが 2ばい！'));
     }
   }
-  // ごはん・おやつ（さりげなく）
-  async function meal(t) {
-    const m = MEALS[t];
-    if (!m) return;
-    catSay(m.icon, 2400);
-    mood('eating', 2000);
-    if (m.crow) crow();
-    await talk(m.voice);
+  // なにを する？
+  function pickActivity() {
+    const ov = $('#overlay-act');
+    $('#act-grid').innerHTML = ACTIVITIES.map(a =>
+      `<button class="act" data-id="${a.id}"><span>${a.icon}</span><b>${a.label}</b></button>`).join('');
+    showOverlay('#overlay-act', true);
+    Sound.say(nar('つぎは なにを する？'));
+    const my = epoch;
+    return new Promise((res, rej) => {
+      const onTap = e => {
+        const b = e.target.closest('.act');
+        if (!b || paused) return;
+        if (my !== epoch) return rej(CANCEL);
+        ov.removeEventListener('click', onTap);
+        Sound.hush();
+        Sound.tap();
+        showOverlay('#overlay-act', false);
+        res(ACTIVITIES.find(a => a.id === b.dataset.id));
+      };
+      ov.addEventListener('click', onTap);
+      window.__act = id => onTap({ target: $(`#act-grid .act[data-id="${id}"]`) });   // テストよう
+    });
   }
   function crow() {
     const c = document.createElement('div');
@@ -795,7 +932,6 @@
     day = { idx, now: DAY_START, end: BASE_END, nightSaid: false };
     layout();
     renderHud();
-    await meal(DAY_START);
     nextTurn();
   }
 
@@ -939,7 +1075,7 @@
     day = { idx: 0, now: DAY_START, end: BASE_END, nightSaid: false };
     phase = 'busy';
     ['#overlay-sum', '#overlay-bye', '#overlay-pause'].forEach(id => showOverlay(id, false));
-    $('#hud-clock').innerHTML = '';
+    $('#bc-face').innerHTML = '';
     $('#ripples').innerHTML = '';
     showScreen('screen-play');
     keepAwake(true);
@@ -976,7 +1112,7 @@
     }
   });
 
-  const PLAY_OVERLAYS = ['#overlay-sum', '#overlay-pause', '#overlay-catch', '#overlay-compare', '#overlay-time', '#overlay-day'];
+  const PLAY_OVERLAYS = ['#overlay-sum', '#overlay-pause', '#overlay-catch', '#overlay-compare', '#overlay-act', '#overlay-time', '#overlay-day'];
   function resetPlay() {
     week = null;
     phase = 'off';
@@ -984,6 +1120,8 @@
     $('#bobber').hidden = true;
     $('#splash').hidden = true;
     $('#mash').hidden = true;
+    $('#activity').hidden = true;
+    $('#scene').classList.remove('doing');
     hideGuide();
   }
   function bye() {
@@ -1010,7 +1148,7 @@
     resetPlay();
     keepAwake(false);
     if (!fromBack && history.state && history.state.play) history.back();
-    [...PLAY_OVERLAYS, '#overlay-bye', '#overlay-zukan', '#overlay-rank', '#overlay-cloud'].forEach(id => showOverlay(id, false));
+    [...PLAY_OVERLAYS, '#overlay-bye', '#overlay-zukan', '#overlay-rank', '#overlay-cloud', '#overlay-events'].forEach(id => showOverlay(id, false));
     renderTitle();
     showScreen('screen-title');
   }
@@ -1024,6 +1162,7 @@
     $('#title-stats').innerHTML = `📖 さかな ${kinds}/${SPECIES.length + 1} ・ 🔢 すうじ ${nums}/111` +
       (best ? `<br>🏆 さいこう ${best.score}` : '');
     $('#zukan-count').textContent = `${kinds}/${SPECIES.length + 1}`;
+    $('#events-count').textContent = (save.events || []).length ? `${save.events.length}こ` : '';
     const sea = $('#title-sea');
     if (!sea.childElementCount) {
       sea.innerHTML = `<div class="title-cat">${Art.cat()}</div><div class="title-water"><span class="rings"><i></i><i></i><i></i></span></div>` +
@@ -1079,6 +1218,57 @@
   document.querySelectorAll('.ztab').forEach(b => {
     b.onclick = () => { zukanTab = b.dataset.tab; renderZukan(); };
   });
+
+  // ---------- ⏰ よていの じかん ----------
+  const pad = n => String(n).padStart(2, '0');
+  function renderEvents() {
+    const list = (save.events || []).slice().sort((a, b) => a.h * 60 + a.m - (b.h * 60 + b.m));
+    $('#ev-presets').innerHTML = EVENT_PRESETS.map(t => `<option value="${esc(t)}">`).join('');
+    $('#ev-list').innerHTML = list.length ? list.map(e =>
+      `<div class="ev-row" data-id="${e.id}"><input type="time" class="ev-time" value="${pad(e.h)}:${pad(e.m)}" min="07:00" max="23:59">` +
+      `<input class="ev-label" list="ev-presets" value="${esc(e.label)}" placeholder="なんの じかん？">` +
+      `<button class="ev-play" aria-label="きく">▶</button><button class="ev-del" aria-label="けす">🗑</button></div>`).join('')
+      : '<p class="sempty">まだ ないよ。「＋ よていを ふやす」で いれてね</p>';
+    $('#events-count').textContent = list.length ? `${list.length}こ` : '';
+  }
+  function saveEvent(row) {
+    const e = save.events.find(x => x.id === row.dataset.id);
+    if (!e) return;
+    const [h, m] = (row.querySelector('.ev-time').value || '00:00').split(':').map(Number);
+    e.h = h;
+    e.m = m;
+    e.label = row.querySelector('.ev-label').value.trim() || EVENT_PRESETS[0];
+    writeSave();
+  }
+  $('#ev-list').addEventListener('change', e => {
+    const row = e.target.closest('.ev-row');
+    if (row) { saveEvent(row); renderEvents(); }
+  });
+  $('#ev-list').addEventListener('click', e => {
+    const row = e.target.closest('.ev-row');
+    if (!row) return;
+    const ev = save.events.find(x => x.id === row.dataset.id);
+    if (e.target.classList.contains('ev-play')) {
+      saveEvent(row);
+      Sound.unlock();
+      Sound.hush();
+      Sound.say([Keys.time(ev.h, ev.m), nar(ev.label), nar('だよ！')]);
+    } else if (e.target.classList.contains('ev-del')) {
+      save.events = save.events.filter(x => x !== ev);
+      writeSave();
+      renderEvents();
+    }
+  });
+  $('#ev-add').onclick = () => {
+    const used = new Set(save.events.map(e => e.label));
+    const label = EVENT_PRESETS.find(t => !used.has(t)) || EVENT_PRESETS[0];
+    const at = { [EVENT_PRESETS[0]]: [8, 10], [EVENT_PRESETS[1]]: [15, 0], [EVENT_PRESETS[2]]: [17, 30] }[label] || [12, 0];
+    save.events.push({ id: `e${Date.now().toString(36)}`, h: at[0], m: at[1], label });
+    writeSave();
+    renderEvents();
+  };
+  $('#btn-events').onclick = () => { renderEvents(); showOverlay('#overlay-events', true); };
+  $('#events-close').onclick = () => showOverlay('#overlay-events', false);
 
   // ---------- ボタン ----------
   $('#btn-play').onclick = () => { Sound.unlock(); calendarNext = null; startWeek(); };
@@ -1148,7 +1338,9 @@
     get week() { return week; },
     get day() { return day; },
     get phase() { return phase; },
+    get events() { return save.events; },
   };
+  window.__customLines = () => (save.events || []).map(e => e.label).filter(t => !EVENT_PRESETS.includes(t));
 
   renderTitle();
 

@@ -66,6 +66,7 @@ window.Cloud = (() => {
       ranking: ranking.slice(0, 10),
       weeks: Math.max(a.weeks || 0, b.weeks || 0),
       hintSeen: !!(a.hintSeen || b.hintSeen),
+      events: (a.events && a.events.length) ? a.events : (b.events || []),
     };
   }
   const same = (x, y) => JSON.stringify(x) === JSON.stringify(y);

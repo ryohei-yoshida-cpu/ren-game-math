@@ -159,18 +159,17 @@ window.Sound = (() => {
       queue = queue.then(() => new Promise(r => setTimeout(r, 20)));
       return queue;
     }
-    const files = list.map(clipId);
-    if (files.some(f => !f)) {
-      const text = list.map(textOf).join(' ');
-      queue = queue.then(() => (my === gen ? speak(text, opts) : null));
-      return queue;
-    }
-    const loads = files.map(clip);   // すぐ よみこみ はじめる
+    // こえの ある ところは つくった こえ、ない ところ（じぶんで いれた よてい など）は ブラウザの よみあげ
+    const parts = list.map(k => {
+      const id = clipId(k);
+      return id ? { load: clip(id) } : { text: textOf(k) };   // すぐ よみこみ はじめる
+    });
     queue = queue.then(async () => {
-      for (const l of loads) {
+      for (const p of parts) {
         if (my !== gen) return;
+        if (p.text) { await speak(p.text, opts); continue; }
         let buf;
-        try { buf = await l; } catch (e) { return; }
+        try { buf = await p.load; } catch (e) { continue; }
         if (my !== gen) return;
         await playBuffer(buf);
       }
@@ -272,7 +271,8 @@ window.Sound = (() => {
       });
     },
     // ---- とけい・こよみ ----
-    tick() { tone(1800, 0, 0.04, { type: 'square', vol: 0.05 }); },
+    tick() { tone(1800, 0, 0.05, { type: 'square', vol: 0.06 }); },
+    tock() { tone(1200, 0, 0.06, { type: 'square', vol: 0.06 }); },
     hourChime(i) {
       const base = 72 + (i % 4) * 2;
       tone(midi(base), 0, 0.35, { type: 'sine', vol: 0.2 });

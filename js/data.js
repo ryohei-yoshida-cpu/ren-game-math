@@ -73,7 +73,7 @@
 
   // VOICEVOX に よませる ときの よみかた（tools/voices/lines.mjs で つかう）
   // VOICEVOX が よみまちがえる セリフ
-  const READ_FIX = { 'の つぎは': 'の 次は' };
+  const READ_FIX = { 'の つぎは': 'の 次は', 'つぎは なにを する？': '次は なにを する？' };
   function reading(who, text) {
     if (READ_FIX[text]) return READ_FIX[text];
     if (who === 'time') {

@@ -37,6 +37,9 @@
       const i = key.indexOf('|');
       return { key, who: key.slice(0, i), text: key.slice(i + 1), id: file.replace(/\.mp3$/, '') };
     });
+    // じぶんで いれた よていの ことば（「⏰ よていの じかん」）
+    const mine = window.__customLines ? window.__customLines() : [];
+    [...new Set(mine)].forEach((t, i) => lines.unshift({ key: `narr|${t}`, who: 'narr', text: t, id: `x${i}` }));
   }
 
   function myName() {
@@ -292,6 +295,7 @@
   // ---- ひらく / とじる ----
   async function open(req = null) {
     request = req;
+    lines = [];   // よていの ことばが かわって いるかも
     await VoiceBox.ready;
     await loadLines();
     try { $('#studio-name').value = localStorage.getItem(NAME_KEY) || ''; } catch (e) { /* むし */ }
