@@ -271,8 +271,7 @@ window.Sound = (() => {
       });
     },
     // ---- とけい・こよみ ----
-    tick() { tone(1800, 0, 0.05, { type: 'square', vol: 0.06 }); },
-    tock() { tone(1200, 0, 0.06, { type: 'square', vol: 0.06 }); },
+    tick() { tone(1800, 0, 0.04, { type: 'square', vol: 0.05 }); },
     hourChime(i) {
       const base = 72 + (i % 4) * 2;
       tone(midi(base), 0, 0.35, { type: 'sine', vol: 0.2 });

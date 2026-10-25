@@ -51,7 +51,11 @@
       </div>
       <div class="hud hud2">
         <div id="hud-date" class="hud-date"></div>
-        <div id="hud-end" class="hud-end"></div>
+        <div id="hud-clock" class="hud-clock"></div>
+        <div class="hud-time">
+          <div id="hud-now" class="hud-now"></div>
+          <div id="hud-end" class="hud-end"></div>
+        </div>
       </div>
       <div id="timeline" class="timeline"></div>
 
@@ -77,12 +81,6 @@
           <div class="mash-label">れんだ！ <span class="mash-hand">👆</span></div>
         </div>
         <div id="guide" class="guide"></div>
-        <div id="activity" class="activity" hidden></div>
-        <div id="big-clock" class="big-clock">
-          <div id="bc-face" class="bc-face"></div>
-          <div id="bc-digital" class="bc-digital"></div>
-          <div id="bc-say" class="bc-say"></div>
-        </div>
         <div id="night-badge" class="night-badge" hidden>🌙 よるは 2ばい！</div>
       </div>
 
@@ -105,14 +103,6 @@
         <div id="catch-fish" class="catch-fish"></div>
         <div id="catch-num" class="catch-num"></div>
         <div id="catch-name" class="catch-name"></div>
-      </div>
-    </div>
-
-    <!-- つぎは なにを する？ -->
-    <div id="overlay-act" class="overlay act-overlay">
-      <div class="panel panel-wide">
-        <div class="compare-q">つぎは なにを する？</div>
-        <div id="act-grid" class="act-grid"></div>
       </div>
     </div>
 
@@ -221,7 +211,7 @@
           <div class="studio-title">⏰ よていの じかん</div>
           <button id="events-close" class="btn-icon" aria-label="とじる">✕</button>
         </div>
-        <p class="cloud-lead">いつもの じかんを いれると、ゲームの とけいが その じかんに なった とき とまって よみあげます。<br>
+        <p class="cloud-lead">いつもの じかんを いれると、つったあとに とけいが すすむ とき、その じかんで とまって よみあげます。<br>
           （れい: 「8じ 10ぷん、パパが おしごとに いく じかんだよ！」）</p>
         <div id="ev-list" class="ev-list"></div>
         <div class="cloud-btns">

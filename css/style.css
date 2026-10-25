@@ -661,58 +661,6 @@ button { font-family: inherit; color: inherit; cursor: pointer; }
 }
 @keyframes column { 0% { transform: rotate(var(--r)) scaleY(.1); opacity: 1; } 50% { transform: rotate(var(--r)) scaleY(1.1); opacity: 1; } 100% { transform: rotate(var(--r)) scaleY(.6) translateY(-20px); opacity: 0; } }
 
-/* ---------- みぎうえの おおきな とけい ---------- */
-.big-clock {
-  position: absolute; right: 8px; top: 8px; z-index: 5; width: clamp(118px, 34vw, 190px);
-  display: flex; flex-direction: column; align-items: center; gap: 2px; transition: transform .5s cubic-bezier(.3, 1.4, .5, 1);
-  transform-origin: 100% 0;
-}
-.bc-face { width: 100%; filter: drop-shadow(0 4px 0 rgba(0, 0, 0, .15)); }
-.bc-face .clock { width: 100%; height: auto; }
-.bc-svg .c-num { font-size: 11px; }
-.bc-digital {
-  font-size: clamp(18px, 5vw, 26px); font-weight: 900; color: #1d3557; background: rgba(255, 255, 255, .9);
-  border-radius: 999px; padding: 0 12px; white-space: nowrap;
-}
-.big-clock.ticking .c-min { stroke: #ff2d55; }
-.big-clock.hour .bc-face { animation: hourPop .8s ease-in-out; }
-@keyframes hourPop { 30% { transform: scale(1.12) rotate(-4deg); } 60% { transform: scale(1.08) rotate(3deg); } }
-.bc-say {
-  position: absolute; right: 100%; top: 18%; margin-right: 8px; width: max-content; max-width: 58vw;
-  background: #fff; border-radius: 16px; padding: 6px 12px; font-size: clamp(14px, 4vw, 18px); font-weight: 900; line-height: 1.4;
-  box-shadow: 0 4px 0 rgba(0, 0, 0, .12); text-align: center; transform: scale(0); transform-origin: 100% 30%;
-  transition: transform .25s cubic-bezier(.3, 1.6, .5, 1);
-}
-.bc-say.show { transform: scale(1); }
-.bc-say b { color: #ff2d55; }
-.bc-say b.big { font-size: 1.5em; color: #1d3557; }
-.scene.doing .big-clock { transform: scale(1.25); }
-.scene.doing .ripples { opacity: .3; pointer-events: none; }
-.night-badge { right: auto; left: 10px; }
-
-/* ねこの しごと・あそび */
-.activity {
-  position: absolute; left: 22%; bottom: 62%; z-index: 4; display: flex; flex-direction: column; align-items: center;
-  background: rgba(255, 255, 255, .92); border-radius: 18px; padding: 6px 12px; box-shadow: 0 4px 0 rgba(0, 0, 0, .12);
-  pointer-events: none; max-width: 46%;
-}
-.activity[hidden] { display: none; }
-.activity.pop { animation: popin .45s cubic-bezier(.3, 1.6, .5, 1); }
-.act-props { font-size: clamp(30px, 9vw, 44px); letter-spacing: 4px; animation: actBob 1s ease-in-out infinite; }
-.act-text { font-size: clamp(13px, 3.6vw, 16px); font-weight: 900; text-align: center; }
-@keyframes actBob { 50% { transform: translateY(-5px) rotate(-3deg); } }
-
-/* なにを する？ */
-.act-overlay { z-index: 12; }
-.act-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
-.act {
-  border: none; border-radius: 20px; background: #eef7fc; padding: 12px 4px; display: flex; flex-direction: column; align-items: center; gap: 4px;
-  font-family: inherit; box-shadow: 0 5px 0 rgba(31, 127, 192, .2); touch-action: manipulation;
-}
-.act span { font-size: clamp(36px, 11vw, 52px); line-height: 1; }
-.act b { font-size: clamp(13px, 3.6vw, 16px); }
-.act:active { transform: translateY(3px); }
-
 /* よていの じかん */
 .title-wide { grid-column: 1 / -1; }
 .ev-list { display: flex; flex-direction: column; gap: 8px; }
@@ -720,9 +668,8 @@ button { font-family: inherit; color: inherit; cursor: pointer; }
 .ev-time { font: inherit; font-size: 18px; font-weight: 900; padding: 6px; border-radius: 10px; border: 2px solid #ead6b3; width: 7.2em; }
 .ev-label { flex: 1; min-width: 0; font: inherit; font-size: 15px; font-weight: 700; padding: 8px; border-radius: 10px; border: 2px solid #ead6b3; }
 .ev-row button { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; border: none; background: #fff; font-size: 16px; box-shadow: 0 3px 0 rgba(74, 52, 38, .15); }
-.guide { left: 38%; }
-.mash { left: 38%; }
-.hud-end { font-size: 16px; }
-.activity { left: 30%; bottom: 46%; padding: 8px 14px; }
-.act-props { font-size: clamp(36px, 11vw, 56px); }
-.act-text { font-size: clamp(15px, 4.2vw, 19px); }
+.time-event:not(:empty) { font-size: clamp(17px, 4.8vw, 22px); font-weight: 900; color: #c2410c; background: #fff4d6; border-radius: 16px; padding: 6px 14px; animation: popin .45s cubic-bezier(.3, 1.6, .5, 1); }
+.time-event b { font-size: 1.3em; color: #1d3557; }
+.ev-row { display: grid; grid-template-columns: 1fr auto auto; gap: 6px; }
+.ev-time { width: 100%; min-width: 0; }
+.ev-label { grid-column: 1 / -1; grid-row: 2; }

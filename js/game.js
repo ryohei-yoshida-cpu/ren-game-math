@@ -2,11 +2,8 @@
 //   1しゅうかん（にちようび〜どようび）さかなを つる。1にちは 7じ〜18じ（じかんざかなで 2じかんずつ のびる。さいだい 24じ）
 //   なみを えらぶ → かかったら れんだ（みずしぶきが おおきく なる）→ さかなが とびだして すうじを よみあげる
 //   →「どっちの すうじが おおきい？」で おおきい ほうを のこす（のこした さかなが つぎの えさ）
-//   とけいが しゅやく: みぎうえの おおきな とけいは、つって いない ときも 5びょうで 10ぷん すすむ（ながい はりが かっちこっち）
-//   ちょうど 0ぷんに なると「60に なって 0に なったから、みじかい はりが 1つ すすんだ！ ◯じ！」
-//   1にち 3かい つる。つったら ねこが さかなを さばいて ほして、えらんだ こと（ごはん・あそぶ など）を する あいだに
-//   つぎの じかん（12じ → 15じ → 18じ、よるは 1じかんずつ）まで すすむ。よるは 2ばい
-//   「よてい」（パパが おしごとに いく じかん など）を いれると、その じかんで とまって よみあげる
+//   1にち 3かい つる。つるたびに じかんが すすむ（7じ → 12じ → 15じ → 18じ、よるは 1じかんずつ。よるは 2ばい）
+//   「よてい」（パパが おしごとに いく じかん など）を いれると、とけいが すすむ とちゅうで とまって よみあげる
 //   のこした おおきい さかなの すうじが「いまの すうじ」（てんすう）。どようびの おわりの すうじで ランキングへ
 //   じかんざかなは「18じ たす 2じかん は 20じ」と じかんの たしざんを みせる
 (() => {
@@ -36,27 +33,19 @@
   // 1じの ちいさい すうじより したに なったら: たまに マイナス（ながぐつ など）、ときどき かいがら（0）
   const JUNK_RATE = 0.15;
   const SHELL_RATE = 0.25;
-  const IDLE_STEP_MS = 5000;          // つって いない ときは 5びょうで 10ぷん すすむ
 
   // ---------- こえ ----------
   // nar・kid に かいた セリフは tools/voices/lines.mjs が あつめて VOICEVOX で こえに する
   const nar = t => `narr|${t}`;
   const kid = t => `kid|${t}`;
-  // つった あとに ねこが する こと（えらべる）
-  const ACTIVITIES = [
-    { id: 'gohan', icon: '🍚', props: '🍚🐟🥢', label: 'ごはん たべる', voice: kid('ごはんを たべるのだ') },
-    { id: 'asobu', icon: '⚽', props: '⚽🌼🦋', label: 'そとで あそぶ', voice: kid('そとで あそぶのだ') },
-    { id: 'game', icon: '🎮', props: '🎮✨👾', label: 'ゲームする', voice: kid('ゲームを するのだ') },
-    { id: 'ryouri', icon: '🍳', props: '🍳🔥🥕', label: 'りょうりする', voice: kid('りょうりを するのだ') },
-    { id: 'coffee', icon: '☕', props: '☕♨️📖', label: 'コーヒーを いれる', voice: kid('コーヒーを いれるのだ') },
-    { id: 'oyatsu', icon: '🍪', props: '🍪🍩🥛', label: 'おやつを とる', voice: kid('おやつを たべるのだ') },
-  ];
-  // つった さかなの しまつ（さばく → ほす → すこしは えさ、すこしは ごはん）
-  const CHORES = [
-    { props: '🔪🐟', text: 'さかなを さばいて…', voice: kid('さかなを さばくのだ') },
-    { props: '🐟〰🐟', text: 'ほして…', voice: kid('さかなを ほすのだ') },
-    { props: '🪱🍙', text: 'すこしは えさに、すこしは ごはんに', voice: kid('すこしは えさに、すこしは ごはんに するのだ') },
-  ];
+  // ごはん・おやつ（さりげなく）
+  const MEALS = {
+    [7 * 60]: { icon: '🍙', voice: kid('あさごはん いただきますなのだ！') },
+    [12 * 60]: { icon: '🐟', voice: kid('おさかな ちょっとだけ たべるのだ') },
+    [15 * 60]: { icon: '🍪', voice: kid('おやつなのだ！') },
+    [18 * 60]: { icon: '🍛', voice: kid('ばんごはんなのだ！'), crow: true },
+  };
+
   // よていの じかんの れい（じぶんで かいても いい。こえは スタジオで ろくおん できる）
   const EVENT_PRESETS = [
     nar('パパが おしごとに いく じかん'),
@@ -254,13 +243,13 @@
     const night = t >= 18.5 * 60;
     sun.textContent = night ? '🌙' : '☀️';
     const p = night ? Math.min(1, (t - 18.5 * 60) / (5 * 60)) : Math.min(1, (t - DAY_START) / (12.5 * 60));
-    sun.style.left = `${46 + p * 18}%`;
+    sun.style.left = `${62 + p * 30}%`;
     sun.style.top = `${75 - Math.sin(p * Math.PI) * 55}%`;
   }
 
   function renderTime(t = day.now) {
-    setClock($('#big-clock svg'), t);
-    $('#bc-digital').textContent = timeText(t);
+    setClock($('#hud-clock svg'), t);
+    $('#hud-now').textContent = timeText(t);
     $('#hud-end').textContent = `🏁 ${timeText(day.end)} まで`;
     renderTimeline($('#timeline'), t, day.end);
     paintSky(t);
@@ -292,7 +281,7 @@
     const left = CLOCK_MAX - week.clockCaught;
     $('#hud-clockfish').innerHTML = '<small>じかんざかな</small><div>' +
       Array.from({ length: CLOCK_MAX }, (_, i) => `<span class="${i < left ? '' : 'used'}">⏰</span>`).join('') + '</div>';
-    if (!$('#big-clock svg')) $('#bc-face').innerHTML = clockSVG(day.now, 'bc-svg', { ticks: true });
+    if (!$('#hud-clock svg')) $('#hud-clock').innerHTML = clockSVG(day.now);
     renderTime();
     renderHeld();
   }
@@ -396,7 +385,6 @@
 
   function nextTurn() {
     phase = 'spot';
-    idleAt = performance.now();
     mood(null);
     waves = shuffle(WAVES);
     renderRipples();
@@ -715,152 +703,68 @@
     ov.classList.add('zoom');
   }
 
-  // ---------- とけいを すすめる（かっちこっち）----------
-  // いまの じかん から to まで、10ぷんずつ ながい はりを すすめる。
-  //   ちょうど 0ぷん → みじかい はりが 1つ すすんだ！ / よていの じかん → とまって よみあげる
-  //   quick: つった あとに まとめて すすむ とき（こえを みじかく）
-  function clockSay(html, ms = 2600) {
-    const el = $('#bc-say');
-    el.innerHTML = html;
-    el.classList.remove('show');
-    void el.offsetWidth;
-    el.classList.add('show');
-    clearTimeout(clockSay.t);
-    clockSay.t = setTimeout(() => el.classList.remove('show'), ms / SPEED);
-  }
-  function eventsBetween(a, b) {
-    return (save.events || []).map(e => ({ ...e, t: e.h * 60 + e.m }))
-      .filter(e => e.t > a && e.t <= b).sort((x, y) => x.t - y.t);
-  }
-  async function moveHands(from, to, ms) {
-    const svg = $('#big-clock svg');
-    await tween(ms, k => setClock(svg, from + (to - from) * k));
-  }
-  async function stepClock({ quick = false, said = { hour: 0 } } = {}) {
-    const from = day.now;
-    let next = Math.floor(from / 10) * 10 + 10;
-    const ev = eventsBetween(from, next)[0];
-    if (ev) next = ev.t;
-    $('#big-clock').classList.add('ticking');
-    Sound.tick();
-    await moveHands(from, next, quick ? 260 : 420);
-    Sound.tock();
-    $('#big-clock').classList.remove('ticking');
-    day.now = next;
-    renderTime();
-    const [h, m] = hm(next);
-    if (m === 0) {
-      // 50ぷん → 60 → 0ぷん。みじかい はりが 1つ すすむ
-      clockSay(`<b>60</b> に なって <b>0</b> に なったから<br>みじかい はりが 1つ すすんだ！ <b class="big">${h}じ！</b>`, 4200);
-      Sound.hourChime(h);
-      $('#big-clock').classList.add('hour');
-      setTimeout(() => $('#big-clock').classList.remove('hour'), 1200 / SPEED);
-      if (quick && said.hour++ > 0) await talk(nar('みじかい はりが 1つ すすんだ！'), Keys.ji(h));
-      else await talk(nar('60に なって 0に なったから、みじかい はりが 1つ すすんだ！'), Keys.ji(h));
-      if (next === NIGHT) crow();
-    } else if (!ev) {
-      clockSay(`ながい はりが <b>かっち こっち</b><br>${window.funText(m)}`, 1600);
-      if (!quick) await talk(nar('ながい はりが かっちこっち'));
-      else await sleep(200);
-    }
-    if (ev) await announce(ev);
-  }
-  // よていの じかんに なったよ
-  async function announce(ev) {
-    const t = ev.h * 60 + ev.m;
-    $('#big-clock').classList.add('hour');
-    Sound.newOne();
-    clockSay(`⏰ <b class="big">${timeText(t)}</b><br>${esc(ev.label)}`, 5000);
-    catSay('⏰', 2500);
-    await talk(Keys.time(ev.h, ev.m), nar(ev.label), nar('だよ！'));
-    await sleep(800);
-    $('#big-clock').classList.remove('hour');
-  }
-  const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-
-  // つって いない ときも 5びょうで 10ぷん すすむ
-  let idleAt = 0;
-  let idleBusy = false;
-  function idleLoop(now) {
-    requestAnimationFrame(idleLoop);
-    if (!week || !day || paused || phase !== 'spot' || idleBusy) { idleAt = now; return; }
-    if ($('.overlay.show')) { idleAt = now; return; }
-    if ((now - idleAt) * SPEED < IDLE_STEP_MS) return;
-    idleBusy = true;
-    phase = 'tick';
-    (async () => {
-      try {
-        await stepClock();
-        if (day.now >= day.end) return endDay();
-        phase = 'spot';
-      } catch (e) {
-        ignoreCancel(e);
-      } finally {
-        idleBusy = false;
-        idleAt = performance.now();
-      }
-    })();
-  }
-  requestAnimationFrame(idleLoop);
-
-  // 1かい つったら: ねこが さかなを しまつして、えらんだ ことを する あいだに じかんが すすむ
+  // 1かい つったら じかんが すすむ
   async function advanceTime() {
-    let to = SLOTS.find(s => s > day.now);
-    if (to == null) to = day.now + 60;   // よるは 1じかんずつ
+    const from = day.now;
+    let to = SLOTS.find(s => s > from);
+    if (to == null) to = from + 60;   // よるは 1じかんずつ
     to = Math.min(to, day.end);
-    const act = await pickActivity();
-    const box = $('#activity');
-    const show = x => {
-      box.innerHTML = `<span class="act-props">${x.props}</span><span class="act-text">${x.text || x.label}</span>`;
-      box.classList.remove('pop');
-      void box.offsetWidth;
-      box.classList.add('pop');
+    openClock('⏰ じかんが すすむよ', from);
+    const show = t => {
+      $('#time-digital').innerHTML = `<span class="td-from">${timeText(from)}</span> → <b>${timeText(t)}</b>`;
+      renderTimeline($('#time-line'), t, day.end);
     };
-    $('#scene').classList.add('doing');
-    box.hidden = false;
-    const said = { hour: 0 };
-    let i = 0;
-    while (day.now < to) {
-      // はじめの 3かいは さかなの しまつ、そのあとは えらんだ こと
-      const x = i < CHORES.length ? CHORES[i] : act;
-      if (i <= CHORES.length) {
-        show(x);
-        mood(x === act ? 'eating' : 'stretch', 1400);
-        Sound.say(x.voice);
+    show(from);
+    await sleep(500);
+    // 10ぷんずつ すすめて、よていの じかんで いちど とまる
+    const svg = $('#time-clock svg');
+    const evs = eventsBetween(from, to);
+    let t = from;
+    for (const ev of [...evs, null]) {
+      const stop = ev ? ev.t : to;
+      while (t < stop) {
+        t = Math.min(stop, Math.floor(t / 10) * 10 + 10);
+        setClock(svg, t);
+        Sound.tick();
+        show(t);
+        await sleep(70);
       }
-      i++;
-      await stepClock({ quick: true, said });
+      if (ev) await announce(ev);
     }
-    box.hidden = true;
-    $('#scene').classList.remove('doing');
-    await talk(Keys.ji(Math.floor(to / 60)), nar('に なったよ！'));
+    day.now = to;
+    renderTime();
+    Sound.hourChime(to / 60);
+    await talk(Keys.ji(to / 60), nar('に なったよ！'));
+    await sleep(300);
+    showOverlay('#overlay-time', false);
+    await meal(to);
     if (to >= NIGHT && to < day.end && !day.nightSaid) {
       day.nightSaid = true;
       await talk(nar('よるの つりは てんすうが 2ばい！'));
     }
   }
-  // なにを する？
-  function pickActivity() {
-    const ov = $('#overlay-act');
-    $('#act-grid').innerHTML = ACTIVITIES.map(a =>
-      `<button class="act" data-id="${a.id}"><span>${a.icon}</span><b>${a.label}</b></button>`).join('');
-    showOverlay('#overlay-act', true);
-    Sound.say(nar('つぎは なにを する？'));
-    const my = epoch;
-    return new Promise((res, rej) => {
-      const onTap = e => {
-        const b = e.target.closest('.act');
-        if (!b || paused) return;
-        if (my !== epoch) return rej(CANCEL);
-        ov.removeEventListener('click', onTap);
-        Sound.hush();
-        Sound.tap();
-        showOverlay('#overlay-act', false);
-        res(ACTIVITIES.find(a => a.id === b.dataset.id));
-      };
-      ov.addEventListener('click', onTap);
-      window.__act = id => onTap({ target: $(`#act-grid .act[data-id="${id}"]`) });   // テストよう
-    });
+  // ---------- よていの じかん ----------
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  function eventsBetween(a, b) {
+    return (save.events || []).map(e => ({ ...e, t: e.h * 60 + e.m }))
+      .filter(e => e.t > a && e.t <= b).sort((x, y) => x.t - y.t);
+  }
+  async function announce(ev) {
+    $('#time-event').innerHTML = `⏰ <b>${timeText(ev.t)}</b><br>${esc(ev.label)}`;
+    Sound.newOne();
+    await talk(Keys.time(ev.h, ev.m), nar(ev.label), nar('だよ！'));
+    await sleep(600);
+    $('#time-event').innerHTML = '';
+  }
+
+  // ごはん・おやつ（さりげなく）
+  async function meal(t) {
+    const m = MEALS[t];
+    if (!m) return;
+    catSay(m.icon, 2400);
+    mood('eating', 2000);
+    if (m.crow) crow();
+    await talk(m.voice);
   }
   function crow() {
     const c = document.createElement('div');
@@ -932,6 +836,12 @@
     day = { idx, now: DAY_START, end: BASE_END, nightSaid: false };
     layout();
     renderHud();
+    await meal(DAY_START);
+    for (const ev of eventsBetween(DAY_START - 1, DAY_START)) {
+      openClock('⏰ よていの じかん', DAY_START);
+      await announce(ev);
+      showOverlay('#overlay-time', false);
+    }
     nextTurn();
   }
 
@@ -1075,7 +985,7 @@
     day = { idx: 0, now: DAY_START, end: BASE_END, nightSaid: false };
     phase = 'busy';
     ['#overlay-sum', '#overlay-bye', '#overlay-pause'].forEach(id => showOverlay(id, false));
-    $('#bc-face').innerHTML = '';
+    $('#hud-clock').innerHTML = '';
     $('#ripples').innerHTML = '';
     showScreen('screen-play');
     keepAwake(true);
@@ -1112,7 +1022,7 @@
     }
   });
 
-  const PLAY_OVERLAYS = ['#overlay-sum', '#overlay-pause', '#overlay-catch', '#overlay-compare', '#overlay-act', '#overlay-time', '#overlay-day'];
+  const PLAY_OVERLAYS = ['#overlay-sum', '#overlay-pause', '#overlay-catch', '#overlay-compare', '#overlay-time', '#overlay-day'];
   function resetPlay() {
     week = null;
     phase = 'off';
@@ -1120,8 +1030,6 @@
     $('#bobber').hidden = true;
     $('#splash').hidden = true;
     $('#mash').hidden = true;
-    $('#activity').hidden = true;
-    $('#scene').classList.remove('doing');
     hideGuide();
   }
   function bye() {
@@ -1219,7 +1127,7 @@
     b.onclick = () => { zukanTab = b.dataset.tab; renderZukan(); };
   });
 
-  // ---------- ⏰ よていの じかん ----------
+  // ---------- ⏰ よていの じかん（せってい）----------
   const pad = n => String(n).padStart(2, '0');
   function renderEvents() {
     const list = (save.events || []).slice().sort((a, b) => a.h * 60 + a.m - (b.h * 60 + b.m));
@@ -1233,12 +1141,13 @@
   }
   function saveEvent(row) {
     const e = save.events.find(x => x.id === row.dataset.id);
-    if (!e) return;
-    const [h, m] = (row.querySelector('.ev-time').value || '00:00').split(':').map(Number);
+    if (!e) return null;
+    const [h, m] = (row.querySelector('.ev-time').value || '12:00').split(':').map(Number);
     e.h = h;
     e.m = m;
     e.label = row.querySelector('.ev-label').value.trim() || EVENT_PRESETS[0];
     writeSave();
+    return e;
   }
   $('#ev-list').addEventListener('change', e => {
     const row = e.target.closest('.ev-row');
@@ -1247,14 +1156,13 @@
   $('#ev-list').addEventListener('click', e => {
     const row = e.target.closest('.ev-row');
     if (!row) return;
-    const ev = save.events.find(x => x.id === row.dataset.id);
     if (e.target.classList.contains('ev-play')) {
-      saveEvent(row);
+      const ev = saveEvent(row);
       Sound.unlock();
       Sound.hush();
       Sound.say([Keys.time(ev.h, ev.m), nar(ev.label), nar('だよ！')]);
     } else if (e.target.classList.contains('ev-del')) {
-      save.events = save.events.filter(x => x !== ev);
+      save.events = save.events.filter(x => x.id !== row.dataset.id);
       writeSave();
       renderEvents();
     }
@@ -1338,7 +1246,6 @@
     get week() { return week; },
     get day() { return day; },
     get phase() { return phase; },
-    get events() { return save.events; },
   };
   window.__customLines = () => (save.events || []).map(e => e.label).filter(t => !EVENT_PRESETS.includes(t));
 
