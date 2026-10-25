@@ -257,6 +257,14 @@ window.Sound = (() => {
       [79, 84, 88, 91, 96].forEach((m, i) => tone(midi(m), i * 0.06, 0.3, { type: 'triangle', vol: 0.1 }));
       noise(0, 0.4, { vol: 0.08, freq: 7000 });
     },
+    whoosh() {
+      noise(0, 0.5, { vol: 0.25, freq: 1600 });
+      tone(300, 0, 0.5, { type: 'sine', vol: 0.08, slide: 3 });
+      [76, 81, 86].forEach((m, i) => tone(midi(m), 0.25 + i * 0.07, 0.25, { type: 'triangle', vol: 0.1 }));
+    },
+    yawn() {
+      tone(330, 0, 0.9, { type: 'sine', vol: 0.05, slide: 0.6 });
+    },
     caw() {
       [0, 0.45].forEach(t => {
         tone(620, t, 0.22, { type: 'sawtooth', vol: 0.05, slide: 0.7 });

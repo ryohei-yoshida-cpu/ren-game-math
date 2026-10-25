@@ -1,14 +1,18 @@
-// え（ぼうしと ながぐつの ねこ・さかな）
+// え（ぼうしと ながぐつの ねこ・コテージ・さかな）
 window.Art = (() => {
-  // ---- ねこ（きいろい レインハットと ながぐつ）----
+  // ---- ねこ（きいろい レインハットと ながぐつ。のんびり くらしている）----
+  //   しっぽ（c-tail）・あたま（c-head）・め（c-eyes / c-eyes-shut）・くち（c-mouth / c-yawn）を わけて あるので、
+  //   CSS で あくび・いねむり・のび・まばたき が できる
   // ROD は つりざおを もつ て の いち（viewBox の なか）
   const ROD = { x: 92, y: 80 };
   function cat() {
     return `<svg class="cat-svg" viewBox="0 0 120 132" aria-hidden="true">
-      <path d="M34 104 Q8 100 12 78 Q15 64 26 70 Q20 80 24 88 Q28 96 38 96 Z" fill="#e8873a"/>
-      <ellipse cx="56" cy="90" rx="27" ry="27" fill="#f6a04d"/>
-      <path d="M40 72 Q46 76 44 84 M70 70 Q66 76 69 82" stroke="#d9742b" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <ellipse cx="61" cy="96" rx="15" ry="17" fill="#ffe3c2"/>
+      <g class="c-tail"><path d="M34 104 Q8 100 12 78 Q15 64 26 70 Q20 80 24 88 Q28 96 38 96 Z" fill="#e8873a"/></g>
+      <g class="c-body">
+        <ellipse cx="56" cy="90" rx="27" ry="27" fill="#f6a04d"/>
+        <path d="M40 72 Q46 76 44 84 M70 70 Q66 76 69 82" stroke="#d9742b" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <ellipse cx="61" cy="96" rx="15" ry="17" fill="#ffe3c2"/>
+      </g>
       <rect x="36" y="106" width="19" height="20" rx="6" fill="#ffcf2e"/>
       <rect x="58" y="106" width="19" height="20" rx="6" fill="#ffcf2e"/>
       <rect x="33" y="121" width="24" height="7" rx="3.5" fill="#e0a800"/>
@@ -17,23 +21,57 @@ window.Art = (() => {
       <rect x="58" y="109" width="19" height="3" fill="#fff3b0" opacity=".7"/>
       <ellipse cx="86" cy="84" rx="10" ry="8" fill="#f6a04d"/>
       <path d="M80 84 q3 -4 6 0 q3 -4 6 0" stroke="#d9742b" stroke-width="1.6" fill="none"/>
-      <circle cx="63" cy="52" r="25" fill="#f6a04d"/>
-      <path d="M41 40 L44 22 L56 32 Z M70 32 L82 22 L85 40 Z" fill="#f6a04d"/>
-      <path d="M45 37 L47 27 L53 33 Z M73 33 L79 27 L81 37 Z" fill="#ffb7a6"/>
-      <path d="M52 30 Q63 20 75 30 Q78 35 75 36 L51 36 Q48 35 52 30 Z" fill="#ffcf2e"/>
-      <path d="M50 31 Q63 6 77 31" fill="#ffcf2e" stroke="#e0a800" stroke-width="1.5"/>
-      <path d="M28 38 Q63 24 98 38 Q92 44 63 41 Q34 44 28 38 Z" fill="#ffd84d" stroke="#e0a800" stroke-width="1.5"/>
-      <path d="M55 46 q-4 -4 -9 0 M80 46 q-4 -4 -9 0" stroke="#d9742b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <ellipse cx="54" cy="53" rx="3.4" ry="4.4" fill="#2b1d14"/>
-      <ellipse cx="73" cy="53" rx="3.4" ry="4.4" fill="#2b1d14"/>
-      <circle cx="55.2" cy="51.6" r="1.2" fill="#fff"/>
-      <circle cx="74.2" cy="51.6" r="1.2" fill="#fff"/>
-      <ellipse cx="64" cy="63" rx="10" ry="7" fill="#fff4e6"/>
-      <path d="M61.5 59.5 L66.5 59.5 L64 62.5 Z" fill="#ff7b8a"/>
-      <path d="M64 62.5 q-2 4 -5 2 M64 62.5 q2 4 5 2" stroke="#2b1d14" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-      <ellipse cx="47" cy="61" rx="4.5" ry="3" fill="#ff9e8f" opacity=".55"/>
-      <ellipse cx="81" cy="61" rx="4.5" ry="3" fill="#ff9e8f" opacity=".55"/>
-      <path d="M52 62 L38 60 M52 65 L39 67 M76 62 L90 60 M76 65 L89 67" stroke="#8a5a30" stroke-width="1" stroke-linecap="round"/>
+      <g class="c-head">
+        <circle cx="63" cy="52" r="25" fill="#f6a04d"/>
+        <path d="M41 40 L44 22 L56 32 Z M70 32 L82 22 L85 40 Z" fill="#f6a04d"/>
+        <path d="M45 37 L47 27 L53 33 Z M73 33 L79 27 L81 37 Z" fill="#ffb7a6"/>
+        <path d="M52 30 Q63 20 75 30 Q78 35 75 36 L51 36 Q48 35 52 30 Z" fill="#ffcf2e"/>
+        <path d="M50 31 Q63 6 77 31" fill="#ffcf2e" stroke="#e0a800" stroke-width="1.5"/>
+        <path d="M28 38 Q63 24 98 38 Q92 44 63 41 Q34 44 28 38 Z" fill="#ffd84d" stroke="#e0a800" stroke-width="1.5"/>
+        <path d="M55 46 q-4 -4 -9 0 M80 46 q-4 -4 -9 0" stroke="#d9742b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <g class="c-eyes">
+          <ellipse cx="54" cy="54" rx="3.4" ry="4" fill="#2b1d14"/>
+          <ellipse cx="73" cy="54" rx="3.4" ry="4" fill="#2b1d14"/>
+          <path d="M50 51.5 Q54 49 58 51.5 L58 50 L50 50 Z M69 51.5 Q73 49 77 51.5 L77 50 L69 50 Z" fill="#f6a04d"/>
+          <path d="M50 51.5 Q54 49.6 58 51.5 M69 51.5 Q73 49.6 77 51.5" stroke="#2b1d14" stroke-width="1.2" fill="none"/>
+          <circle cx="55.2" cy="53.4" r="1.1" fill="#fff"/>
+          <circle cx="74.2" cy="53.4" r="1.1" fill="#fff"/>
+        </g>
+        <g class="c-eyes-shut">
+          <path d="M50 54 Q54 57 58 54 M69 54 Q73 57 77 54" stroke="#2b1d14" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </g>
+        <ellipse cx="64" cy="63" rx="10" ry="7" fill="#fff4e6"/>
+        <path d="M61.5 59.5 L66.5 59.5 L64 62.5 Z" fill="#ff7b8a"/>
+        <path class="c-mouth" d="M64 62.5 q-2 4 -5 2 M64 62.5 q2 4 5 2" stroke="#2b1d14" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+        <g class="c-yawn"><ellipse cx="64" cy="67" rx="4.5" ry="5.5" fill="#6b2a2a"/><ellipse cx="64" cy="70" rx="2.8" ry="2" fill="#ff8fa0"/></g>
+        <ellipse cx="47" cy="61" rx="4.5" ry="3" fill="#ff9e8f" opacity=".55"/>
+        <ellipse cx="81" cy="61" rx="4.5" ry="3" fill="#ff9e8f" opacity=".55"/>
+        <path d="M52 62 L38 60 M52 65 L39 67 M76 62 L90 60 M76 65 L89 67" stroke="#8a5a30" stroke-width="1" stroke-linecap="round"/>
+      </g>
+    </svg>`;
+  }
+
+  // ---- みずうみの コテージ（よるは まどに あかり）----
+  function cottage() {
+    return `<svg class="cottage-svg" viewBox="0 0 200 170" aria-hidden="true">
+      <g class="smoke"><circle cx="150" cy="22" r="7"/><circle cx="156" cy="10" r="9"/><circle cx="148" cy="-4" r="11"/></g>
+      <rect x="140" y="26" width="16" height="34" fill="#8d5b3a"/>
+      <rect x="137" y="22" width="22" height="7" rx="2" fill="#6f4429"/>
+      <rect x="26" y="76" width="148" height="90" fill="#c98b55"/>
+      ${[86, 100, 114, 128, 142, 156].map(y => `<line x1="26" y1="${y}" x2="174" y2="${y}" stroke="#a96d3e" stroke-width="2"/>`).join('')}
+      <path d="M12 80 L100 20 L188 80 Z" fill="#b5483b"/>
+      <path d="M12 80 L100 20 L188 80" fill="none" stroke="#8f3329" stroke-width="5" stroke-linejoin="round"/>
+      ${[44, 58, 72].map(y => `<path d="M${100 - (y - 20) * 1.45} ${y} L${100 + (y - 20) * 1.45} ${y}" stroke="#9c3b30" stroke-width="2"/>`).join('')}
+      <rect x="44" y="98" width="40" height="34" rx="3" fill="#5b3a22"/>
+      <rect class="win" x="48" y="102" width="32" height="26" fill="#bfe6ff"/>
+      <path d="M64 102 V128 M48 115 H80" stroke="#5b3a22" stroke-width="3"/>
+      <rect x="42" y="132" width="44" height="8" rx="2" fill="#7a4a2a"/>
+      <circle cx="50" cy="132" r="4" fill="#ff6b8a"/><circle cx="60" cy="131" r="4" fill="#ffd23f"/><circle cx="70" cy="132" r="4" fill="#ff6b8a"/><circle cx="79" cy="131" r="4" fill="#9b6bff"/>
+      <rect x="110" y="104" width="32" height="62" rx="3" fill="#7a4a2a"/>
+      <rect class="win" x="117" y="112" width="18" height="16" rx="8" fill="#bfe6ff"/>
+      <circle cx="136" cy="138" r="2.5" fill="#ffd23f"/>
+      <circle class="lamp" cx="152" cy="100" r="5" fill="#ffe38a"/>
+      <rect x="20" y="164" width="160" height="6" fill="#6f4429"/>
     </svg>`;
   }
 
@@ -121,5 +159,5 @@ window.Art = (() => {
     return `<span class="femoji${sp.gold ? ' gold' : ''}">${sp.emoji}</span>`;
   }
 
-  return { cat, ROD, of };
+  return { cat, cottage, ROD, of };
 })();

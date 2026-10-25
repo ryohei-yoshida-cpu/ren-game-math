@@ -1,8 +1,8 @@
 // 🎣 のんびりつりつり
-//   1しゅうかん（にちようび〜どようび）さかなを つる。1にちは 6じ〜18じ（じかんざかなで 2じかんずつ のびる。さいだい 24じ）
-//   なみを えらぶ → かかったら れんだ（みずしぶきが おおきく なる）→「せーの」で すうじを いう
+//   1しゅうかん（にちようび〜どようび）さかなを つる。1にちは 7じ〜18じ（じかんざかなで 2じかんずつ のびる。さいだい 24じ）
+//   なみを えらぶ → かかったら れんだ（みずしぶきが おおきく なる）→ さかなが とびだして すうじを よみあげる
 //   →「どっちの すうじが おおきい？」で おおきい ほうを のこす（のこした さかなが つぎの えさ）
-//   1かい つるたびに じかんが すすむ（7じ・10じ・12じ・15じ・18じ、よるは 1じかんずつ。よるは 2ばい）
+//   1にち 3かい つる。つるたびに じかんが すすむ（7じ → 12じ → 15じ → 18じ、よるは 1じかんずつ。よるは 2ばい）
 //   のこした おおきい さかなの すうじが「いまの すうじ」（てんすう）。どようびの おわりの すうじで ランキングへ
 //   じかんざかなは「18じ たす 2じかん は 20じ」と じかんの たしざんを みせる
 (() => {
@@ -17,18 +17,18 @@
   if (SPEED > 1) Sound.muted = true;
 
   // ---------- ルール ----------
-  const DAY_START = 6 * 60;           // あさ 6じ から
+  const DAY_START = 7 * 60;           // あさ 7じ から
   const BASE_END = 18 * 60;           // ゆうがた 6じ（18じ）まで
   const NIGHT = 18 * 60;              // 18じ からは よるの つり（てんすう 2ばい）
   const MAX_END = 24 * 60;            // じかんざかなで のびても 1にち（24じ）まで
-  const SLOTS = [7, 10, 12, 15, 18].map(h => h * 60);   // 1かい つるたびに すすむ じかん
+  const SLOTS = [12, 15, 18].map(h => h * 60);   // 1かい つるたびに すすむ じかん（1にち 3かい）
   const CLOCK_ADD = 120;              // じかんざかなは 2じかん
   const CLOCK_MAX = 3;                // じかんざかなは 1しゅうかんに 3かい まで
-  const CLOCK_RATE = 0.12;
+  const CLOCK_RATE = 0.15;
   const MAX_N = 100;
   // 3つの なみ: いまの さかなより 5〜8 おおきい / 1〜5 おおきい / 1〜5 ちいさい（どれが どれかは ないしょ）
   const WAVES = [[5, 8], [1, 5], [-5, -1]];
-  const RIPPLES = [0.3, 0.56, 0.82];  // なみの いち（みずの はばの どこか）
+  const RIPPLES = [0.52, 0.71, 0.89]; // なみの いち（みずの はばの どこか。デッキの みぎがわ）
   // 1じの ちいさい すうじより したに なったら: たまに マイナス（ながぐつ など）、ときどき かいがら（0）
   const JUNK_RATE = 0.15;
   const SHELL_RATE = 0.25;
@@ -170,7 +170,7 @@
     let s = `<div class="tl-bar"><div class="tl-open" style="width:${pos(end)}"></div>`;
     if (added) s += `<div class="tl-added" style="left:${pos(end - added)};width:calc(${pos(end)} - ${pos(end - added)})"></div>`;
     s += `<div class="tl-done" style="width:${pos(now)}"></div><div class="tl-end" style="left:${pos(end)}">🏁</div></div><div class="tl-labels">`;
-    for (let h = 6; h <= 24; h += 3) s += `<span style="left:${pos(h * 60)}">${h}</span>`;
+    for (const h of [7, 12, 15, 18, 21, 24]) s += `<span style="left:${pos(h * 60)}">${h}</span>`;
     el.innerHTML = s + '</div>';
   }
 
@@ -230,7 +230,7 @@
     const night = t >= 18.5 * 60;
     sun.textContent = night ? '🌙' : '☀️';
     const p = night ? Math.min(1, (t - 18.5 * 60) / (5 * 60)) : Math.min(1, (t - DAY_START) / (12.5 * 60));
-    sun.style.left = `${28 + p * 64}%`;
+    sun.style.left = `${62 + p * 30}%`;
     sun.style.top = `${75 - Math.sin(p * Math.PI) * 55}%`;
   }
 
@@ -289,6 +289,7 @@
 
   // ---------- ねこ と いと ----------
   $('#fisher').insertAdjacentHTML('afterbegin', Art.cat());
+  $('#cottage').innerHTML = Art.cottage();
   const water = $('#water');
   let geo = { w: 300, h: 100, top: 0, left: 0 };
   function layout() {
@@ -325,10 +326,36 @@
     catSay.t = setTimeout(() => el.classList.remove('show'), ms / SPEED);
   }
 
+  // ---------- のんびり ねこ ----------
+  // あくび・いねむり・のび・まばたき を ときどき する
+  const MOODS = ['blink', 'blink', 'yawn', 'doze', 'stretch'];
+  let moodTimer = 0;
+  function mood(name, ms) {
+    const el = $('#fisher');
+    MOODS.concat(['happy', 'eating']).forEach(m => el.classList.remove(m));
+    if (!name) return;
+    el.classList.add(name);
+    clearTimeout(mood.t);
+    mood.t = setTimeout(() => el.classList.remove(name), ms / SPEED);
+  }
+  function idleLife() {
+    clearTimeout(moodTimer);
+    moodTimer = setTimeout(() => {
+      idleLife();
+      if (!week || paused || phase !== 'spot') return;
+      const m = MOODS[randInt(0, MOODS.length - 1)];
+      if (m === 'blink') mood('blink', 220);
+      else if (m === 'yawn') { mood('yawn', 1800); catSay('ふぁ〜あ', 1600); Sound.yawn(); }
+      else if (m === 'doze') mood('doze', 3200);
+      else mood('stretch', 1600);
+    }, rand(2500, 5000) / SPEED);
+  }
+  idleLife();
+
   // ---------- なみ（つる ばしょ） ----------
   function renderRipples() {
     $('#ripples').innerHTML = RIPPLES.map((x, i) => {
-      const l = i === 0 ? 0.16 : (RIPPLES[i - 1] + x) / 2;
+      const l = i === 0 ? 0.42 : (RIPPLES[i - 1] + x) / 2;
       const r = i === RIPPLES.length - 1 ? 1 : (RIPPLES[i + 1] + x) / 2;
       return `<button class="ripple" data-i="${i}" style="left:${l * 100}%;width:${(r - l) * 100}%" aria-label="ここで つる">` +
         `<span class="rings" style="left:${((x - l) / (r - l)) * 100}%"><i></i><i></i><i></i></span></button>`;
@@ -345,6 +372,7 @@
 
   function nextTurn() {
     phase = 'spot';
+    mood(null);
     waves = shuffle(WAVES);
     renderRipples();
     $('#scene').classList.add('want-spot');
@@ -376,6 +404,7 @@
     const sy = geo.top + geo.h * 0.32;
     Sound.cast();
     catSay('えいっ！', 900);
+    mood(null);
     $('#fisher').classList.add('casting');
     line.on = true;
     line.sink = 0;
@@ -453,15 +482,14 @@
 
   async function landed(f) {
     phase = 'busy';
-    Sound.splash();
-    $('#splash').classList.add('final');
+    const sx = parseFloat($('#splash').style.left), sy = parseFloat($('#splash').style.top);
+    $('#splash').hidden = true;
+    $('#splash').classList.remove('final', 'burst');
     line.on = false;
     $('#bobber').hidden = true;
     $('#bobber').classList.remove('sink');
     drawLine();
-    await sleep(500);
-    $('#splash').hidden = true;
-    $('#splash').classList.remove('final', 'burst');
+    await leap(f, sx, sy);
     if (f.clock) {
       await revealClock(f);
     } else {
@@ -470,6 +498,60 @@
       await advanceTime();
     }
     afterTurn();
+  }
+
+  // ざばーん！ さかなが みずから とびだす
+  async function leap(f, sx, sy) {
+    const scene = $('#scene');
+    const W = scene.clientWidth, H = scene.clientHeight;
+    const tier = f.clock ? 8 : Math.max(0, f.sp.tier);
+    Sound.splash();
+    Sound.whoosh();
+    if (navigator.vibrate) navigator.vibrate(80);
+    scene.classList.remove('shake');
+    void scene.offsetWidth;
+    scene.classList.add('shake');
+    // みずばしら
+    const col = document.createElement('div');
+    col.className = 'big-splash';
+    col.style.left = `${sx}px`;
+    col.style.top = `${sy}px`;
+    const k = 0.8 + tier / 12;
+    col.innerHTML = [-42, -24, -8, 8, 24, 42].map((r, i) =>
+      `<i style="--r:${r}deg;height:${Math.round((50 + (i % 3) * 18) * k)}px;animation-delay:${i * 25}ms"></i>`).join('');
+    scene.appendChild(col);
+    setTimeout(() => col.remove(), 900 / SPEED);
+    // さかなが くるくる まわりながら とびだす
+    const el = $('#jump');
+    el.innerHTML = `<span class="jump-in">${artOf(f.sp)}</span><span class="drops">` +
+      Array.from({ length: 10 }, (_, i) => {
+        const a = (i / 10) * Math.PI * 2;
+        return `<i style="--dx:${Math.round(Math.cos(a) * 70)}px;--dy:${Math.round(Math.sin(a) * 60 + 30)}px"></i>`;
+      }).join('') + '</span>';
+    el.style.fontSize = `${Math.round(40 + tier * 3)}px`;
+    el.hidden = false;
+    const tx = W * 0.5, ty = H * 0.3, peak = H * 0.08;
+    await tween(850, t => {
+      const x = sx + (tx - sx) * t;
+      const y = (1 - t) * (1 - t) * sy + 2 * (1 - t) * t * peak + t * t * ty;
+      el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%) rotate(${t * 540}deg) scale(${0.4 + t * 0.9})`;
+    }, t => 1 - Math.pow(1 - t, 2));
+    // きらきら
+    for (let i = 0; i < 8; i++) {
+      const s = document.createElement('div');
+      s.className = 'sparkle';
+      s.textContent = i % 2 ? '✨' : '⭐';
+      const a = (i / 8) * Math.PI * 2;
+      s.style.left = `${tx}px`;
+      s.style.top = `${ty}px`;
+      s.style.setProperty('--dx', `${Math.round(Math.cos(a) * 90)}px`);
+      s.style.setProperty('--dy', `${Math.round(Math.sin(a) * 90)}px`);
+      scene.appendChild(s);
+      setTimeout(() => s.remove(), 1000 / SPEED);
+    }
+    mood('happy', 1500);
+    await sleep(250);
+    el.hidden = true;
   }
 
   // ---------- つれた！ ----------
@@ -481,7 +563,6 @@
     $('#catch-fish').style.fontSize = `${Math.round(54 + tier * 5)}px`;
     $('#catch-num').innerHTML = f.clock ? '' : `<span class="${f.n < 0 ? 'minus' : ''}">${f.n}</span>`;
     $('#catch-name').textContent = f.sp.name;
-    $('#catch-say').textContent = '🗣️ せーの！';
     ov.classList.toggle('junk', !!f.sp.junk);
     ov.classList.toggle('gold', !!f.sp.gold);
     showOverlay('#overlay-catch', true);
@@ -502,12 +583,8 @@
     const ov = $('#overlay-catch');
     showCatch(f);
     if (f.sp.junk) Sound.junk(); else if (f.n >= 80) Sound.big(); else Sound.caught();
-    await talk(f.sp.junk ? kid('なんか へんなの つれたのだ…') : kid('つれたのだー！'));
-    await talk(longFirst('seeno') ? nar('なんの すうじの さかなかな？ いってみよう。せーの！') : nar('せーの！'));
-    ov.classList.add('wait');
-    await sleep(1300);
-    ov.classList.remove('wait');
     ov.classList.add('said');
+    Sound.say(f.sp.junk ? kid('なんか へんなの つれたのだ…') : kid('つれたのだー！'));
     await talk(Keys.num(f.n));
     ov.classList.add('named');
     await talk(Keys.caught(f.sp));
@@ -633,19 +710,20 @@
     await talk(Keys.ji(to / 60), nar('に なったよ！'));
     await sleep(300);
     showOverlay('#overlay-time', false);
-    // ごはん・おやつ（さりげなく）
-    const meal = MEALS[to];
-    if (meal) {
-      catSay(meal.icon, 2400);
-      $('#fisher').classList.add('eating');
-      setTimeout(() => $('#fisher').classList.remove('eating'), 2000 / SPEED);
-      if (meal.crow) crow();
-      await talk(meal.voice);
-    }
+    await meal(to);
     if (to >= NIGHT && to < day.end && !day.nightSaid) {
       day.nightSaid = true;
       await talk(nar('よるの つりは てんすうが 2ばい！'));
     }
+  }
+  // ごはん・おやつ（さりげなく）
+  async function meal(t) {
+    const m = MEALS[t];
+    if (!m) return;
+    catSay(m.icon, 2400);
+    mood('eating', 2000);
+    if (m.crow) crow();
+    await talk(m.voice);
   }
   function crow() {
     const c = document.createElement('div');
@@ -713,10 +791,11 @@
   }
 
   // ---------- まいにちの ながれ ----------
-  function startDay(idx) {
+  async function startDay(idx) {
     day = { idx, now: DAY_START, end: BASE_END, nightSaid: false };
     layout();
     renderHud();
+    await meal(DAY_START);
     nextTurn();
   }
 
@@ -733,7 +812,7 @@
     if (day.idx >= 6) await weekEnd();
     else {
       await showDay(day.idx, day.idx + 1);
-      startDay(day.idx + 1);
+      await startDay(day.idx + 1);
     }
   }
 
@@ -773,8 +852,8 @@
     Sound.ding(idx);
     await talk(nar('きょうは'), Keys.date(d));
     if (idx === 0) {
-      $('#day-note').textContent = `⏰ ${timeText(DAY_START)} から ${timeText(BASE_END)} まで`;
-      await talk(Keys.ji(6), nar('から'), Keys.ji(18), nar('まで つれるよ！'));
+      $('#day-note').textContent = `⏰ ${timeText(DAY_START)} から ${timeText(BASE_END)} まで・1にち 3かい`;
+      await talk(Keys.ji(7), nar('から'), Keys.ji(18), nar('まで、1にち 3かい つれるよ！'));
     }
     await sleep(500);
     showOverlay('#overlay-day', false);
@@ -869,7 +948,7 @@
     renderHud();
     try {
       await showDay(null, 0);
-      startDay(0);
+      await startDay(0);
     } catch (e) {
       ignoreCancel(e);
     }
