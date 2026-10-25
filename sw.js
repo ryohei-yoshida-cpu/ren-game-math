@@ -4,7 +4,7 @@
 // ほぞんする ファイルの しゅるいを かえたら VERSION を あげる
 // GitHub Pages では「ひらがなまてまて」と おなじ ばしょ（オリジン）に なるので、キャッシュの なまえには sujitsuri- を つけて、
 // じぶんの ものしか けさない
-const VERSION = 'v6';
+const VERSION = 'v7';
 const PREFIX = 'sujitsuri-';
 const APP = PREFIX + 'app-' + VERSION;
 const FONTS = PREFIX + 'fonts-v1';

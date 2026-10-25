@@ -3,6 +3,7 @@
 //   なみを えらぶ → かかったら れんだ（みずしぶきが おおきく なる）→ さかなが とびだして すうじを よみあげる
 //   →「どっちの すうじが おおきい？」で おおきい ほうを のこす（のこした さかなが つぎの えさ）
 //   1にち 3かい つる。つるたびに じかんが すすむ（7じ → 12じ → 15じ → 18じ、よるは 1じかんずつ。よるは 2ばい）
+//   なみを えらんで いる あいだも、5びょうで 10ぷん とけいが すすむ（おとだけ。テンポを わるく しない）
 //   「よてい」（パパが おしごとに いく じかん など）を いれると、とけいが すすむ とちゅうで とまって よみあげる
 //   のこした おおきい さかなの すうじが「いまの すうじ」（てんすう）。どようびの おわりの すうじで ランキングへ
 //   じかんざかなは「18じ たす 2じかん は 20じ」と じかんの たしざんを みせる
@@ -33,6 +34,7 @@
   // 1じの ちいさい すうじより したに なったら: たまに マイナス（ながぐつ など）、ときどき かいがら（0）
   const JUNK_RATE = 0.15;
   const SHELL_RATE = 0.25;
+  const IDLE_STEP_MS = 5000;          // まって いる あいだは 5びょうで 10ぷん すすむ
 
   // ---------- こえ ----------
   // nar・kid に かいた セリフは tools/voices/lines.mjs が あつめて VOICEVOX で こえに する
@@ -385,6 +387,7 @@
 
   function nextTurn() {
     phase = 'spot';
+    idleAt = performance.now();
     mood(null);
     waves = shuffle(WAVES);
     renderRipples();
@@ -743,6 +746,62 @@
       await talk(nar('よるの つりは てんすうが 2ばい！'));
     }
   }
+  // ---------- まって いる あいだも とけいが すすむ ----------
+  let idleAt = 0;
+  let idleBusy = false;
+  async function idleStep() {
+    const from = day.now;
+    let next = Math.floor(from / 10) * 10 + 10;
+    const ev = eventsBetween(from, next)[0];
+    if (ev) next = ev.t;
+    const svg = $('#hud-clock svg');
+    Sound.tick();
+    await tween(400, k => setClock(svg, from + (next - from) * k));
+    day.now = next;
+    renderTime();
+    if (next % 60 === 0) {
+      // ちょうど 0ぷん: みじかい はりが 1つ すすむ（チャイムだけ）
+      Sound.hourChime(next / 60);
+      $('#hud-clock').classList.remove('hour');
+      void $('#hud-clock').offsetWidth;
+      $('#hud-clock').classList.add('hour');
+      if (next === NIGHT) crow();
+    }
+    if (ev) {
+      hideGuide();
+      openClock('⏰ よていの じかん', next);
+      await announce(ev);
+      showOverlay('#overlay-time', false);
+    }
+  }
+  function idleLoop(now) {
+    requestAnimationFrame(idleLoop);
+    if (!week || !day || paused || phase !== 'spot' || idleBusy || document.querySelector('.overlay.show')) {
+      idleAt = now;
+      return;
+    }
+    if ((now - idleAt) * SPEED < IDLE_STEP_MS) return;
+    idleBusy = true;
+    phase = 'tick';
+    (async () => {
+      try {
+        await idleStep();
+        if (day.now >= day.end) return endDay();
+        phase = 'spot';
+        if (!$('#guide').classList.contains('show')) {
+          $('#scene').classList.add('want-spot');
+          $('#guide').className = 'guide show';
+        }
+      } catch (e) {
+        ignoreCancel(e);
+      } finally {
+        idleBusy = false;
+        idleAt = performance.now();
+      }
+    })();
+  }
+  requestAnimationFrame(idleLoop);
+
   // ---------- よていの じかん ----------
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   function eventsBetween(a, b) {
